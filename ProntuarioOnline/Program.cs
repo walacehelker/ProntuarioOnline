@@ -21,8 +21,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Identity com suporte a Roles
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+  options.SignIn.RequireConfirmedAccount = true;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
 // 🔹 Configura o caminho da tela de login
 builder.Services.ConfigureApplicationCookie(options =>
@@ -55,10 +59,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 var configExpression = new MapperConfigurationExpression();
 configExpression.AddProfile<MappingProfile>();
 
-var mapperConfig = new MapperConfiguration(
-    configExpression,
-    builder.Logging.Services.BuildServiceProvider().GetRequiredService<ILoggerFactory>()
-);
+var mapperConfig = new MapperConfiguration(configExpression);
 
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
