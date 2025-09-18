@@ -10,8 +10,6 @@ namespace ProntuarioOnline.Areas.Cadastral.Pages.CadPessoas
         : base(logger, service)
     {
     }
-
-    // Se quiser lógica extra, pode sobrescrever OnGetAsync ou OnPostAsync
   }
 
 }
