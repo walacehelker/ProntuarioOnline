@@ -1,0 +1,126 @@
+using AutoMapper;
+using Configuration;
+using InjectionDependency;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using ProntuarioOnline.Data;
+using ProntuarioOnline.Mappings;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Connection string
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+// DbContext do Identity
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+// Identity com suporte a Roles
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// 🔹 Configura o caminho da tela de login
+builder.Services.ConfigureApplicationCookie(options =>
+{
+  options.LoginPath = "/Identity/Account/Login";
+});
+
+// 🔹 Adiciona filtro global exigindo autenticação
+builder.Services.AddRazorPages(options =>
+{
+  // Aqui você pode configurar rotas se precisar
+})
+.AddMvcOptions(options =>
+{
+  var policy = new AuthorizationPolicyBuilder()
+      .RequireAuthenticatedUser()
+      .Build();
+  options.Filters.Add(new AuthorizeFilter(policy));
+});
+
+// DbContext da aplicação
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sql => sql.MigrationsAssembly("Configuration")
+    )
+);
+
+// AutoMapper
+var configExpression = new MapperConfigurationExpression();
+configExpression.AddProfile<MappingProfile>();
+
+var mapperConfig = new MapperConfiguration(
+    configExpression,
+    builder.Logging.Services.BuildServiceProvider().GetRequiredService<ILoggerFactory>()
+);
+
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
+// Injeção de dependências customizadas
+builder.Services.AddProjectDependencies();
+
+var app = builder.Build();
+
+// Pipeline
+if (app.Environment.IsDevelopment())
+{
+  app.UseMigrationsEndPoint();
+}
+else
+{
+  app.UseExceptionHandler("/Error");
+  app.UseHsts();
+}
+
+// Seed de usuário admin
+async Task SeedUserAsync(WebApplication app)
+{
+  using var scope = app.Services.CreateScope();
+  var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+  var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+  if (!await roleManager.RoleExistsAsync("Admin"))
+    await roleManager.CreateAsync(new IdentityRole("Admin"));
+
+  var email = "admin@teste.com";
+  var password = "SenhaForte@123";
+
+  if (await userManager.FindByEmailAsync(email) == null)
+  {
+    var user = new IdentityUser
+    {
+      UserName = email,
+      Email = email,
+      EmailConfirmed = true
+    };
+    var result = await userManager.CreateAsync(user, password);
+    if (result.Succeeded)
+      await userManager.AddToRoleAsync(user, "Admin");
+    else
+    {
+      foreach (var error in result.Errors)
+        Console.WriteLine($"Erro ao criar usuário: {error.Description}");
+    }
+  }
+}
+
+await SeedUserAsync(app);
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthentication(); // 🔹 Necessário para login funcionar
+app.UseAuthorization();
+
+app.MapRazorPages();
+
+app.Run();
