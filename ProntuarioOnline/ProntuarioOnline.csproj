@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Enuns\Enuns.csproj" />
     <ProjectReference Include="..\Implamentation\Implamentation.csproj" />
     <ProjectReference Include="..\InjectionDependency\InjectionDependency.csproj" />
     <ProjectReference Include="..\Mapper\Mapper.csproj" />

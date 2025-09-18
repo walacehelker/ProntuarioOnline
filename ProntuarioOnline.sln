@@ -33,6 +33,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapper", "Mapper\Mapper.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionDependency", "InjectionDependency\InjectionDependency.csproj", "{FACCBC92-0EF2-489D-96D8-A468BD6E2BF1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Compartilhado", "1. Compartilhado", "{D8924617-BD65-41B6-935C-A5A2E4FC6AC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enuns", "Enuns\Enuns.csproj", "{FF2F7FF9-0B36-43B4-9339-287149A4845C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,10 @@ Global
 		{FACCBC92-0EF2-489D-96D8-A468BD6E2BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FACCBC92-0EF2-489D-96D8-A468BD6E2BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FACCBC92-0EF2-489D-96D8-A468BD6E2BF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF2F7FF9-0B36-43B4-9339-287149A4845C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF2F7FF9-0B36-43B4-9339-287149A4845C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF2F7FF9-0B36-43B4-9339-287149A4845C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF2F7FF9-0B36-43B4-9339-287149A4845C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +92,7 @@ Global
 		{F7D13D33-BF1F-4CFF-8339-BF8A15189978} = {0837974A-3FB7-48B3-ABCB-BDD334EF8127}
 		{C943E9D6-EDA3-4802-9802-0C4ED91D0213} = {ABB4ACB1-2112-4C19-BAFE-0B6079592921}
 		{FACCBC92-0EF2-489D-96D8-A468BD6E2BF1} = {ABB4ACB1-2112-4C19-BAFE-0B6079592921}
+		{FF2F7FF9-0B36-43B4-9339-287149A4845C} = {D8924617-BD65-41B6-935C-A5A2E4FC6AC4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16EB1CFD-47FF-44D7-8E7E-37FA32496BCB}

@@ -1,5 +1,7 @@
 using AutoMapper;
 using Configuration;
+using Domain.Identity;
+using Enuns;
 using InjectionDependency;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Identity com suporte a Roles
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
   options.SignIn.RequireConfirmedAccount = true;
 })
@@ -84,7 +86,7 @@ else
 async Task SeedUserAsync(WebApplication app)
 {
   using var scope = app.Services.CreateScope();
-  var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+  var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
   var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
   if (!await roleManager.RoleExistsAsync("Admin"))
@@ -95,11 +97,12 @@ async Task SeedUserAsync(WebApplication app)
 
   if (await userManager.FindByEmailAsync(email) == null)
   {
-    var user = new IdentityUser
+    var user = new ApplicationUser
     {
       UserName = email,
       Email = email,
-      EmailConfirmed = true
+      EmailConfirmed = true,
+      TipoUsuario = TipoUsuario.Admin
     };
     var result = await userManager.CreateAsync(user, password);
     if (result.Succeeded)
