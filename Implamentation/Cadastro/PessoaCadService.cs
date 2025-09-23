@@ -63,5 +63,36 @@ namespace Implementations.Cadastro
       };
       return dado;
     }
+
+    public override async Task<CadPessoaCadVm> GetByIdAsync(Guid id)
+    {
+      var pessoaVm = await _pessoaService.GetByIdAsync(id);
+      var pessoaCadVm = MapperToCadVm(pessoaVm);
+
+      return pessoaCadVm;
+    }
+
+    private CadPessoaCadVm MapperToCadVm(CadPessoaVm modelCadVm)
+    {
+      if (modelCadVm == null) return null;
+
+      var dado = new CadPessoaCadVm
+      {
+        Id = modelCadVm.Id,
+        Nome = modelCadVm.Nome,
+        NomeSocial = modelCadVm.NomeSocial,
+        DataNascimento = modelCadVm.DataNascimento,
+        Cpf = modelCadVm.Cpf,
+        Rua = modelCadVm.Rua,
+        Numero = modelCadVm.Numero,
+        Bairro = modelCadVm.Bairro,
+        Cidade = modelCadVm.Cidade,
+        Estado = modelCadVm.Estado,
+        Cep = modelCadVm.Cep,
+        Telefone = modelCadVm.Telefone,
+        Email = modelCadVm.Email
+      };
+      return dado;
+    }
   }
 }

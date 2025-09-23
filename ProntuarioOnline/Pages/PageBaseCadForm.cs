@@ -25,11 +25,29 @@ namespace WebApp.Pages.Base
       Service = service;
     }
 
-    public virtual async Task<IActionResult> OnGetAsync()
+    public virtual async Task<IActionResult> OnGetAsync(Guid? id)
     {
       Logger.LogInformation($"OnGet executado em {GetType().Name}");
 
-      Items = new List<TVm>(await Service.GetAllAsync());
+      if (id.HasValue && id.Value != Guid.Empty)
+      {
+        // Busca o item pelo ID
+        var itemEncontrado = await Service.GetByIdAsync(id.Value);
+
+        if (itemEncontrado == null)
+        {
+          // Retorna 404 se não encontrar
+          return NotFound();
+        }
+
+        Item = itemEncontrado;
+      }
+      else
+      {
+        // Se não houver ID, não carrega nada
+        Item = new TVm();
+      }
+
       return Page();
     }
 
