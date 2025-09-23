@@ -7,5 +7,6 @@ public class MappingProfile : Profile
   public MappingProfile()
   {
     CreateMap<CadPessoa, CadPessoaVm>().ReverseMap();
+    CreateMap<CadPessoaHistorico, CadPessoaHistoricoVm>().ReverseMap();
   }
 }

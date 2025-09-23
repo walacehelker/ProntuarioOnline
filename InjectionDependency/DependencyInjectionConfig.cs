@@ -9,6 +9,8 @@ namespace InjectionDependency
     public static IServiceCollection AddProjectDependencies(this IServiceCollection services)
     {
       services.AddScoped<IPessoaService, PessoaService>();
+      services.AddScoped<IPessoaCadService, PessoaCadService>();
+      services.AddScoped<IPessoaHistoricoService, PessoaHistoricoService>();
 
       return services;
     }

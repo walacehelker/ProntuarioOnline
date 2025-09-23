@@ -8,9 +8,12 @@ namespace Implementations.Cadastro
 {
   public class PessoaService : BaseService<CadPessoa, CadPessoaVm>, IPessoaService
   {
-    public PessoaService(AppDbContext context, IMapper mapper)
+    private readonly IMapper _mapper;
+    public PessoaService(AppDbContext context, 
+      IMapper mapper)
         : base(context, mapper)
     {
+      _mapper = mapper;
     }
   }
 }

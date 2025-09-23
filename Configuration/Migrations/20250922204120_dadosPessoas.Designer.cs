@@ -4,6 +4,7 @@ using Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Configuration.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250922204120_dadosPessoas")]
+    partial class dadosPessoas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,53 +105,6 @@ namespace Configuration.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("cad_pessoas", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Cadastro.CadPessoaHistorico", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AntecedentesFamiliares")
-                        .IsRequired()
-                        .HasColumnType("varchar(max)")
-                        .HasColumnName("antecedentes_familiares");
-
-                    b.Property<string>("AntecedentesPatologicos")
-                        .IsRequired()
-                        .HasColumnType("varchar(max)")
-                        .HasColumnName("antecedentes_patologicos");
-
-                    b.Property<DateTime>("DataInsercao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DiagnosticoClinico")
-                        .IsRequired()
-                        .HasColumnType("varchar(max)")
-                        .HasColumnName("diagnostico_clinico");
-
-                    b.Property<bool>("Excluido")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ExcluidoEm")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PessoaId")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("id_pessoa");
-
-                    b.Property<string>("Queixa")
-                        .IsRequired()
-                        .HasColumnType("varchar(max)")
-                        .HasColumnName("queixa");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PessoaId");
-
-                    b.ToTable("cad_pessoas_historicos", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Identity.ApplicationUser", b =>
@@ -352,17 +308,6 @@ namespace Configuration.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Cadastro.CadPessoaHistorico", b =>
-                {
-                    b.HasOne("Domain.Cadastro.CadPessoa", "CadPessoa")
-                        .WithMany("CadPessoaHistoricoList")
-                        .HasForeignKey("PessoaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CadPessoa");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -412,11 +357,6 @@ namespace Configuration.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Cadastro.CadPessoa", b =>
-                {
-                    b.Navigation("CadPessoaHistoricoList");
                 });
 #pragma warning restore 612, 618
         }

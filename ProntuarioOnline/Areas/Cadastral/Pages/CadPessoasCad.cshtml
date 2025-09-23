@@ -3,49 +3,129 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-  Layout = "_Layout";
+    Layout = "_Layout";
 }
 
 <div class="container mt-4">
-  <div class="card shadow-sm">
-    <div class="card-header bg-primary text-white">
-      <h4 class="mb-0">Cadastro de Pessoa</h4>
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Cadastro de Pessoa</h4>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <!-- Dados pessoais -->
+                <div class="mb-3">
+                    <label asp-for="Item.Nome" class="form-label"></label>
+                    <input asp-for="Item.Nome" class="form-control" />
+                    <span asp-validation-for="Item.Nome" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.NomeSocial" class="form-label"></label>
+                    <input asp-for="Item.NomeSocial" class="form-control" />
+                    <span asp-validation-for="Item.NomeSocial" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.DataNascimento" class="form-label"></label>
+                    <input asp-for="Item.DataNascimento" type="date" class="form-control" />
+                    <span asp-validation-for="Item.DataNascimento" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Cpf" class="form-label"></label>
+                    <input asp-for="Item.Cpf" class="form-control" />
+                    <span asp-validation-for="Item.Cpf" class="text-danger"></span>
+                </div>
+
+                <!-- Endereço -->
+                <h5 class="mt-4">Endereço</h5>
+                <div class="mb-3">
+                    <label asp-for="Item.Rua" class="form-label"></label>
+                    <input asp-for="Item.Rua" class="form-control" />
+                    <span asp-validation-for="Item.Rua" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Numero" class="form-label"></label>
+                    <input asp-for="Item.Numero" class="form-control" />
+                    <span asp-validation-for="Item.Numero" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Bairro" class="form-label"></label>
+                    <input asp-for="Item.Bairro" class="form-control" />
+                    <span asp-validation-for="Item.Bairro" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Cidade" class="form-label"></label>
+                    <input asp-for="Item.Cidade" class="form-control" />
+                    <span asp-validation-for="Item.Cidade" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Estado" class="form-label"></label>
+                    <input asp-for="Item.Estado" class="form-control" />
+                    <span asp-validation-for="Item.Estado" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Cep" class="form-label"></label>
+                    <input asp-for="Item.Cep" class="form-control" />
+                    <span asp-validation-for="Item.Cep" class="text-danger"></span>
+                </div>
+
+                <!-- Contato -->
+                <h5 class="mt-4">Contato</h5>
+                <div class="mb-3">
+                    <label asp-for="Item.Telefone" class="form-label"></label>
+                    <input asp-for="Item.Telefone" class="form-control" />
+                    <span asp-validation-for="Item.Telefone" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.Email" class="form-label"></label>
+                    <input asp-for="Item.Email" class="form-control" />
+                    <span asp-validation-for="Item.Email" class="text-danger"></span>
+                </div>
+
+                <!-- Histórico -->
+                <h5 class="mt-4">Histórico</h5>
+                <div class="mb-3">
+                    <label asp-for="Item.Queixa" class="form-label"></label>
+                    <textarea asp-for="Item.Queixa" class="form-control"></textarea>
+                    <span asp-validation-for="Item.Queixa" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.DiagnosticoClinico" class="form-label"></label>
+                    <textarea asp-for="Item.DiagnosticoClinico" class="form-control"></textarea>
+                    <span asp-validation-for="Item.DiagnosticoClinico" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.AntecedentesPatologicos" class="form-label"></label>
+                    <textarea asp-for="Item.AntecedentesPatologicos" class="form-control"></textarea>
+                    <span asp-validation-for="Item.AntecedentesPatologicos" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Item.AntecedentesFamiliares" class="form-label"></label>
+                    <textarea asp-for="Item.AntecedentesFamiliares" class="form-control"></textarea>
+                    <span asp-validation-for="Item.AntecedentesFamiliares" class="text-danger"></span>
+                </div>
+
+                <!-- Botões -->
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-save"></i> Salvar
+                </button>
+                <a asp-page="CadPessoas" class="btn btn-secondary">Voltar</a>
+            </form>
+        </div>
     </div>
-    <div class="card-body">
-      <form method="post">
-        <div class="mb-3">
-          <label asp-for="Item.Nome" class="form-label"></label>
-          <input asp-for="Item.Nome" class="form-control" />
-          <span asp-validation-for="Item.Nome" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-          <label asp-for="Item.NomeSocial" class="form-label"></label>
-          <input asp-for="Item.NomeSocial" class="form-control" />
-          <span asp-validation-for="Item.NomeSocial" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-          <label asp-for="Item.DataNascimento" class="form-label"></label>
-          <input asp-for="Item.DataNascimento" type="date" class="form-control" />
-          <span asp-validation-for="Item.DataNascimento" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-          <label asp-for="Item.Cpf" class="form-label"></label>
-          <input asp-for="Item.Cpf" class="form-control" />
-          <span asp-validation-for="Item.Cpf" class="text-danger"></span>
-        </div>
-
-        <button type="submit" class="btn btn-success">
-          <i class="bi bi-save"></i> Salvar
-        </button>
-        <a asp-page="CadPessoas" class="btn btn-secondary">Voltar</a>
-      </form>
-    </div>
-  </div>
 </div>
 
 @section Scripts {
-  <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
 }
