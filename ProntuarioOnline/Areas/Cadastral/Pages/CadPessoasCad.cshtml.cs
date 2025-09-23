@@ -16,6 +16,7 @@ namespace ProntuarioOnline.Areas.Cadastral.Pages.CadPessoas
       _dataService = dataService;
     }
 
+
     public override async Task<IActionResult> OnPostAsync()
     {
       Logger.LogInformation($"OnPost executado em {GetType().Name}");

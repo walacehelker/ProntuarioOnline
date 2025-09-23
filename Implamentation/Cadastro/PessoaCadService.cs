@@ -25,12 +25,11 @@ namespace Implementations.Cadastro
     public async Task<bool> CreatePessoaComHistoricoAsync(CadPessoaCadVm model)
     {
       var dado = MapperToVm(model);
-      await _pessoaService.CreateAsync(dado); 
-      await _context.SaveChangesAsync();
 
+      var pessoaSalva = await _pessoaService.CreateAsync(dado);
       var historicoVm = new CadPessoaHistoricoVm
       {
-        PessoaId = dado.Id, // FK
+        PessoaId = pessoaSalva.Id,
         Queixa = model.Queixa,
         DiagnosticoClinico = model.DiagnosticoClinico,
         AntecedentesPatologicos = model.AntecedentesPatologicos,

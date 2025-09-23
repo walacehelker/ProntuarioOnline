@@ -14,13 +14,16 @@ namespace Configuration
 
     // DbSets para cada entidade do domínio
     public DbSet<CadPessoa> CadPessoas { get; set; }
+    public DbSet<CadPessoaHistorico> CadPessoaHistorico { get; set; }
+    // Adicione aqui todos os outros DbSets do seu domínio
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-      // Aplica todas as configurações do projeto Configuration
-      modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseConfiguration<>).Assembly);
-
+      // Configura tabelas do Identity
       base.OnModelCreating(modelBuilder);
+
+      // Aplica todas as configurações Fluent API do projeto Configuration
+      modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseConfiguration<>).Assembly);
     }
   }
 }

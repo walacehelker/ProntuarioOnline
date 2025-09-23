@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Configuration.Migrations
 {
     /// <inheritdoc />
-    public partial class migrationInicial : Migration
+    public partial class migration_inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,6 +60,14 @@ namespace Configuration.Migrations
                     nome_social = table.Column<string>(type: "varchar(200)", nullable: true),
                     data_nascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     cpf = table.Column<string>(type: "varchar(20)", nullable: false),
+                    rua = table.Column<string>(type: "varchar(200)", nullable: false),
+                    numero = table.Column<int>(type: "int", nullable: true),
+                    bairro = table.Column<string>(type: "varchar(200)", nullable: false),
+                    cidade = table.Column<string>(type: "varchar(200)", nullable: false),
+                    estado = table.Column<string>(type: "varchar(200)", nullable: false),
+                    cep = table.Column<string>(type: "varchar(20)", nullable: false),
+                    telefone = table.Column<string>(type: "varchar(20)", nullable: false),
+                    email = table.Column<string>(type: "varchar(200)", nullable: true),
                     data_insercao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     excluido = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     excluido_em = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -175,6 +183,31 @@ namespace Configuration.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "cad_pessoas_historicos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    queixa = table.Column<string>(type: "varchar(max)", nullable: false),
+                    diagnostico_clinico = table.Column<string>(type: "varchar(max)", nullable: false),
+                    antecedentes_patologicos = table.Column<string>(type: "varchar(max)", nullable: false),
+                    antecedentes_familiares = table.Column<string>(type: "varchar(max)", nullable: false),
+                    id_pessoa = table.Column<string>(type: "varchar(50)", nullable: false),
+                    DataInsercao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Excluido = table.Column<bool>(type: "bit", nullable: false),
+                    ExcluidoEm = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_cad_pessoas_historicos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_cad_pessoas_historicos_cad_pessoas_id_pessoa",
+                        column: x => x.id_pessoa,
+                        principalTable: "cad_pessoas",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -213,6 +246,11 @@ namespace Configuration.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_cad_pessoas_historicos_id_pessoa",
+                table: "cad_pessoas_historicos",
+                column: "id_pessoa");
         }
 
         /// <inheritdoc />
@@ -234,13 +272,16 @@ namespace Configuration.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "cad_pessoas");
+                name: "cad_pessoas_historicos");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "cad_pessoas");
         }
     }
 }
