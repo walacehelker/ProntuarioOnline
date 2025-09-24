@@ -11,6 +11,10 @@ namespace ProntuarioOnline.Data.Configurations
       // Nome da tabela (Identity já usa AspNetUsers por padrão)
       builder.ToTable("AspNetUsers");
 
+      builder.Property(u => u.NomeCompleto)
+             .HasColumnType("varchar(200)")
+             .IsRequired();
+
       builder.Property(u => u.TipoUsuario)
              .HasConversion<int>() 
              .IsRequired();

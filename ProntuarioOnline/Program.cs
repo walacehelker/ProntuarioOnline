@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using ProntuarioOnline.Data;
 using ProntuarioOnline.Mappings;
+using Implementations.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +28,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
   options.SignIn.RequireConfirmedAccount = true;
 })
 .AddEntityFrameworkStores<AppDbContext>()
+.AddErrorDescriber<PortugueseIdentityErrorDescriber>()
 .AddDefaultTokenProviders();
 
 // 🔹 Configura o caminho da tela de login

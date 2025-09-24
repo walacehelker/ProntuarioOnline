@@ -1,0 +1,68 @@
+﻿@page "{id?}"
+@using Enuns
+@model UsuariosCadModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="container mt-4">
+    <h4>@(Model.Usuario.Id == null ? "Novo Usuário" : "Editar Usuário")</h4>
+    <hr />
+
+    <form method="post">
+        <input type="hidden" asp-for="Usuario.Id" />
+        <div asp-validation-summary="All" class="alert alert-danger"></div>
+
+
+        <div class="mb-3">
+            <label asp-for="Usuario.NomeCompleto" class="form-label"></label>
+            <input asp-for="Usuario.NomeCompleto" class="form-control" />
+            <span asp-validation-for="Usuario.NomeCompleto" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Usuario.Email" class="form-label"></label>
+            <input asp-for="Usuario.Email" class="form-control" />
+            <span asp-validation-for="Usuario.Email" class="text-danger"></span>
+        </div>
+
+        @* Campos de senha só aparecem no cadastro *@
+        @if (Model.Usuario.Id == null)
+        {
+            <div class="mb-3">
+                <label asp-for="Usuario.Senha" class="form-label"></label>
+                <input asp-for="Usuario.Senha" class="form-control" type="password" />
+                <span asp-validation-for="Usuario.Senha" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Usuario.ConfirmarSenha" class="form-label"></label>
+                <input asp-for="Usuario.ConfirmarSenha" class="form-control" type="password" />
+                <span asp-validation-for="Usuario.ConfirmarSenha" class="text-danger"></span>
+            </div>
+        }
+
+        <div class="mb-3">
+            <label asp-for="Usuario.TipoUsuario" class="form-label"></label>
+            <select asp-for="Usuario.TipoUsuario" class="form-select"
+                    asp-items="Html.GetEnumSelectList<TipoUsuario>()">
+            </select>
+            <span asp-validation-for="Usuario.TipoUsuario" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a asp-page="Usuarios" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </a>
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-check-circle"></i> Salvar
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
