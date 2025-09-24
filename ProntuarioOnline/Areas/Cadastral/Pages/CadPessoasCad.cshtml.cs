@@ -27,7 +27,16 @@ namespace ProntuarioOnline.Areas.Cadastral.Pages.CadPessoas
         return Page();
       }
 
-      await _dataService.CreatePessoaComHistoricoAsync(Item);
+      // Se o Id veio preenchido, faz update
+      if (Id.HasValue && Id.Value != Guid.Empty)
+      {
+        await _dataService.UpdatePessoaComHistoricoAsync(Id.Value, Item);
+      }
+      else
+      {
+        // Caso contrário, cria novo
+        await _dataService.CreatePessoaComHistoricoAsync(Item);
+      }
 
       return RedirectToPage($"/{PageName}", new { area = AreaName });
     }

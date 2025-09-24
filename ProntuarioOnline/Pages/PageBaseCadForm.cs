@@ -13,6 +13,8 @@ namespace WebApp.Pages.Base
     protected string AreaName { get; set; }
     protected string PageName { get; set; }
 
+    [BindProperty(SupportsGet = true)]
+    public Guid? Id { get; set; }
 
     [BindProperty]
     public TVm Item { get; set; }
@@ -61,7 +63,16 @@ namespace WebApp.Pages.Base
         return Page();
       }
 
-      await Service.CreateAsync(Item);
+      if (Id.HasValue && Id.Value != Guid.Empty)
+      {
+        // Edição
+        await Service.UpdateAsync(Id.Value, Item);
+      }
+      else
+      {
+        // Novo cadastro
+        await Service.CreateAsync(Item);
+      }
 
       if (!string.IsNullOrWhiteSpace(PageName))
       {

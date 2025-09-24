@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id?}"
 @model ProntuarioOnline.Areas.Cadastral.Pages.CadPessoas.CadPessoasCad
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -6,13 +6,53 @@
     Layout = "_Layout";
 }
 
-<div class="container mt-4">
+<style>
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 0.3rem;
+    }
+
+    .form-control,
+    .form-check {
+        margin-bottom: 1rem; /* espaço entre campos */
+    }
+
+    h5 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        color: #0d6efd; /* azul bootstrap */
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 0.3rem;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .form-control {
+        padding: 0.6rem 1rem;
+        font-size: 1rem;
+    }
+
+    .form-check {
+        margin-bottom: 0.75rem;
+    }
+
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+    }
+</style>
+
+<div class="container-fluid mt-4">
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
             <h4 class="mb-0">Cadastro de Pessoa</h4>
         </div>
         <div class="card-body">
             <form method="post">
+                <input type="hidden" asp-for="Id" />
                 <!-- Dados pessoais -->
                 <div class="mb-3">
                     <label asp-for="Item.Nome" class="form-label"></label>
@@ -28,7 +68,7 @@
 
                 <div class="mb-3">
                     <label asp-for="Item.DataNascimento" class="form-label"></label>
-                    <input asp-for="Item.DataNascimento" type="date" class="form-control" />
+                    <input asp-for="Item.DataNascimento" id="DataNascimento" type="text" class="form-control" placeholder="" />
                     <span asp-validation-for="Item.DataNascimento" class="text-danger"></span>
                 </div>
 
@@ -95,25 +135,347 @@
                 <div class="mb-3">
                     <label asp-for="Item.Queixa" class="form-label"></label>
                     <textarea asp-for="Item.Queixa" class="form-control"></textarea>
-                    <span asp-validation-for="Item.Queixa" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label asp-for="Item.DiagnosticoClinico" class="form-label"></label>
                     <textarea asp-for="Item.DiagnosticoClinico" class="form-control"></textarea>
-                    <span asp-validation-for="Item.DiagnosticoClinico" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label asp-for="Item.AntecedentesPatologicos" class="form-label"></label>
                     <textarea asp-for="Item.AntecedentesPatologicos" class="form-control"></textarea>
-                    <span asp-validation-for="Item.AntecedentesPatologicos" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label asp-for="Item.AntecedentesFamiliares" class="form-label"></label>
                     <textarea asp-for="Item.AntecedentesFamiliares" class="form-control"></textarea>
-                    <span asp-validation-for="Item.AntecedentesFamiliares" class="text-danger"></span>
+                </div>
+
+                <!-- Tratamentos Estéticos -->
+                <h5 class="mt-4">Tratamentos Estéticos</h5>
+
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.PossuiTratamentoEsteticoAnterior"
+                           value="true" class="form-check-input" id="tratamentoSim"
+                           onchange="toggleTratamentoEstetico()" />
+                    <label class="form-check-label" for="tratamentoSim">Sim</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.PossuiTratamentoEsteticoAnterior"
+                           value="false" class="form-check-input" id="tratamentoNao"
+                           onchange="toggleTratamentoEstetico()" />
+                    <label class="form-check-label" for="tratamentoNao">Não</label>
+                </div>
+
+                <!-- Campos relacionados -->
+                <div id="camposTratamentoEstetico" style="display:none;">
+                    <div class="form-check mt-3">
+                        <input asp-for="Item.ToxinixaBotulinica" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.ToxinixaBotulinica" class="form-check-label"></label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Item.Preenchedores" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.Preenchedores" class="form-check-label"></label>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Item.TratamentoEsteticoAnterior" class="form-label"></label>
+                        <textarea asp-for="Item.TratamentoEsteticoAnterior" class="form-control"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Item.InformacoesSobreAplicacao" class="form-label"></label>
+                        <textarea asp-for="Item.InformacoesSobreAplicacao" class="form-control"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Item.InformacoesPosAplicacao" class="form-label"></label>
+                        <textarea asp-for="Item.InformacoesPosAplicacao" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <!-- Medicamentos -->
+                <h5 class="mt-4">Medicamentos</h5>
+
+                <!-- Sim / Não -->
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.Medicamentos"
+                           value="true" class="form-check-input" id="medicamentosSim"
+                           onchange="toggleMedicamentos()" />
+                    <label class="form-check-label" for="medicamentosSim">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.Medicamentos"
+                           value="false" class="form-check-input" id="medicamentosNao"
+                           onchange="toggleMedicamentos()" />
+                    <label class="form-check-label" for="medicamentosNao">Não</label>
+                </div>
+
+                <!-- Campos relacionados -->
+                <div id="camposMedicamentos" style="display:none;">
+                    <div class="form-check mt-3">
+                        <input asp-for="Item.Medicamentos" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.Medicamentos" class="form-check-label"></label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Item.AntiInfamatorio" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.AntiInfamatorio" class="form-check-label"></label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Item.Analgesico" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.Analgesico" class="form-check-label"></label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Item.RelaxanteMuscular" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.RelaxanteMuscular" class="form-check-label"></label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Item.Antibiotico" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.Antibiotico" class="form-check-label"></label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Item.Aminoglicosideos" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.Aminoglicosideos" class="form-check-label"></label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Item.Penicilaminas" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.Penicilaminas" class="form-check-label"></label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Item.Quinolonas" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.Quinolonas" class="form-check-label"></label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Item.RepositoresHormonais" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.RepositoresHormonais" class="form-check-label"></label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Item.Succinilcolina" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.Succinilcolina" class="form-check-label"></label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Item.BloqueadorCanalCalcio" class="form-check-input" type="checkbox" />
+                        <label asp-for="Item.BloqueadorCanalCalcio" class="form-check-label"></label>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Item.OutrosMedicamentos" class="form-label"></label>
+                        <textarea asp-for="Item.OutrosMedicamentos" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <!-- Hábitos e Condições -->
+                <h5 class="mt-4">Hábitos e Condições</h5>
+                <div class="form-check">
+                    <input asp-for="Item.TomaSol" class="form-check-input" type="checkbox" />
+                    <label asp-for="Item.TomaSol" class="form-check-label"></label>
+                </div>
+
+                <h5 class="mt-4">Pratica de Esportes</h5>
+                <!-- Sim / Não -->
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.PraticaEsporte"
+                           value="true" class="form-check-input" id="praticaEsporteSim"
+                           onchange="togglePraticaEsporte()" />
+                    <label class="form-check-label" for="praticaEsporteSim">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.PraticaEsporte"
+                           value="false" class="form-check-input" id="praticaEsporteNao"
+                           onchange="togglePraticaEsporte()" />
+                    <label class="form-check-label" for="praticaEsporteNao">Não</label>
+                </div>
+
+                <!-- Campo relacionado -->
+                <div id="campoEsportes" style="display:none;" class="mt-3">
+                    <div class="mb-3">
+                        <label asp-for="Item.Esportes" class="form-label"></label>
+                        <textarea asp-for="Item.Esportes" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <h5 class="mt-4">Antecedentes Alérgicos</h5>
+
+                <!-- Sim / Não -->
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.AntecedentesAlergicos"
+                           value="true" class="form-check-input" id="alergicosSim"
+                           onchange="toggleAlergicos()" />
+                    <label class="form-check-label" for="alergicosSim">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.AntecedentesAlergicos"
+                           value="false" class="form-check-input" id="alergicosNao"
+                           onchange="toggleAlergicos()" />
+                    <label class="form-check-label" for="alergicosNao">Não</label>
+                </div>
+
+                <!-- Campo relacionado -->
+                <div id="campoAlergias" style="display:none;" class="mt-3">
+                    <div class="mb-3">
+                        <label asp-for="Item.Alergias" class="form-label"></label>
+                        <textarea asp-for="Item.Alergias" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <h5 class="mt-4">Distúbios Emocionais</h5>
+
+                <div class="form-check">
+                    <input asp-for="Item.Stresse" class="form-check-input" type="checkbox" />
+                    <label asp-for="Item.Stresse" class="form-check-label"></label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="Item.Ansiedade" class="form-check-input" type="checkbox" />
+                    <label asp-for="Item.Ansiedade" class="form-check-label"></label>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Item.OutrosDisturbiosEmocionais" class="form-label"></label>
+                    <textarea asp-for="Item.OutrosDisturbiosEmocionais" class="form-control"></textarea>
+                </div>
+
+                <h5 class="mt-4">Tratamento Ortomolecular</h5>
+              
+                <!-- Sim / Não -->
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.TratamentoOrtomolecular"
+                           value="true" class="form-check-input" id="ortomolecularSim"
+                           onchange="toggleOrtomolecular()" />
+                    <label class="form-check-label" for="ortomolecularSim">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.TratamentoOrtomolecular"
+                           value="false" class="form-check-input" id="ortomolecularNao"
+                           onchange="toggleOrtomolecular()" />
+                    <label class="form-check-label" for="ortomolecularNao">Não</label>
+                </div>
+
+                <!-- Campo relacionado -->
+                <div id="campoOrtomolecular" style="display:none;" class="mt-3">
+                    <div class="mb-3">
+                        <label asp-for="Item.DescricaoTratamentosortomolecular" class="form-label"></label>
+                        <textarea asp-for="Item.DescricaoTratamentosortomolecular" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <h5 class="mt-4">Cuidados Estéticos</h5>
+
+                <!-- Sim / Não -->
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.CuidadosEstéticos"
+                           value="true" class="form-check-input" id="cuidadosEsteticosSim"
+                           onchange="toggleCuidadosEsteticos()" />
+                    <label class="form-check-label" for="cuidadosEsteticosSim">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.CuidadosEstéticos"
+                           value="false" class="form-check-input" id="cuidadosEsteticosNao"
+                           onchange="toggleCuidadosEsteticos()" />
+                    <label class="form-check-label" for="cuidadosEsteticosNao">Não</label>
+                </div>
+
+                <!-- Campo relacionado -->
+                <div id="campoCuidadosEsteticos" style="display:none;" class="mt-3">
+                    <div class="mb-3">
+                        <label asp-for="Item.DescricaoCuidadosEsteticos" class="form-label"></label>
+                        <textarea asp-for="Item.DescricaoCuidadosEsteticos" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <h5 class="mt-4">Tratamento Médico</h5>
+
+                <!-- Sim / Não -->
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.TratamentoMedico"
+                           value="true" class="form-check-input" id="tratamentoMedicoSim"
+                           onchange="toggleTratamentoMedico()" />
+                    <label class="form-check-label" for="tratamentoMedicoSim">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.TratamentoMedico"
+                           value="false" class="form-check-input" id="tratamentoMedicoNao"
+                           onchange="toggleTratamentoMedico()" />
+                    <label class="form-check-label" for="tratamentoMedicoNao">Não</label>
+                </div>
+
+                <!-- Campo relacionado -->
+                <div id="campoTratamentoMedico" style="display:none;" class="mt-3">
+                    <div class="mb-3">
+                        <label asp-for="Item.DescricaoTratamentoMedico" class="form-label"></label>
+                        <textarea asp-for="Item.DescricaoTratamentoMedico" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <h5 class="mt-4">Uso de Ácido na Pele</h5>
+
+                <!-- Sim / Não -->
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.UsoAcidoPele"
+                           value="true" class="form-check-input" id="usoAcidoSim"
+                           onchange="toggleUsoAcido()" />
+                    <label class="form-check-label" for="usoAcidoSim">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.UsoAcidoPele"
+                           value="false" class="form-check-input" id="usoAcidoNao"
+                           onchange="toggleUsoAcido()" />
+                    <label class="form-check-label" for="usoAcidoNao">Não</label>
+                </div>
+
+                <!-- Campo relacionado -->
+                <div id="campoUsoAcido" style="display:none;" class="mt-3">
+                    <div class="mb-3">
+                        <label asp-for="Item.QualAcido" class="form-label"></label>
+                        <textarea asp-for="Item.QualAcido" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <h5 class="mt-4">Problema Cardíaco</h5>
+
+                <!-- Sim / Não -->
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.ProblemaCardiaco"
+                           value="true" class="form-check-input" id="problemaCardiacoSim"
+                           onchange="toggleProblemaCardiaco()" />
+                    <label class="form-check-label" for="problemaCardiacoSim">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" asp-for="Item.ProblemaCardiaco"
+                           value="false" class="form-check-input" id="problemaCardiacoNao"
+                           onchange="toggleProblemaCardiaco()" />
+                    <label class="form-check-label" for="problemaCardiacoNao">Não</label>
+                </div>
+
+                <!-- Campo relacionado -->
+                <div id="campoProblemaCardiaco" style="display:none;" class="mt-3">
+                    <div class="mb-3">
+                        <label asp-for="Item.QualProblemaCardiaco" class="form-label"></label>
+                        <textarea asp-for="Item.QualProblemaCardiaco" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <h5 class="mt-4">Geral</h5>
+
+                <div class="form-check">
+                    <input asp-for="Item.IntoleranciaLactose" class="form-check-input" type="checkbox" />
+                    <label asp-for="Item.IntoleranciaLactose" class="form-check-label"></label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="Item.Diabetes" class="form-check-input" type="checkbox" />
+                    <label asp-for="Item.Diabetes" class="form-check-label"></label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="Item.AlergiaOvo" class="form-check-input" type="checkbox" />
+                    <label asp-for="Item.AlergiaOvo" class="form-check-label"></label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="Item.Fumante" class="form-check-input" type="checkbox" />
+                    <label asp-for="Item.Fumante" class="form-check-label"></label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="Item.GestanteOuAmamentando" class="form-check-input" type="checkbox" />
+                    <label asp-for="Item.GestanteOuAmamentando" class="form-check-label"></label>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Item.InformacoesComplementares" class="form-label"></label>
+                    <textarea asp-for="Item.InformacoesComplementares" class="form-control"></textarea>
                 </div>
 
                 <!-- Botões -->
@@ -128,4 +490,132 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        // $(document).ready(function(){
+        //     $('#DataNascimento').mask('00/00/0000');
+        // });
+
+        $(function(){
+            $('#DataNascimento').mask('00/00/0000');
+            $('#Item_Cpf').mask('000.000.000-00');
+            $('#Item_Telefone').mask('(00) 00000-0000');
+            $('#Item_Cep').mask('00000-000');
+        });
+
+
+        function toggleTratamentoEstetico() {
+            const sim = document.getElementById("tratamentoSim");
+            const campos = document.getElementById("camposTratamentoEstetico");
+
+            if (sim.checked) {
+                campos.style.display = "block";
+            } else {
+                campos.style.display = "none";
+            }
+        }
+        
+        function toggleMedicamentos() {
+            const sim = document.getElementById("medicamentosSim");
+            const campos = document.getElementById("camposMedicamentos");
+
+            if (sim.checked) {
+                campos.style.display = "block";
+            } else {
+                campos.style.display = "none";
+            }
+        }
+
+        function togglePraticaEsporte() {
+            const sim = document.getElementById("praticaEsporteSim");
+            const campos = document.getElementById("campoEsportes");
+
+            if (sim.checked) {
+                campos.style.display = "block";
+            } else {
+                campos.style.display = "none";
+            }
+        }        
+        
+        function toggleAlergicos() {
+            const sim = document.getElementById("alergicosSim");
+            const campos = document.getElementById("campoAlergias");
+
+            if (sim.checked) {
+                campos.style.display = "block";
+            } else {
+                campos.style.display = "none";
+            }
+        }
+
+        function toggleOrtomolecular() {
+            const sim = document.getElementById("ortomolecularSim");
+            const campos = document.getElementById("campoOrtomolecular");
+
+            if (sim.checked) {
+                campos.style.display = "block";
+            } else {
+                campos.style.display = "none";
+            }
+        }
+
+        function toggleCuidadosEsteticos() {
+            const sim = document.getElementById("cuidadosEsteticosSim");
+            const campos = document.getElementById("campoCuidadosEsteticos");
+
+            if (sim.checked) {
+                campos.style.display = "block";
+            } else {
+                campos.style.display = "none";
+            }
+        }
+
+        function toggleTratamentoMedico() {
+            const sim = document.getElementById("tratamentoMedicoSim");
+            const campos = document.getElementById("campoTratamentoMedico");
+
+            if (sim.checked) {
+                campos.style.display = "block";
+            } else {
+                campos.style.display = "none";
+            }
+        }
+
+        function toggleUsoAcido() {
+            const sim = document.getElementById("usoAcidoSim");
+            const campos = document.getElementById("campoUsoAcido");
+
+            if (sim.checked) {
+                campos.style.display = "block";
+            } else {
+                campos.style.display = "none";
+            }
+        }
+
+        function toggleProblemaCardiaco() {
+            const sim = document.getElementById("problemaCardiacoSim");
+            const campos = document.getElementById("campoProblemaCardiaco");
+
+            if (sim.checked) {
+                campos.style.display = "block";
+            } else {
+                campos.style.display = "none";
+            }
+        }
+
+
+
+        // Executa no carregamento para manter estado correto
+        document.addEventListener("DOMContentLoaded", () => {
+            toggleMedicamentos();
+            toggleTratamentoEstetico();
+            togglePraticaEsporte();
+            toggleAlergicos();
+            toggleOrtomolecular();
+            toggleCuidadosEsteticos();
+            toggleTratamentoMedico();
+            toggleUsoAcido();
+            toggleProblemaCardiaco();
+        });
+
+    </script>
 }
