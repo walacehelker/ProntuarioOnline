@@ -68,7 +68,7 @@
 
                 <div class="mb-3">
                     <label asp-for="Item.DataNascimento" class="form-label"></label>
-                    <input asp-for="Item.DataNascimento" id="DataNascimento" type="text" class="form-control" placeholder="" />
+                    <input asp-for="Item.DataNascimento"class="form-control"type="text"value="@Model.Item.DataNascimento?.ToString("dd/MM/yyyy")" />
                     <span asp-validation-for="Item.DataNascimento" class="text-danger"></span>
                 </div>
 
