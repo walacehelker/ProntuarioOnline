@@ -184,6 +184,7 @@ namespace Implementations.Cadastro
         Cep = modelCadVm.Cep,
         Telefone = modelCadVm.Telefone,
         Email = modelCadVm.Email,
+        PdfAssinado = modelCadVm.PdfAssinado,
 
         // Campos de histórico
         Queixa = dadosHistorico?.Queixa,

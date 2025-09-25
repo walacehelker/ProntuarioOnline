@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using ProntuarioOnline.Mappings;
 using Implementations.Identity;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+QuestPDF.Settings.License = LicenseType.Community;
 
 // Identity com suporte a Roles
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
