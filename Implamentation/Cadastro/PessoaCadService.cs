@@ -43,7 +43,7 @@ namespace Implementations.Cadastro
     {
       // Atualiza a pessoa
       var dado = MapperToVm(model);
-      var pessoaAtualizada = await _pessoaService.UpdateAsync(id, dado);
+      var pessoaAtualizada = await _pessoaService.UpdateAsync(dado);
 
       if (pessoaAtualizada == null)
         return false; // não encontrou a pessoa
@@ -57,7 +57,7 @@ namespace Implementations.Cadastro
         // Atualiza os dados do histórico
         MapPessoaHistorico(model, historicoExistente);
 
-        await _pessoaHistoricoService.UpdateAsync(historicoExistente.Id, historicoExistente);
+        await _pessoaHistoricoService.UpdateAsync(historicoExistente);
       }
       else
       {
@@ -147,7 +147,8 @@ namespace Implementations.Cadastro
         Estado = modelCadVm.Estado,
         Cep = modelCadVm.Cep,
         Telefone = modelCadVm.Telefone,
-        Email = modelCadVm.Email
+        Email = modelCadVm.Email,
+        PdfAssinado = modelCadVm.PdfAssinado
       };
       return dado;
     }
@@ -236,6 +237,19 @@ namespace Implementations.Cadastro
       };
 
       return dado;
+    }
+
+    public async Task SalvarAssinaturaAsync(CadPessoaCadVm assinaturaVm)
+    {
+      var pessoa = await GetByIdAsync(assinaturaVm.Id);
+
+      if (pessoa == null)
+        throw new Exception("Pessoa não encontrada.");
+
+      // Vincula o PDF assinado
+      pessoa.PdfAssinado = assinaturaVm.PdfAssinado;
+
+      await UpdateAsync(pessoa);
     }
   }
 }

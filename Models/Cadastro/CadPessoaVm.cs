@@ -63,6 +63,7 @@ namespace Domain.Cadastro
     [Required(ErrorMessage = "Campo obrigatório.")]
     [StringLength(200, ErrorMessage = "O nome deve ter no máximo {1} caracteres.")]
     public string Email { get; set; }
+    public byte[] PdfAssinado { get; set; }
   }
 
   public class CadPessoaCadVm : BaseVmEntity
@@ -288,5 +289,14 @@ namespace Domain.Cadastro
 
     [DisplayName("Outras informações?")]
     public string InformacoesComplementares { get; set; }
+
+    public byte[] PdfAssinado { get; set; }
   }
+
+  public class AssinaturaVm
+  {
+    public Guid Id { get; set; }
+    public byte[] PdfAssinado { get; set; }
+  }
+
 }

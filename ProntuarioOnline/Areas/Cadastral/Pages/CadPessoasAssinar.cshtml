@@ -1,0 +1,275 @@
+﻿@page "{id}"
+@model ProntuarioOnline.Areas.Cadastral.Pages.CadPessoasAssinarModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@Html.AntiForgeryToken()
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="container-fluid mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Dados do Cadastro</h4>
+        </div>
+        <div class="card-body" style="max-height:80vh; overflow-y:auto;">
+
+
+            <!-- DADOS PESSOAIS -->
+            <div class="mb-3">
+                <label class="form-label">Nome</label>
+                <input class="form-control" value="@Model.Pessoa.Nome" readonly />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Nome Social</label>
+                <input class="form-control" value="@Model.Pessoa.NomeSocial" readonly />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Data de Nascimento</label>
+                <input class="form-control" value="@Model.Pessoa.DataNascimento?.ToString("dd/MM/yyyy")" readonly />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">CPF</label>
+                <input class="form-control" value="@Model.Pessoa.Cpf" readonly />
+            </div>
+
+            <!-- ENDEREÇO -->
+            <h5 class="mt-4">Endereço</h5>
+            <input class="form-control mb-2" value="@Model.Pessoa.Rua" readonly />
+            <input class="form-control mb-2" value="@Model.Pessoa.Numero" readonly />
+            <input class="form-control mb-2" value="@Model.Pessoa.Bairro" readonly />
+            <input class="form-control mb-2" value="@Model.Pessoa.Cidade" readonly />
+            <input class="form-control mb-2" value="@Model.Pessoa.Estado" readonly />
+            <input class="form-control mb-2" value="@Model.Pessoa.Cep" readonly />
+
+            <!-- CONTATO -->
+            <h5 class="mt-4">Contato</h5>
+            <input class="form-control mb-2" value="@Model.Pessoa.Telefone" readonly />
+            <input class="form-control mb-2" value="@Model.Pessoa.Email" readonly />
+
+            <!-- HISTÓRICO -->
+            <h5 class="mt-4">Histórico</h5>
+            <textarea class="form-control mb-2" readonly>@Model.Pessoa.Queixa</textarea>
+            <textarea class="form-control mb-2" readonly>@Model.Pessoa.DiagnosticoClinico</textarea>
+            <textarea class="form-control mb-2" readonly>@Model.Pessoa.AntecedentesPatologicos</textarea>
+            <textarea class="form-control mb-2" readonly>@Model.Pessoa.AntecedentesFamiliares</textarea>
+
+            <!-- TRATAMENTOS ESTÉTICOS -->
+            <h5 class="mt-4">Tratamentos Estéticos</h5>
+            <p>@(Model.Pessoa.PossuiTratamentoEsteticoAnterior ? "Sim" : "Não")</p>
+            @if (Model.Pessoa.PossuiTratamentoEsteticoAnterior)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.ToxinixaBotulinica ? "checked" : "") />
+                    <label class="form-check-label">Toxina Botulínica</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Preenchedores ? "checked" : "") />
+                    <label class="form-check-label">Preenchedores</label>
+                </div>
+                <textarea class="form-control mb-2" readonly>@Model.Pessoa.TratamentoEsteticoAnterior</textarea>
+                <textarea class="form-control mb-2" readonly>@Model.Pessoa.InformacoesSobreAplicacao</textarea>
+                <textarea class="form-control mb-2" readonly>@Model.Pessoa.InformacoesPosAplicacao</textarea>
+            }
+
+            <!-- MEDICAMENTOS -->
+            <h5 class="mt-4">Medicamentos</h5>
+            <p>@(Model.Pessoa.Medicamentos ? "Sim" : "Não")</p>
+            @if (Model.Pessoa.Medicamentos)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.AntiInfamatorio ? "checked" : "") />
+                    <label class="form-check-label">Anti-inflamatório</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Analgesico ? "checked" : "") />
+                    <label class="form-check-label">Analgésico</label>
+                </div>
+                <!-- ... repita para os demais medicamentos ... -->
+                <textarea class="form-control mb-2" readonly>@Model.Pessoa.OutrosMedicamentos</textarea>
+            }
+
+            <!-- HÁBITOS E CONDIÇÕES -->
+            <h5 class="mt-4">Hábitos e Condições</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.TomaSol ? "checked" : "") />
+                <label class="form-check-label">Toma Sol</label>
+            </div>
+
+            <!-- PRÁTICA DE ESPORTES -->
+            <h5 class="mt-4">Prática de Esportes</h5>
+            <p>@(Model.Pessoa.PraticaEsporte ? "Sim" : "Não")</p>
+            @if (Model.Pessoa.PraticaEsporte)
+            {
+                <textarea class="form-control mb-2" readonly>@Model.Pessoa.Esportes</textarea>
+            }
+
+            <!-- ANTECEDENTES ALÉRGICOS -->
+            <h5 class="mt-4">Antecedentes Alérgicos</h5>
+            <p>@(Model.Pessoa.AntecedentesAlergicos ? "Sim" : "Não")</p>
+            @if (Model.Pessoa.AntecedentesAlergicos)
+            {
+                <textarea class="form-control mb-2" readonly>@Model.Pessoa.Alergias</textarea>
+            }
+
+            <!-- DISTÚRBIOS EMOCIONAIS -->
+            <h5 class="mt-4">Distúrbios Emocionais</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Stresse ? "checked" : "") />
+                <label class="form-check-label">Estresse</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Ansiedade ? "checked" : "") />
+                <label class="form-check-label">Ansiedade</label>
+            </div>
+            <textarea class="form-control mb-2" readonly>@Model.Pessoa.OutrosDisturbiosEmocionais</textarea>
+
+            <!-- GERAL -->
+            <h5 class="mt-4">Geral</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.IntoleranciaLactose ? "checked" : "") />
+                <label class="form-check-label">Intolerância à Lactose</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Diabetes ? "checked" : "") />
+                <label class="form-check-label">Diabetes</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.AlergiaOvo ? "checked" : "") />
+                <label class="form-check-label">Alergia a Ovo</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Fumante ? "checked" : "") />
+                <label class="form-check-label">É fumante</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.GestanteOuAmamentando ? "checked" : "") />
+                <label class="form-check-label">Gestante ou Amamentando</label>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Informações Complementares</label>
+                <textarea class="form-control" readonly>@Model.Pessoa.InformacoesComplementares</textarea>
+            </div>
+
+            <!-- Botão para abrir modal de assinatura -->
+            <div class="mt-4 text-center">
+                <button type="button" class="btn btn-primary" id="start">Assinar Documento</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal fullscreen para assinatura -->
+<div class="modal fade" id="signatureModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assine o documento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <canvas id="signature-pad" class="border w-100" style="height:400px;"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="clear">Limpar</button>
+                <button type="button" class="btn btn-success" id="save">Salvar Assinatura</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast para feedback -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="toastMsg" class="toast align-items-center text-bg-success border-0" role="alert">
+        <div class="d-flex">
+            <div class="toast-body">Assinatura salva com sucesso!</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    <script>
+        var signaturePad = null;
+
+        // Abre modal e inicializa assinatura
+        document.getElementById('start').addEventListener('click', function () {
+            var modalEl = document.getElementById('signatureModal');
+            var modal = new bootstrap.Modal(modalEl);
+            modal.show();
+
+            modalEl.addEventListener('shown.bs.modal', function () {
+                var canvas = document.getElementById('signature-pad');
+                signaturePad = new SignaturePad(canvas);
+
+                // Ajusta o canvas para telas de alta densidade
+                var ratio = Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
+                canvas.getContext("2d").scale(ratio, ratio);
+                signaturePad.clear();
+            }, { once: true });
+        });
+
+        // Limpar assinatura
+        document.getElementById('clear').addEventListener('click', function () {
+            if (signaturePad) signaturePad.clear();
+        });
+
+        // Converter base64 em array de bytes
+        function base64ToBytes(base64) {
+            const binary = atob(base64);
+            const len = binary.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            return Array.from(bytes);
+        }
+
+                function getCsrfToken() {
+            const el = document.querySelector('input[name="__RequestVerificationToken"]');
+            return el ? el.value : null;
+        }
+
+        document.getElementById('save').addEventListener('click', function () {
+            if (signaturePad && !signaturePad.isEmpty()) {
+                var data = signaturePad.toDataURL('image/png');
+                var base64 = data.replace(/^data:image\/(png|jpeg);base64,/, "");
+                var byteArray = base64ToBytes(base64);
+
+                const token = getCsrfToken();
+                if (!token) {
+                    console.error("Token antiforgery não encontrado na página.");
+                    alert("Erro de segurança: token não encontrado.");
+                    return;
+                }
+
+                fetch(`/Cadastral/CadPessoasAssinar/@Model.PessoaId?handler=SalvarAssinatura`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': token
+                    },
+                    body: JSON.stringify({
+                        Id: '@Model.PessoaId',
+                        PdfAssinado: base64
+                    })
+                }).then(r => {
+                    if (r.ok) {
+                        bootstrap.Modal.getInstance(document.getElementById('signatureModal')).hide();
+                        new bootstrap.Toast(document.getElementById('toastMsg')).show();
+                        setTimeout(() => window.location.href = '/Cadastral/CadPessoas', 2000);
+                    } else {
+                        r.text().then(t => console.error("Erro no backend:", t));
+                    }
+                });
+            } else {
+                alert("Por favor, faça sua assinatura antes de salvar.");
+            }
+        });
+    </script>
+}

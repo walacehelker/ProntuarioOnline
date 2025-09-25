@@ -66,7 +66,7 @@ namespace WebApp.Pages.Base
       if (Id.HasValue && Id.Value != Guid.Empty)
       {
         // Edição
-        await Service.UpdateAsync(Id.Value, Item);
+        await Service.UpdateAsync(Item);
       }
       else
       {

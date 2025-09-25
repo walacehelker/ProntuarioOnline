@@ -46,14 +46,18 @@ namespace Implementations.Base
       return _mapper.Map<TVmEntity>(entity);
     }
 
-    public virtual async Task<TVmEntity> UpdateAsync(Guid id, TVmEntity vm)
+    public virtual async Task<TVmEntity> UpdateAsync(TVmEntity vm)
     {
-      vm.Id = id;
-      var entity = await _dbSet.FindAsync(id);
-      if (entity == null) return null;
+      if (vm == null || vm.Id == null)
+        return null;
+
+      var entity = await _dbSet.FindAsync(vm.Id);
+      if (entity == null)
+        return null;
 
       _mapper.Map(vm, entity);
       await _context.SaveChangesAsync();
+
       return _mapper.Map<TVmEntity>(entity);
     }
 
@@ -87,13 +91,18 @@ namespace Implementations.Base
       return _mapper.Map<TVmEntity>(entity);
     }
 
-    public virtual TVmEntity Update(Guid id, TVmEntity vm)
+    public virtual TVmEntity Update(TVmEntity vm)
     {
-      var entity = _dbSet.Find(id);
-      if (entity == null) return null;
+      if (vm == null || vm.Id == null)
+        return null;
+
+      var entity = _dbSet.Find(vm.Id);
+      if (entity == null)
+        return null;
 
       _mapper.Map(vm, entity);
       _context.SaveChanges();
+
       return _mapper.Map<TVmEntity>(entity);
     }
 

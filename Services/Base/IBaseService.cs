@@ -2,21 +2,21 @@
 
 namespace Services.Base
 {
-  public interface IBaseService<TVm>
+  public interface IBaseService<TVmEntity>
   {
-    Task<IEnumerable<TVm>> GetAllAsync();
-    Task<TVm> GetByIdAsync(Guid id);
-    Task<TVm> CreateAsync(TVm vm);
-    Task<TVm> UpdateAsync(Guid id, TVm vm);
+    Task<IEnumerable<TVmEntity>> GetAllAsync();
+    Task<TVmEntity> GetByIdAsync(Guid id);
+    Task<TVmEntity> CreateAsync(TVmEntity vm);
     Task<bool> DeleteAsync(Guid id);
-    IEnumerable<TVm> GetAll();
-    TVm GetById(Guid id);
-    TVm Create(TVm vm);
-    TVm Update(Guid id, TVm vm);
+    IEnumerable<TVmEntity> GetAll();
+    TVmEntity GetById(Guid id);
+    TVmEntity Create(TVmEntity vm);
+    TVmEntity Update(TVmEntity vm);
+    Task<TVmEntity> UpdateAsync(TVmEntity vm);
     bool Delete(Guid id);
-    TVm FindOne(Func<TVm, bool> predicate);
-    Task<TVm> FindOneAsync(Func<TVm, bool> predicate);
-    IEnumerable<TVm> Find(Func<TVm, bool> predicate);
-    Task<IEnumerable<TVm>> FindAsync(Func<TVm, bool> predicate);
+    TVmEntity FindOne(Func<TVmEntity, bool> predicate);
+    Task<TVmEntity> FindOneAsync(Func<TVmEntity, bool> predicate);
+    IEnumerable<TVmEntity> Find(Func<TVmEntity, bool> predicate);
+    Task<IEnumerable<TVmEntity>> FindAsync(Func<TVmEntity, bool> predicate);
   }
 }

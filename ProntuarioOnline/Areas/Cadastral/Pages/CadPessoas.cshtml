@@ -1,5 +1,5 @@
 ﻿@page
-@model UsuariosModel
+@model ProntuarioOnline.Areas.Cadastral.Pages.CadPessoas.CadPessoas
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -8,42 +8,53 @@
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4>Usuários Cadastrados</h4>
-        <a asp-page="CadastroUsuario" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Novo Usuário
+        <h4>Pessoas Cadastradas</h4>
+        <a asp-page="CadPessoasCad" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Nova Pessoa
         </a>
     </div>
 
-    @if (Model.Usuarios != null && Model.Usuarios.Any())
+    @if (Model.Items != null && Model.Items.Any())
     {
         <table class="table table-striped table-hover">
             <thead class="table-light">
                 <tr>
                     <th>Nome</th>
-                    <th>Email</th>
-                    <th>Tipo do Usuário</th>
-                    <th style="width: 180px;">Ações</th>
+                    <th>Nome Social</th>
+                    <th>Data de Nascimento</th>
+                    <th>CPF</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var usuario in Model.Usuarios)
+                @foreach (var pessoa in Model.Items)
                 {
                     <tr>
-                        <td>@usuario.NomeCompleto</td>
-                        <td>@usuario.Email</td>
-                        <td>@usuario.TipoUsuario</td>
+                        <td>@pessoa.Nome</td>
+                        <td>@pessoa.NomeSocial</td>
+                        <td>@(pessoa.DataNascimento?.ToString("dd/MM/yyyy") ?? "")</td>
+                        <td>@pessoa.Cpf</td>
                         <td>
-                            <a asp-page="CadastroUsuario" asp-route-id="@usuario.Id"
+                            <a asp-page="CadPessoasCad" asp-route-id="@pessoa.Id"
                                class="btn btn-sm btn-warning">
                                 <i class="bi bi-pencil"></i> Editar
                             </a>
-                            <form method="post" asp-page-handler="Delete" asp-route-id="@usuario.Id"
-                                  style="display:inline"
-                                  onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');">
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    <i class="bi bi-trash"></i> Excluir
-                                </button>
-                            </form>
+                            @if (pessoa.PdfAssinado == null || pessoa.PdfAssinado.Length == 0)
+                            {
+                                <!-- Se ainda não assinou -->
+                                <a asp-page="CadPessoasAssinar" asp-route-id="@pessoa.Id"
+                                   class="btn btn-sm btn-info">
+                                    <i class="bi bi-pen"></i> Assinar PDF
+                                </a>
+                            }
+                            else
+                            {
+                                <!-- Se já assinou, gera PDF com assinatura -->
+                                <a asp-page="CadPessoasGerarPdf" asp-route-id="@pessoa.Id"
+                                   class="btn btn-sm btn-success" target="_blank">
+                                    <i class="bi bi-file-earmark-pdf"></i> Gerar PDF Assinado
+                                </a>
+                            }
                         </td>
                     </tr>
                 }
@@ -52,6 +63,6 @@
     }
     else
     {
-        <div class="alert alert-info">Nenhum usuário cadastrado.</div>
+        <div class="alert alert-info">Nenhuma pessoa cadastrada.</div>
     }
 </div>

@@ -16,7 +16,7 @@ namespace Domain.Cadastro
     public string Cep { get; set; }
     public string Telefone { get; set; }
     public string Email { get; set; }
-
+    public byte[] PdfAssinado { get; set; }
     public virtual List<CadPessoaHistorico> CadPessoaHistoricoList { get; set; }
   }
 }
