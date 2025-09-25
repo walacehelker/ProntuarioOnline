@@ -132,7 +132,7 @@ namespace Configuration.Cadastro
 
       builder.Property(h => h.OutrosMedicamentos)
        .HasColumnName("outros_medicamentos")
-       .HasColumnType("varchar(300)")
+       .HasColumnType("varchar(1000)")
        .IsRequired(false);
 
 
@@ -149,7 +149,7 @@ namespace Configuration.Cadastro
 
       builder.Property(h => h.Esportes)
        .HasColumnName("esportes")
-       .HasColumnType("varchar(300)")
+       .HasColumnType("varchar(1000)")
        .IsRequired(false);
 
       builder.Property(h => h.AntecedentesAlergicos)
@@ -159,7 +159,7 @@ namespace Configuration.Cadastro
 
       builder.Property(h => h.Alergias)
        .HasColumnName("alergias")
-       .HasColumnType("varchar(300)")
+       .HasColumnType("varchar(1000)")
        .IsRequired(false);
 
       builder.Property(h => h.Stresse)
@@ -174,7 +174,7 @@ namespace Configuration.Cadastro
 
       builder.Property(h => h.OutrosDisturbiosEmocionais)
        .HasColumnName("outros_disturbios_emocionais")
-       .HasColumnType("varchar(300)")
+       .HasColumnType("varchar(1000)")
        .IsRequired(false);
 
       builder.Property(h => h.TratamentoOrtomolecular)
@@ -184,7 +184,7 @@ namespace Configuration.Cadastro
 
       builder.Property(h => h.DescricaoTratamentosortomolecular)
        .HasColumnName("descricao_tratamentos_ortomolecular")
-       .HasColumnType("varchar(300)")
+       .HasColumnType("varchar(1000)")
        .IsRequired(false);
 
       builder.Property(h => h.Fumante)
@@ -199,7 +199,7 @@ namespace Configuration.Cadastro
 
       builder.Property(h => h.DescricaoCuidadosEsteticos)
        .HasColumnName("descricao_cuidados_esteticos")
-       .HasColumnType("varchar(300)")
+       .HasColumnType("varchar(1000)")
        .IsRequired(false);
 
       builder.Property(h => h.TratamentoMedico)
@@ -209,7 +209,7 @@ namespace Configuration.Cadastro
 
       builder.Property(h => h.DescricaoTratamentoMedico)
        .HasColumnName("descricao_tratamento_medico")
-       .HasColumnType("varchar(300)")
+       .HasColumnType("varchar(1000)")
        .IsRequired(false);
 
       builder.Property(h => h.UsoAcidoPele)
@@ -219,7 +219,7 @@ namespace Configuration.Cadastro
 
       builder.Property(h => h.QualAcido)
        .HasColumnName("qual_acido")
-       .HasColumnType("varchar(300)")
+       .HasColumnType("varchar(1000)")
        .IsRequired(false);
 
       builder.Property(h => h.GestanteOuAmamentando)
@@ -234,7 +234,7 @@ namespace Configuration.Cadastro
 
       builder.Property(h => h.QualProblemaCardiaco)
        .HasColumnName("qual_problema_cardiaco")
-       .HasColumnType("varchar(300)")
+       .HasColumnType("varchar(1000)")
        .IsRequired(false);
 
       builder.Property(h => h.IntoleranciaLactose)

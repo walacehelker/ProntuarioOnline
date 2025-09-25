@@ -27,6 +27,9 @@ namespace ProntuarioOnline.Areas.Cadastral.Pages
         {
           page.Margin(30);
 
+          // 🔹 Fundo da página em bege claro
+          page.PageColor(Colors.Grey.Lighten5); // bege bem clarinho
+
           // 🔹 Cabeçalho
           page.Header().Row(row =>
           {
@@ -43,178 +46,175 @@ namespace ProntuarioOnline.Areas.Cadastral.Pages
           // 🔹 Conteúdo
           page.Content().Column(col =>
           {
-            // 🔹 Dados do paciente
-            col.Item().PaddingVertical(15).Text("Dados do Paciente")
-                .Bold().FontSize(14).FontColor(Colors.Blue.Medium);
-
-            col.Item().Table(table =>
+            // Função auxiliar para criar seções com fundo e bordas arredondadas
+            void AddSection(string titulo, Action<IContainer> content)
             {
-              table.ColumnsDefinition(c =>
+              col.Item().PaddingBottom(18).Element(section =>
               {
-                c.RelativeColumn();
-                c.RelativeColumn();
+                section
+                    .Background("#FFDAD1")                 // salmão pastel
+                    .Border(1).BorderColor(Colors.Grey.Lighten2)
+                    .Padding(16)
+                    .Column(c =>
+                    {
+                      c.Spacing(10);                     // mais espaço entre itens
+                      c.Item().Text(titulo).Bold().FontSize(14).FontColor(Colors.Blue.Medium);
+                      c.Item().Element(content);
+                    });
               });
+            }
 
-              void AddRow(string label, string value)
+            // 🔹 Dados do Paciente
+            AddSection("Dados do Paciente", container =>
+            {
+              container.Table(table =>
               {
-                table.Cell().Element(CellStyle).Text(label).SemiBold();
-                table.Cell().Element(CellStyle).Text(value ?? "-");
-              }
+                table.ColumnsDefinition(c =>
+                {
+                  c.RelativeColumn();
+                  c.RelativeColumn();
+                });
 
-              AddRow("Nome:", pessoa.Nome);
-              AddRow("Data de Nascimento:", pessoa.DataNascimento?.ToString("dd/MM/yyyy"));
-              AddRow("CPF:", pessoa.Cpf);
-              AddRow("Telefone:", pessoa.Telefone);
-              AddRow("Email:", pessoa.Email);
-              AddRow("Cidade:", pessoa.Cidade);
+                void AddRow(string label, string value)
+                {
+                  table.Cell().Element(CellStyle).Text(label).Bold();
+                  table.Cell().Element(CellStyle).Text(value ?? "-");
+                }
 
-              static IContainer CellStyle(IContainer container) =>
-                  container.PaddingVertical(3).PaddingHorizontal(5);
+                AddRow("Nome:", pessoa.Nome);
+                AddRow("Data de Nascimento:", pessoa.DataNascimento?.ToString("dd/MM/yyyy"));
+                AddRow("CPF:", pessoa.Cpf);
+                AddRow("Telefone:", pessoa.Telefone);
+                AddRow("Email:", pessoa.Email);
+                AddRow("Cidade:", pessoa.Cidade);
+
+                static IContainer CellStyle(IContainer container) =>
+                    container.PaddingVertical(4).PaddingHorizontal(6);
+              });
             });
-
-            col.Item()
-   .PaddingVertical(10)
-   .Element(e => e.BorderBottom(1).BorderColor(Colors.Grey.Lighten2));
-
 
             // 🔹 Histórico
-            col.Item().PaddingVertical(15).Text("Histórico / Hábitos de Vida")
-                .Bold().FontSize(14).FontColor(Colors.Blue.Medium);
-
-            col.Item().Column(hist =>
+            AddSection("Histórico / Hábitos de Vida", container =>
             {
-              hist.Item().PaddingBottom(5).Text($"Queixa: {pessoa.Queixa}");
-              hist.Item().PaddingBottom(5).Text($"Diagnóstico Clínico: {pessoa.DiagnosticoClinico}");
-              hist.Item().PaddingBottom(5).Text($"Antecedentes Patológicos: {pessoa.AntecedentesPatologicos}");
-              hist.Item().PaddingBottom(5).Text($"Antecedentes Familiares: {pessoa.AntecedentesFamiliares}");
+              container.Column(hist =>
+              {
+                hist.Spacing(6); // mais espaço entre linhas
+                hist.Item().Text(text =>{text.Span("Queixa: ").Bold();text.Span(pessoa.Queixa ?? "-");});
 
-              hist.Item().PaddingBottom(5).Text($"Possui tratamento estético anterior? {(pessoa.PossuiTratamentoEsteticoAnterior ? "Sim" : "Não")}");
-              hist.Item().PaddingBottom(5).Text($"Toxina Botulínica: {(pessoa.ToxinixaBotulinica ? "Sim" : "Não")}");
-              hist.Item().PaddingBottom(5).Text($"Preenchedores: {(pessoa.Preenchedores ? "Sim" : "Não")}");
-              hist.Item().PaddingBottom(5).Text($"Outras: {pessoa.TratamentoEsteticoAnterior}");
+                hist.Item().Text(t => { t.Span("Diagnóstico Clínico: ").Bold(); t.Span(pessoa.DiagnosticoClinico ?? "-"); });
+                hist.Item().Text(t => { t.Span("Antecedentes Patológicos: ").Bold(); t.Span(pessoa.AntecedentesPatologicos ?? "-"); });
+                hist.Item().Text(t => { t.Span("Antecedentes Familiares: ").Bold(); t.Span(pessoa.AntecedentesFamiliares ?? "-"); });
+                hist.Item().Text(t => { t.Span("Possui tratamento estético anterior? ").Bold(); t.Span(pessoa.PossuiTratamentoEsteticoAnterior ? "Sim" : "Não"); });
 
-              hist.Item().PaddingBottom(5).Text($"Informações sobre a aplicação: {pessoa.InformacoesSobreAplicacao}");
-              hist.Item().PaddingBottom(5).Text($"Informações pós aplicação: {pessoa.InformacoesPosAplicacao}");
+                if (pessoa.PossuiTratamentoEsteticoAnterior)
+                {
+                  hist.Item().Text(t => { t.Span("Toxina Botulínica: ").Bold(); t.Span(pessoa.ToxinixaBotulinica ? "Sim" : "Não"); });
+                  hist.Item().Text(t => { t.Span("Preenchedores: ").Bold(); t.Span(pessoa.Preenchedores ? "Sim" : "Não"); });
+                  hist.Item().Text(t => { t.Span("Outras: ").Bold(); t.Span(pessoa.TratamentoEsteticoAnterior ?? "-"); });
+                  hist.Item().Text(t => { t.Span("Informações sobre a aplicação: ").Bold(); t.Span(pessoa.InformacoesSobreAplicacao ?? "-"); });
+                  hist.Item().Text(t => { t.Span("Informações pós aplicação: ").Bold(); t.Span(pessoa.InformacoesPosAplicacao ?? "-"); });
+                }
+
+              });
             });
-
-            col.Item()
-             .PaddingVertical(10)
-             .Element(e => e.BorderBottom(1).BorderColor(Colors.Grey.Lighten2));
-
 
             // 🔹 Medicamentos
-            col.Item().PaddingVertical(15).Text("Medicamentos")
-                .Bold().FontSize(14).FontColor(Colors.Blue.Medium);
-
-            col.Item().Column(meds =>
+            AddSection("Medicamentos", container =>
             {
-              meds.Item().PaddingBottom(5).Text($"Atualmente toma algum medicamento? {(pessoa.Medicamentos ? "Sim" : "Não")}");
-
-              if (pessoa.Medicamentos)
+              container.Column(meds =>
               {
-                if (pessoa.AntiInfamatorio) meds.Item().PaddingBottom(5).Text("• Anti-inflamatório");
-                if (pessoa.Analgesico) meds.Item().PaddingBottom(5).Text("• Analgésico");
-                if (pessoa.RelaxanteMuscular) meds.Item().PaddingBottom(5).Text("• Relaxante muscular");
-                if (pessoa.Antibiotico) meds.Item().PaddingBottom(5).Text("• Antibiótico");
-                if (pessoa.Aminoglicosideos) meds.Item().PaddingBottom(5).Text("• Aminoglicosídeos");
-                if (pessoa.Penicilaminas) meds.Item().PaddingBottom(5).Text("• Penicilaminas");
-                if (pessoa.Quinolonas) meds.Item().PaddingBottom(5).Text("• Quinolonas");
-                if (pessoa.RepositoresHormonais) meds.Item().PaddingBottom(5).Text("• Repositores hormonais");
-                if (pessoa.Succinilcolina) meds.Item().PaddingBottom(5).Text("• Succinilcolina");
-                if (pessoa.BloqueadorCanalCalcio) meds.Item().PaddingBottom(5).Text("• Bloqueadores de canais de cálcio");
+                meds.Spacing(6);
 
-                if (!string.IsNullOrWhiteSpace(pessoa.OutrosMedicamentos))
-                  meds.Item().PaddingBottom(5).Text($"• Outros: {pessoa.OutrosMedicamentos}");
-              }
+                // Pergunta principal
+                meds.Item().Text(t =>
+                {
+                  t.Span("Atualmente toma algum medicamento? ").Bold();
+                  t.Span(pessoa.Medicamentos ? "Sim" : "Não");
+                });
+
+                if (pessoa.Medicamentos)
+                {
+                  if (pessoa.AntiInfamatorio)meds.Item().Text(t => { t.Span("• ").Bold(); t.Span("Anti-inflamatório"); });
+                  if (pessoa.Analgesico)meds.Item().Text(t => { t.Span("• ").Bold(); t.Span("Analgésico"); });
+                  if (pessoa.RelaxanteMuscular)meds.Item().Text(t => { t.Span("• ").Bold(); t.Span("Relaxante muscular"); });
+                  if (pessoa.Antibiotico)meds.Item().Text(t => { t.Span("• ").Bold(); t.Span("Antibiótico"); });
+                  if (pessoa.Aminoglicosideos)meds.Item().Text(t => { t.Span("• ").Bold(); t.Span("Aminoglicosídeos"); });
+                  if (pessoa.Penicilaminas)meds.Item().Text(t => { t.Span("• ").Bold(); t.Span("Penicilaminas"); });
+                  if (pessoa.Quinolonas)meds.Item().Text(t => { t.Span("• ").Bold(); t.Span("Quinolonas"); });
+                  if (pessoa.RepositoresHormonais)meds.Item().Text(t => { t.Span("• ").Bold(); t.Span("Repositores hormonais"); });
+                  if (pessoa.Succinilcolina)meds.Item().Text(t => { t.Span("• ").Bold(); t.Span("Succinilcolina"); });
+                  if (pessoa.BloqueadorCanalCalcio)meds.Item().Text(t => { t.Span("• ").Bold(); t.Span("Bloqueadores de canais de cálcio"); });
+                  if (!string.IsNullOrWhiteSpace(pessoa.OutrosMedicamentos))meds.Item().Text(t => { t.Span("• Outros: ").Bold(); t.Span(pessoa.OutrosMedicamentos); });
+                }
+              });
             });
-
-            col.Item()
-   .PaddingVertical(10)
-   .Element(e => e.BorderBottom(1).BorderColor(Colors.Grey.Lighten2));
-
 
             // 🔹 Informações Complementares
-            col.Item().ShowEntire().Column(section =>
+            AddSection("Informações Complementares", container =>
             {
-              // 🔹 Título
-              section.Item().PaddingVertical(15)
-                  .Text("Informações Complementares")
-                  .Bold().FontSize(14).FontColor(Colors.Blue.Medium);
-
-              // 🔹 Conteúdo
-              section.Item().Column(info =>
+              container.Column(info =>
               {
-                info.Item().PaddingBottom(5).Text($"Costuma tomar sol? {(pessoa.TomaSol ? "Sim" : "Não")}");
-                info.Item().PaddingBottom(5).Text($"Pratica algum esporte? {(pessoa.PraticaEsporte ? "Sim" : "Não")}");
+                info.Spacing(6);
+
+                // Já existentes
+                info.Item().Text(t => { t.Span("Costuma tomar sol? ").Bold(); t.Span(pessoa.TomaSol ? "Sim" : "Não"); });
+                info.Item().Text(t => { t.Span("Pratica algum esporte? ").Bold(); t.Span(pessoa.PraticaEsporte ? "Sim" : "Não"); });
                 if (!string.IsNullOrWhiteSpace(pessoa.Esportes))
-                  info.Item().PaddingBottom(5).Text($"• Esportes: {pessoa.Esportes}");
+                  info.Item().Text(t => { t.Span("• Esportes: ").Bold(); t.Span(pessoa.Esportes); });
 
-                info.Item().PaddingBottom(5).Text($"Antecedentes alérgicos? {(pessoa.AntecedentesAlergicos ? "Sim" : "Não")}");
+                // 🔹 Novos campos
+                info.Item().Text(t => { t.Span("Antecedentes alérgicos? ").Bold(); t.Span(pessoa.AntecedentesAlergicos ? "Sim" : "Não"); });
                 if (!string.IsNullOrWhiteSpace(pessoa.Alergias))
-                  info.Item().PaddingBottom(5).Text($"• Alergias: {pessoa.Alergias}");
+                  info.Item().Text(t => { t.Span("• Alergias: ").Bold(); t.Span(pessoa.Alergias); });
 
-                info.Item().PaddingBottom(5).Text($"Stresse? {(pessoa.Stresse ? "Sim" : "Não")}");
-                info.Item().PaddingBottom(5).Text($"Ansiedade? {(pessoa.Ansiedade ? "Sim" : "Não")}");
+                info.Item().Text(t => { t.Span("Stresse? ").Bold(); t.Span(pessoa.Stresse ? "Sim" : "Não"); });
+                info.Item().Text(t => { t.Span("Ansiedade? ").Bold(); t.Span(pessoa.Ansiedade ? "Sim" : "Não"); });
                 if (!string.IsNullOrWhiteSpace(pessoa.OutrosDisturbiosEmocionais))
-                  info.Item().PaddingBottom(5).Text($"• Outros distúrbios emocionais: {pessoa.OutrosDisturbiosEmocionais}");
+                  info.Item().Text(t => { t.Span("Outros distúrbios emocionais: ").Bold(); t.Span(pessoa.OutrosDisturbiosEmocionais); });
 
-                info.Item().PaddingBottom(5).Text($"Já fez tratamento ortomolecular? {(pessoa.TratamentoOrtomolecular ? "Sim" : "Não")}");
+                info.Item().Text(t => { t.Span("Já fez tratamento ortomolecular? ").Bold(); t.Span(pessoa.TratamentoOrtomolecular ? "Sim" : "Não"); });
                 if (!string.IsNullOrWhiteSpace(pessoa.DescricaoTratamentosortomolecular))
-                  info.Item().PaddingBottom(5).Text($"• Tratamento ortomolecular: {pessoa.DescricaoTratamentosortomolecular}");
+                  info.Item().Text(t => { t.Span("• Tratamento ortomolecular: ").Bold(); t.Span(pessoa.DescricaoTratamentosortomolecular); });
 
-                info.Item().PaddingBottom(5).Text($"É fumante? {(pessoa.Fumante ? "Sim" : "Não")}");
-                info.Item().PaddingBottom(5).Text($"Cuidados estéticos? {(pessoa.CuidadosEstéticos ? "Sim" : "Não")}");
+                info.Item().Text(t => { t.Span("É fumante? ").Bold(); t.Span(pessoa.Fumante ? "Sim" : "Não"); });
+
+                info.Item().Text(t => { t.Span("Cuidados estéticos? ").Bold(); t.Span(pessoa.CuidadosEstéticos ? "Sim" : "Não"); });
                 if (!string.IsNullOrWhiteSpace(pessoa.DescricaoCuidadosEsteticos))
-                  info.Item().PaddingBottom(5).Text($"• Cuidados estéticos: {pessoa.DescricaoCuidadosEsteticos}");
+                  info.Item().Text(t => { t.Span("• Cuidados estéticos: ").Bold(); t.Span(pessoa.DescricaoCuidadosEsteticos); });
 
-                info.Item().PaddingBottom(5).Text($"Fez algum tratamento médico? {(pessoa.TratamentoMedico ? "Sim" : "Não")}");
+                info.Item().Text(t => { t.Span("Fez algum tratamento médico? ").Bold(); t.Span(pessoa.TratamentoMedico ? "Sim" : "Não"); });
                 if (!string.IsNullOrWhiteSpace(pessoa.DescricaoTratamentoMedico))
-                  info.Item().PaddingBottom(5).Text($"• Tratamento médico: {pessoa.DescricaoTratamentoMedico}");
+                  info.Item().Text(t => { t.Span("• Tratamento médico: ").Bold(); t.Span(pessoa.DescricaoTratamentoMedico); });
 
-                info.Item().PaddingBottom(5).Text($"Usa ou já usou ácido na pele? {(pessoa.UsoAcidoPele ? "Sim" : "Não")}");
+                info.Item().Text(t => { t.Span("Usa ou já usou ácido na pele? ").Bold(); t.Span(pessoa.UsoAcidoPele ? "Sim" : "Não"); });
                 if (!string.IsNullOrWhiteSpace(pessoa.QualAcido))
-                  info.Item().PaddingBottom(5).Text($"• Qual ácido: {pessoa.QualAcido}");
+                  info.Item().Text(t => { t.Span("• Qual ácido: ").Bold(); t.Span(pessoa.QualAcido); });
 
-                info.Item().PaddingBottom(5).Text($"É gestante ou está amamentando? {(pessoa.GestanteOuAmamentando ? "Sim" : "Não")}");
-                info.Item().PaddingBottom(5).Text($"Possui algum problema cardíaco? {(pessoa.ProblemaCardiaco ? "Sim" : "Não")}");
+                info.Item().Text(t => { t.Span("É gestante ou está amamentando? ").Bold(); t.Span(pessoa.GestanteOuAmamentando ? "Sim" : "Não"); });
+
+                info.Item().Text(t => { t.Span("Possui algum problema cardíaco? ").Bold(); t.Span(pessoa.ProblemaCardiaco ? "Sim" : "Não"); });
                 if (!string.IsNullOrWhiteSpace(pessoa.QualProblemaCardiaco))
-                  info.Item().PaddingBottom(5).Text($"• Problema cardíaco: {pessoa.QualProblemaCardiaco}");
+                  info.Item().Text(t => { t.Span("• Problema cardíaco: ").Bold(); t.Span(pessoa.QualProblemaCardiaco); });
 
-                info.Item().PaddingBottom(5).Text($"Possui intolerância à lactose? {(pessoa.IntoleranciaLactose ? "Sim" : "Não")}");
-                info.Item().PaddingBottom(5).Text($"Tem diabetes? {(pessoa.Diabetes ? "Sim" : "Não")}");
-                info.Item().PaddingBottom(5).Text($"Possui alergia a proteína do ovo (Albumina)? {(pessoa.AlergiaOvo ? "Sim" : "Não")}");
+                info.Item().Text(t => { t.Span("Possui intolerância à lactose? ").Bold(); t.Span(pessoa.IntoleranciaLactose ? "Sim" : "Não"); });
+                info.Item().Text(t => { t.Span("Tem diabetes? ").Bold(); t.Span(pessoa.Diabetes ? "Sim" : "Não"); });
+                info.Item().Text(t => { t.Span("Possui alergia a proteína do ovo (Albumina)? ").Bold(); t.Span(pessoa.AlergiaOvo ? "Sim" : "Não"); });
 
                 if (!string.IsNullOrWhiteSpace(pessoa.InformacoesComplementares))
-                  info.Item().PaddingBottom(5).Text($"Outras informações: {pessoa.InformacoesComplementares}");
+                  info.Item().Text(t => { t.Span("Outras informações: ").Bold(); t.Span(pessoa.InformacoesComplementares); });
               });
-
-              // 🔹 Linha divisória
-              section.Item()
-                  .PaddingVertical(10)
-                  .Element(e => e.BorderBottom(1).BorderColor(Colors.Grey.Lighten2));
             });
 
-
             // 🔹 Assinatura
-            col.Item().ShowEntire().Column(assin =>
+            AddSection("Assinatura do Cliente", container =>
             {
-              // 🔹 Título
-              assin.Item().PaddingTop(30)
-                  .Text("Assinatura do Cliente:")
-                  .Bold().FontSize(14);
-
-              // 🔹 Conteúdo
               if (pessoa.PdfAssinado != null && pessoa.PdfAssinado.Length > 0)
               {
-                assin.Item()
-                    .AlignCenter()
-                    .Width(200)
-                    .Image(pessoa.PdfAssinado)
-                    .FitWidth();
+                container.AlignCenter().Width(200).Image(pessoa.PdfAssinado).FitWidth();
               }
               else
               {
-                assin.Item().Text("Sem assinatura registrada.");
+                container.Text("Sem assinatura registrada.");
               }
             });
           });
