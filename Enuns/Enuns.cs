@@ -4,10 +4,9 @@ namespace Enuns
 {
   public enum TipoUsuario
   {
-    [Display(Name = "Admin")] Admin = 1,
-    [Display(Name = "Fisio Chefe")] FisioChefe = 2,
-    [Display(Name = "Fisio")] Fisio = 3,
-    [Display(Name = "Contratante")] Contratante = 4
+    [Display(Name = "Administrador")] Admin = 1,
+    [Display(Name = "Contratante")] Contratante = 2,
+    [Display(Name = "Outro")] Outro = 3
   }
 
 }

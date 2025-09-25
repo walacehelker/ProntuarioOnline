@@ -13,8 +13,7 @@
 
     <form method="post">
         <input type="hidden" asp-for="Usuario.Id" />
-        <div asp-validation-summary="All" class="alert alert-danger"></div>
-
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
         <div class="mb-3">
             <label asp-for="Usuario.NomeCompleto" class="form-label"></label>
@@ -28,26 +27,22 @@
             <span asp-validation-for="Usuario.Email" class="text-danger"></span>
         </div>
 
-        @* Campos de senha só aparecem no cadastro *@
-        @if (Model.Usuario.Id == null)
-        {
-            <div class="mb-3">
-                <label asp-for="Usuario.Senha" class="form-label"></label>
-                <input asp-for="Usuario.Senha" class="form-control" type="password" />
-                <span asp-validation-for="Usuario.Senha" class="text-danger"></span>
-            </div>
+        <div class="mb-3">
+            <label asp-for="Usuario.Senha" class="form-label"></label>
+            <input asp-for="Usuario.Senha" class="form-control" type="password" />
+            <span asp-validation-for="Usuario.Senha" class="text-danger"></span>
+        </div>
 
-            <div class="mb-3">
-                <label asp-for="Usuario.ConfirmarSenha" class="form-label"></label>
-                <input asp-for="Usuario.ConfirmarSenha" class="form-control" type="password" />
-                <span asp-validation-for="Usuario.ConfirmarSenha" class="text-danger"></span>
-            </div>
-        }
-
+        <div class="mb-3">
+            <label asp-for="Usuario.ConfirmarSenha" class="form-label"></label>
+            <input asp-for="Usuario.ConfirmarSenha" class="form-control" type="password" />
+            <span asp-validation-for="Usuario.ConfirmarSenha" class="text-danger"></span>
+        </div>
+        
         <div class="mb-3">
             <label asp-for="Usuario.TipoUsuario" class="form-label"></label>
             <select asp-for="Usuario.TipoUsuario" class="form-select"
-                    asp-items="Html.GetEnumSelectList<TipoUsuario>()">
+                    asp-items="Model.TiposUsuarios">
             </select>
             <span asp-validation-for="Usuario.TipoUsuario" class="text-danger"></span>
         </div>

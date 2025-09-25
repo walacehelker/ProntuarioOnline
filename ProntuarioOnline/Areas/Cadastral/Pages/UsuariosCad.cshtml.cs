@@ -1,10 +1,13 @@
-using Domain.Identity;
+﻿using Domain.Identity;
 using Enuns;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Models.Cadastro;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 [Authorize(Roles = "Admin")]
 public class UsuariosCadModel : PageModel
@@ -18,6 +21,7 @@ public class UsuariosCadModel : PageModel
 
   [BindProperty]
   public CadUsuarioVm Usuario { get; set; }
+  public List<SelectListItem> TiposUsuarios { get; set; } = new();
 
   public async Task OnGetAsync(Guid? id)
   {
@@ -39,57 +43,89 @@ public class UsuariosCadModel : PageModel
     {
       Usuario = new CadUsuarioVm();
     }
+
+    var usuarioLogado = await _userManager.GetUserAsync(User);
+
+    var tipos = Enum.GetValues(typeof(TipoUsuario))
+        .Cast<TipoUsuario>();
+
+    if (usuarioLogado.TipoUsuario != TipoUsuario.Admin)
+      tipos = tipos.Where(t => t != TipoUsuario.Admin);
+
+    TiposUsuarios = tipos
+        .Select(t => new SelectListItem
+        {
+          Value = ((int)t).ToString(),
+          Text = t.GetType()
+                    .GetMember(t.ToString())
+                    .First()
+                    .GetCustomAttribute<DisplayAttribute>()?.Name ?? t.ToString()
+        })
+        .ToList();
   }
+
 
   public async Task<IActionResult> OnPostAsync()
   {
     if (!ModelState.IsValid)
       return Page();
 
-    if (Usuario.Id == null)
+    ApplicationUser user;
+
+    if (Usuario.Id == Guid.Empty)
     {
-      // Novo usu�rio
-      var user = new ApplicationUser
+      // Novo usuário
+      user = new ApplicationUser
       {
-        Email = Usuario.Email,
         UserName = Usuario.Email,
+        Email = Usuario.Email,
         NomeCompleto = Usuario.NomeCompleto,
-        TipoUsuario = Usuario.TipoUsuario,
-        EmailConfirmed = true
+        TipoUsuario = Usuario.TipoUsuario
       };
 
       var result = await _userManager.CreateAsync(user, Usuario.Senha);
-
-      if (result.Succeeded)
+      if (!result.Succeeded)
       {
-        await _userManager.AddToRoleAsync(user, Usuario.TipoUsuario.ToString());
-        return RedirectToPage("Usuarios");
+        foreach (var error in result.Errors)
+          ModelState.AddModelError(string.Empty, error.Description);
+        return Page();
       }
-
-      foreach (var error in result.Errors)
-        ModelState.AddModelError(string.Empty, error.Description);
     }
     else
     {
-      // Edi��o
-      var user = await _userManager.FindByIdAsync(Usuario.Id.ToString());
-      if (user != null)
+      // Edição de usuário
+      user = await _userManager.FindByIdAsync(Usuario.Id.ToString());
+      if (user == null)
+        return NotFound();
+
+      user.NomeCompleto = Usuario.NomeCompleto;
+      user.Email = Usuario.Email;
+      user.UserName = Usuario.Email;
+      user.TipoUsuario = Usuario.TipoUsuario;
+
+      var result = await _userManager.UpdateAsync(user);
+      if (!result.Succeeded)
       {
-        user.NomeCompleto = Usuario.NomeCompleto;
-        user.Email = Usuario.Email;
-        user.UserName = Usuario.Email;
-        user.TipoUsuario = Usuario.TipoUsuario;
-
-        var result = await _userManager.UpdateAsync(user);
-
-        if (result.Succeeded)
-          return RedirectToPage("Usuarios");
-
         foreach (var error in result.Errors)
           ModelState.AddModelError(string.Empty, error.Description);
+        return Page();
+      }
+
+      // 🔹 Se senha foi informada, atualiza
+      if (!string.IsNullOrWhiteSpace(Usuario.Senha))
+      {
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        var passwordResult = await _userManager.ResetPasswordAsync(user, token, Usuario.Senha);
+
+        if (!passwordResult.Succeeded)
+        {
+          foreach (var error in passwordResult.Errors)
+            ModelState.AddModelError(string.Empty, error.Description);
+          return Page();
+        }
       }
     }
 
-    return Page();
+    return RedirectToPage("Usuarios");
   }
 }
