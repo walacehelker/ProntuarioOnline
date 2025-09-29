@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+ï»¿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.IdentityModel.Tokens;
 using QuestPDF.Fluent;
@@ -30,153 +30,132 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
       {
         container.Page(page =>
         {
-          page.Margin(30);
-          page.PageColor(Colors.Grey.Lighten5);
+          page.Margin(25); // margem um pouco menor
+          page.PageColor(Colors.White); // fundo branco
 
-          // Cabeçalho
+          // ðŸ”¹ CabeÃ§alho
           page.Header().Column(headerCol =>
           {
-            // Linha com informações e logo
             headerCol.Item().Row(row =>
             {
               row.RelativeColumn().Column(col =>
               {
-                col.Item().Text("Dr. Kamila Friedrich").Bold().FontSize(18);
-                col.Item().Text("Especialista em Harmonização Facial e Intercorrências");
-                col.Item().Text("Tel: (27) 99743-2716");
+                col.Item().Text("Dr. Kamila Friedrich").Bold().FontSize(15);
+                col.Item().Text("Especialista em HarmonizaÃ§Ã£o Facial e IntercorrÃªncias").FontSize(11);
+                col.Item().Text("Tel: (27) 99743-2716").FontSize(11);
               });
 
-              row.ConstantColumn(80).Height(80)
+              row.ConstantColumn(60).Height(60)
                  .Background(Colors.Grey.Lighten3)
-                 .AlignCenter().AlignMiddle().Text("LOGO");
+                 .AlignCenter().AlignMiddle().Text("LOGO").FontSize(9);
             });
 
-            // Logo abaixo, o título do termo
-            headerCol.Item().PaddingTop(10).Text("Termo de Consentimento")
-                .Bold().FontSize(20).AlignCenter();
+            headerCol.Item().PaddingTop(5).Text("Termo de Consentimento")
+                .Bold().FontSize(17).AlignCenter();
           });
 
-
-          // Conteúdo
+          // ðŸ”¹ ConteÃºdo
           page.Content().Column(col =>
           {
             void AddSection(string titulo, Action<IContainer> content)
             {
-              col.Item().PaddingBottom(18).Element(section =>
+              col.Item().PaddingBottom(10).Column(c =>
               {
-                section
-                    .Background("#FFDAD1")
-                    .Border(1).BorderColor(Colors.Grey.Lighten2)
-                    .Padding(16)
-                    .Column(c =>
-                    {
-                      c.Spacing(10);
-                      c.Item().Text(titulo).Bold().FontSize(14).FontColor(Colors.Blue.Medium);
-                      c.Item().Element(content);
-                    });
+                c.Spacing(3);
+                c.Item().Text(titulo).Bold().FontSize(12);
+                c.Item().Element(content);
               });
             }
 
-            AddSection("Toxina Botulínica", c =>
+            AddSection("Toxina BotulÃ­nica", c =>
             {
               c.Column(col =>
               {
-                col.Item().Text("Declaro estar ciente e concordo em realizar o procedimento de aplicação de toxina botulínica conforme orientação e esclarecimentos prestados pelo(a) profissional responsável.")
-                    .FontSize(12);
+                col.Item().Text("Declaro estar ciente e concordo em realizar o procedimento de aplicaÃ§Ã£o de toxina botulÃ­nica conforme orientaÃ§Ã£o e esclarecimentos prestados pelo(a) profissional responsÃ¡vel.")
+                    .FontSize(10);
 
-                col.Item().Text("Declaro, também, que recebi informações adequadas sobre a aplicação da toxina botulínica e suas possíveis complicações, riscos e benefícios.")
-                    .FontSize(12);
+                col.Item().Text("Declaro, tambÃ©m, que recebi informaÃ§Ãµes adequadas sobre a aplicaÃ§Ã£o da toxina botulÃ­nica e suas possÃ­veis complicaÃ§Ãµes, riscos e benefÃ­cios.")
+                    .FontSize(10);
 
-                col.Item().Text("Declaro que fui informado de que a fraqueza muscular começa após 24 horas da aplicação, clinicamente sendo observada entre 2 a 7 dias da aplicação, completando o efeito máximo em 15 dias. Estou ciente de que a duração do efeito é de 2 a 6 meses, com média de 4 meses.")
-                    .FontSize(12).Bold();
+                col.Item().Text("Declaro que fui informado de que a fraqueza muscular comeÃ§a apÃ³s 24 horas da aplicaÃ§Ã£o, clinicamente sendo observada entre 2 a 7 dias da aplicaÃ§Ã£o, completando o efeito mÃ¡ximo em 15 dias. Estou ciente de que a duraÃ§Ã£o do efeito Ã© de 2 a 6 meses, com mÃ©dia de 4 meses.")
+                    .FontSize(10).Bold();
 
-                col.Item().Text("Entendo que a toxina botulínica é um medicamento injetável usado para tratar determinadas condições médicas, tais como rugas faciais, distúrbios neurológicos e hiperidrose, entre outras.")
-                    .FontSize(12);
+                col.Item().Text("Entendo que a toxina botulÃ­nica Ã© um medicamento injetÃ¡vel usado para tratar determinadas condiÃ§Ãµes mÃ©dicas, tais como rugas faciais, distÃºrbios neurolÃ³gicos e hiperidrose, entre outras.")
+                    .FontSize(10);
               });
             });
 
-            AddSection("Ao assinar esse termo reconheço e concordo com os seguintes pontos:", c =>
+            AddSection("Ao assinar esse termo reconheÃ§o e concordo com os seguintes pontos:", c =>
             {
               c.Column(col =>
               {
-                col.Item().Text(text =>
+                col.Spacing(8); // espaÃ§o maior entre os itens
+
+                col.Item().Text(t =>
                 {
-                  text.Span("Natureza do procedimento: ").Bold();
-                  text.Span("Compreendo que a aplicação de toxina botulínica será feita através de injeções nas áreas específicadas acordadas com o(a) profissional responsável, com o objetivo de melhorar ou tratar a condição mencionada.").FontSize(12);
+                  t.Span("Natureza do procedimento: ").Bold();
+                  t.Span("Compreendo que a aplicaÃ§Ã£o de toxina botulÃ­nica serÃ¡ feita atravÃ©s de injeÃ§Ãµes nas Ã¡reas especÃ­ficadas acordadas com o(a) profissional responsÃ¡vel, com o objetivo de melhorar ou tratar a condiÃ§Ã£o mencionada.").FontSize(10);
                 });
 
-                col.Item().Text(text =>
+                col.Item().Text(t =>
                 {
-                  text.Span("Benefícios e resultado esperados: ").Bold();
-                  text.Span("Fui informado de que os benefícios da aplicação de toxina botulínica podem incluir a redução das rugas e linhas de expressão, melhora dos sintomas de distúrbios neurológicos, redução da sudorese excessiva entre outros tratamentos discutidos com o(a) profissional. No entanto, entendo que os resultados podem variar de pessoa para pessoa, e não há garantia de resultados completos ou permanentes.").FontSize(12);
+                  t.Span("BenefÃ­cios e resultado esperados: ").Bold();
+                  t.Span("Fui informado de que os benefÃ­cios da aplicaÃ§Ã£o de toxina botulÃ­nica podem incluir a reduÃ§Ã£o das rugas e linhas de expressÃ£o, melhora dos sintomas de distÃºrbios neurolÃ³gicos, reduÃ§Ã£o da sudorese excessiva entre outros tratamentos discutidos com o(a) profissional. No entanto, entendo que os resultados podem variar de pessoa para pessoa, e nÃ£o hÃ¡ garantia de resultados completos ou permanentes.").FontSize(10);
                 });
 
-                col.Item().Text(text =>
+                col.Item().Text(t =>
                 {
-                  text.Span("Reconheço que existem fatores que interferem na duração da toxina, como: ").Bold();
-                  text.Span("A prática de atividade física, ser uma pessoa muito expressiva, uso de corticóides e antibióticos, tabagismo e exposição solar.").FontSize(12);
+                  t.Span("ReconheÃ§o que existem fatores que interferem na duraÃ§Ã£o da toxina, como: ").Bold();
+                  t.Span("A prÃ¡tica de atividade fÃ­sica, ser uma pessoa muito expressiva, uso de corticÃ³ides e antibiÃ³ticos, tabagismo e exposiÃ§Ã£o solar.").FontSize(10);
                 });
 
-                col.Item().Text(text =>
+                col.Item().Text(t =>
                 {
-                  text.Span("Esclarecimentos: ").Bold();
-                  text.Span("Recebi a oportunidade de fazer perguntas sobre o procedimento, seus riscos e benefícios e todas as minhas dúvidas foram respondidas satisfatoriamente.").FontSize(12);
+                  t.Span("Esclarecimentos: ").Bold();
+                  t.Span("Recebi a oportunidade de fazer perguntas sobre o procedimento, seus riscos e benefÃ­cios e todas as minhas dÃºvidas foram respondidas satisfatoriamente.").FontSize(10);
                 });
               });
             });
 
-            AddSection("Riscos e complicações", c =>
+            AddSection("Riscos e complicaÃ§Ãµes", c =>
             {
               c.Column(col =>
               {
-                col.Item().Text("Fui devidamente informado sobre os riscos associados à aplicação de toxina botulínica, que pode incluir, mas não se limitam a:")
-                    .FontSize(12);
-
-                col.Item().Text("· Reações alérgicas, como coceira, vermelhidão, inchaço ou erupções cutâneas;")
-                    .FontSize(12);
-
-                col.Item().Text("· Hematomas, dor ou desconforto no local da injeção;")
-                    .FontSize(12);
-
-                col.Item().Text("· Fraqueza muscular temporária na área tratada;")
-                    .FontSize(12);
-
-                col.Item().Text("· Assimetria facial ou alterações na expressão facial;")
-                    .FontSize(12);
-
-                col.Item().Text("· Infecção no local da injeção;")
-                    .FontSize(12);
-
-                col.Item().Text("· Outras complicações possíveis que me foram explicadas pelo(a) profissional;")
-                    .FontSize(12);
+                col.Item().Text("Fui devidamente informado sobre os riscos associados Ã  aplicaÃ§Ã£o de toxina botulÃ­nica, que pode incluir, mas nÃ£o se limitam a:").FontSize(10);
+                col.Item().Text("Â· ReaÃ§Ãµes alÃ©rgicas, como coceira, vermelhidÃ£o, inchaÃ§o ou erupÃ§Ãµes cutÃ¢neas;").FontSize(10);
+                col.Item().Text("Â· Hematomas, dor ou desconforto no local da injeÃ§Ã£o;").FontSize(10);
+                col.Item().Text("Â· Fraqueza muscular temporÃ¡ria na Ã¡rea tratada;").FontSize(10);
+                col.Item().Text("Â· Assimetria facial ou alteraÃ§Ãµes na expressÃ£o facial;").FontSize(10);
+                col.Item().Text("Â· InfecÃ§Ã£o no local da injeÃ§Ã£o;").FontSize(10);
+                col.Item().Text("Â· Outras complicaÃ§Ãµes possÃ­veis que me foram explicadas pelo(a) profissional;").FontSize(10);
               });
             });
 
-            AddSection("Observações", c =>
+            AddSection("ObservaÃ§Ãµes", c =>
             {
-              c.Text(string.IsNullOrWhiteSpace(dados.Observacoes) ? "Nenhuma" : dados.Observacoes);
+              c.Text(string.IsNullOrWhiteSpace(dados.Observacoes) ? "Nenhuma" : dados.Observacoes).FontSize(10);
             });
 
-            AddSection("Aceita Divulgação", c =>
+            AddSection("Aceita DivulgaÃ§Ã£o", c =>
             {
-              c.Text(dados.AceitaDivulgacao == true ? "Sim" : "Não");
+              c.Text(dados.AceitaDivulgacao == true ? "Sim" : "NÃ£o").FontSize(10);
             });
 
             AddSection("Assinatura do Cliente", container =>
             {
               if (dados.PdfAssinado != null && dados.PdfAssinado.Length > 0)
               {
-                container.AlignCenter().Width(200).Image(dados.PdfAssinado).FitWidth();
+                container.AlignCenter().Width(150).Image(dados.PdfAssinado).FitWidth();
               }
               else
               {
-                container.Text("Sem assinatura registrada.");
+                container.Text("Sem assinatura registrada.").FontSize(10);
               }
             });
           });
 
-          // Rodapé
-          page.Footer().AlignCenter().Text($"Gerado em {DateTime.Now:dd/MM/yyyy HH:mm}");
+          // ðŸ”¹ RodapÃ©
+          page.Footer().AlignCenter().Text($"Gerado em {DateTime.Now:dd/MM/yyyy HH:mm}").FontSize(9);
         });
       });
 
