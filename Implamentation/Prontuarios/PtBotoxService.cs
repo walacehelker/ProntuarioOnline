@@ -34,7 +34,8 @@ namespace Implementations.Prontuarios
           DataDiluicao = c.DataDiluicao,
           VolumeDiluicao = c.VolumeDiluicao,
           NumeroLote = c.NumeroLote,
-          DataValidade = c.DataValidade
+          DataValidade = c.DataValidade,
+          PdfAssinado = c.PdfAssinado,
         }).ToListAsync();
 
       return entities;
@@ -90,7 +91,8 @@ namespace Implementations.Prontuarios
         MassesterEsquerdo = retorno.MassesterEsquerdo,
         TotalUtilizado = retorno.TotalUtilizado,
         Observacoes = retorno.Observacoes,
-        AceitaDivulgacao = retorno.AceitaDivulgacao
+        AceitaDivulgacao = retorno.AceitaDivulgacao,
+        PdfAssinado = retorno.PdfAssinado,
       };
 
       return vm;

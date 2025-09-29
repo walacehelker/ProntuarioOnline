@@ -1,0 +1,187 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.IdentityModel.Tokens;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using Services.Prontuarios;
+using System.Threading.Tasks;
+
+namespace ProntuarioOnline.Areas.Prontuarios.Pages
+{
+  public class GerarTermoBotoxPdfModel : PageModel
+  {
+    private readonly IPtBotoxCadService _ptBotoxCadService;
+
+    public GerarTermoBotoxPdfModel(IPtBotoxCadService ptBotoxCadService)
+    {
+      _ptBotoxCadService = ptBotoxCadService;
+    }
+
+    [BindProperty(SupportsGet = true)]
+    public Guid Id { get; set; }
+
+    public async Task<IActionResult> OnGetAsync(Guid id)
+    {
+      var dados = await _ptBotoxCadService.GetByIdAsync(id);
+      if (dados == null) return NotFound();
+
+      var pdf = Document.Create(container =>
+      {
+        container.Page(page =>
+        {
+          page.Margin(30);
+          page.PageColor(Colors.Grey.Lighten5);
+
+          // Cabeçalho
+          page.Header().Column(headerCol =>
+          {
+            // Linha com informações e logo
+            headerCol.Item().Row(row =>
+            {
+              row.RelativeColumn().Column(col =>
+              {
+                col.Item().Text("Dr. Kamila Friedrich").Bold().FontSize(18);
+                col.Item().Text("Especialista em Harmonização Facial e Intercorrências");
+                col.Item().Text("Tel: (27) 99743-2716");
+              });
+
+              row.ConstantColumn(80).Height(80)
+                 .Background(Colors.Grey.Lighten3)
+                 .AlignCenter().AlignMiddle().Text("LOGO");
+            });
+
+            // Logo abaixo, o título do termo
+            headerCol.Item().PaddingTop(10).Text("Termo de Consentimento")
+                .Bold().FontSize(20).AlignCenter();
+          });
+
+
+          // Conteúdo
+          page.Content().Column(col =>
+          {
+            void AddSection(string titulo, Action<IContainer> content)
+            {
+              col.Item().PaddingBottom(18).Element(section =>
+              {
+                section
+                    .Background("#FFDAD1")
+                    .Border(1).BorderColor(Colors.Grey.Lighten2)
+                    .Padding(16)
+                    .Column(c =>
+                    {
+                      c.Spacing(10);
+                      c.Item().Text(titulo).Bold().FontSize(14).FontColor(Colors.Blue.Medium);
+                      c.Item().Element(content);
+                    });
+              });
+            }
+
+            AddSection("Toxina Botulínica", c =>
+            {
+              c.Column(col =>
+              {
+                col.Item().Text("Declaro estar ciente e concordo em realizar o procedimento de aplicação de toxina botulínica conforme orientação e esclarecimentos prestados pelo(a) profissional responsável.")
+                    .FontSize(12);
+
+                col.Item().Text("Declaro, também, que recebi informações adequadas sobre a aplicação da toxina botulínica e suas possíveis complicações, riscos e benefícios.")
+                    .FontSize(12);
+
+                col.Item().Text("Declaro que fui informado de que a fraqueza muscular começa após 24 horas da aplicação, clinicamente sendo observada entre 2 a 7 dias da aplicação, completando o efeito máximo em 15 dias. Estou ciente de que a duração do efeito é de 2 a 6 meses, com média de 4 meses.")
+                    .FontSize(12).Bold();
+
+                col.Item().Text("Entendo que a toxina botulínica é um medicamento injetável usado para tratar determinadas condições médicas, tais como rugas faciais, distúrbios neurológicos e hiperidrose, entre outras.")
+                    .FontSize(12);
+              });
+            });
+
+            AddSection("Ao assinar esse termo reconheço e concordo com os seguintes pontos:", c =>
+            {
+              c.Column(col =>
+              {
+                col.Item().Text(text =>
+                {
+                  text.Span("Natureza do procedimento: ").Bold();
+                  text.Span("Compreendo que a aplicação de toxina botulínica será feita através de injeções nas áreas específicadas acordadas com o(a) profissional responsável, com o objetivo de melhorar ou tratar a condição mencionada.").FontSize(12);
+                });
+
+                col.Item().Text(text =>
+                {
+                  text.Span("Benefícios e resultado esperados: ").Bold();
+                  text.Span("Fui informado de que os benefícios da aplicação de toxina botulínica podem incluir a redução das rugas e linhas de expressão, melhora dos sintomas de distúrbios neurológicos, redução da sudorese excessiva entre outros tratamentos discutidos com o(a) profissional. No entanto, entendo que os resultados podem variar de pessoa para pessoa, e não há garantia de resultados completos ou permanentes.").FontSize(12);
+                });
+
+                col.Item().Text(text =>
+                {
+                  text.Span("Reconheço que existem fatores que interferem na duração da toxina, como: ").Bold();
+                  text.Span("A prática de atividade física, ser uma pessoa muito expressiva, uso de corticóides e antibióticos, tabagismo e exposição solar.").FontSize(12);
+                });
+
+                col.Item().Text(text =>
+                {
+                  text.Span("Esclarecimentos: ").Bold();
+                  text.Span("Recebi a oportunidade de fazer perguntas sobre o procedimento, seus riscos e benefícios e todas as minhas dúvidas foram respondidas satisfatoriamente.").FontSize(12);
+                });
+              });
+            });
+
+            AddSection("Riscos e complicações", c =>
+            {
+              c.Column(col =>
+              {
+                col.Item().Text("Fui devidamente informado sobre os riscos associados à aplicação de toxina botulínica, que pode incluir, mas não se limitam a:")
+                    .FontSize(12);
+
+                col.Item().Text("· Reações alérgicas, como coceira, vermelhidão, inchaço ou erupções cutâneas;")
+                    .FontSize(12);
+
+                col.Item().Text("· Hematomas, dor ou desconforto no local da injeção;")
+                    .FontSize(12);
+
+                col.Item().Text("· Fraqueza muscular temporária na área tratada;")
+                    .FontSize(12);
+
+                col.Item().Text("· Assimetria facial ou alterações na expressão facial;")
+                    .FontSize(12);
+
+                col.Item().Text("· Infecção no local da injeção;")
+                    .FontSize(12);
+
+                col.Item().Text("· Outras complicações possíveis que me foram explicadas pelo(a) profissional;")
+                    .FontSize(12);
+              });
+            });
+
+            AddSection("Observações", c =>
+            {
+              c.Text(string.IsNullOrWhiteSpace(dados.Observacoes) ? "Nenhuma" : dados.Observacoes);
+            });
+
+            AddSection("Aceita Divulgação", c =>
+            {
+              c.Text(dados.AceitaDivulgacao == true ? "Sim" : "Não");
+            });
+
+            AddSection("Assinatura do Cliente", container =>
+            {
+              if (dados.PdfAssinado != null && dados.PdfAssinado.Length > 0)
+              {
+                container.AlignCenter().Width(200).Image(dados.PdfAssinado).FitWidth();
+              }
+              else
+              {
+                container.Text("Sem assinatura registrada.");
+              }
+            });
+          });
+
+          // Rodapé
+          page.Footer().AlignCenter().Text($"Gerado em {DateTime.Now:dd/MM/yyyy HH:mm}");
+        });
+      });
+
+      var bytes = pdf.GeneratePdf();
+      return File(bytes, "application/pdf", "TermoBotox.pdf");
+    }
+  }
+}
