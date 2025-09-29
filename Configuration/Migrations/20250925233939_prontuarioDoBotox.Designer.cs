@@ -4,6 +4,7 @@ using Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Configuration.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250925233939_prontuarioDoBotox")]
+    partial class prontuarioDoBotox
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -460,12 +463,6 @@ namespace Configuration.Migrations
                         .HasColumnType("varchar(50)")
                         .HasColumnName("id");
 
-                    b.Property<bool?>("AceitaDivulgacao")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("aceita_divulgacao");
-
                     b.Property<decimal?>("CorrugadorDireito")
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("corrugador_direito");
@@ -568,10 +565,6 @@ namespace Configuration.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("numero_lote");
 
-                    b.Property<string>("Observacoes")
-                        .HasColumnType("varchar(max)")
-                        .HasColumnName("observacoes");
-
                     b.Property<decimal?>("OrbicularBoca")
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("orbicular_boca");
@@ -583,10 +576,6 @@ namespace Configuration.Migrations
                     b.Property<decimal?>("OrbicularOlhoEsquerdo")
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("orbicular_olho_esquerdo");
-
-                    b.Property<byte[]>("PdfAssinado")
-                        .HasColumnType("varbinary(max)")
-                        .HasColumnName("pdf_assinado");
 
                     b.Property<string>("PessoaId")
                         .IsRequired()

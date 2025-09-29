@@ -15,6 +15,5 @@ namespace Implementations.Cadastro
     {
       _mapper = mapper;
     }
-
   }
 }

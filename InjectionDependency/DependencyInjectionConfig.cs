@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Services.Cadastro;
 using Implementations.Cadastro;
+using Services.Prontuarios;
+using Implementations.Prontuarios;
 
 namespace InjectionDependency
 {
@@ -11,6 +13,8 @@ namespace InjectionDependency
       services.AddScoped<IPessoaService, PessoaService>();
       services.AddScoped<IPessoaCadService, PessoaCadService>();
       services.AddScoped<IPessoaHistoricoService, PessoaHistoricoService>();
+      services.AddScoped<IPtBotoxService, PtBotoxService>();
+      services.AddScoped<IPtBotoxCadService, PtBotoxCadService>();
 
       return services;
     }

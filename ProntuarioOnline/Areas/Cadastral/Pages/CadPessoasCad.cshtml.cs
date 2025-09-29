@@ -21,21 +21,19 @@ namespace ProntuarioOnline.Areas.Cadastral.Pages.CadPessoas
     {
       Logger.LogInformation($"OnPost executado em {GetType().Name}");
 
-      if (!ModelState.IsValid)
+      if (!TryValidateModel(EntityVm))
       {
         Items = new List<CadPessoaCadVm>(await _dataService.GetAllAsync());
         return Page();
       }
 
-      // Se o Id veio preenchido, faz update
-      if (Id.HasValue && Id.Value != Guid.Empty)
+      if (EntityVm.Id != Guid.Empty)
       {
-        await _dataService.UpdatePessoaComHistoricoAsync(Id.Value, Item);
+        await _dataService.UpdatePessoaComHistoricoAsync(EntityVm.Id, EntityVm);
       }
       else
       {
-        // Caso contrário, cria novo
-        await _dataService.CreatePessoaComHistoricoAsync(Item);
+        await _dataService.CreatePessoaComHistoricoAsync(EntityVm);
       }
 
       return RedirectToPage($"/{PageName}", new { area = AreaName });

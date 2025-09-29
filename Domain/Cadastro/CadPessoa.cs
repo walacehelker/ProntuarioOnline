@@ -1,4 +1,5 @@
 ﻿using Domain.Base;
+using Domain.Prontuarios;
 
 namespace Domain.Cadastro
 {
@@ -18,5 +19,6 @@ namespace Domain.Cadastro
     public string Email { get; set; }
     public byte[] PdfAssinado { get; set; }
     public virtual List<CadPessoaHistorico> CadPessoaHistoricoList { get; set; }
+    public virtual List<PtBotox> PtBotoxList { get; set; }
   }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Models.Base;
 using Services.Base;
 
 namespace WebApp.Pages.Base
@@ -17,7 +18,7 @@ namespace WebApp.Pages.Base
     public Guid? Id { get; set; }
 
     [BindProperty]
-    public TVm Item { get; set; }
+    public TVm EntityVm { get; set; }
 
     public IList<TVm> Items { get; set; }
 
@@ -42,12 +43,12 @@ namespace WebApp.Pages.Base
           return NotFound();
         }
 
-        Item = itemEncontrado;
+        EntityVm = itemEncontrado;
       }
       else
       {
         // Se não houver ID, não carrega nada
-        Item = new TVm();
+        EntityVm = new TVm();
       }
 
       return Page();
@@ -57,21 +58,23 @@ namespace WebApp.Pages.Base
     {
       Logger.LogInformation($"OnPost executado em {GetType().Name}");
 
-      if (!ModelState.IsValid)
+      if (!TryValidateModel(EntityVm))
       {
         Items = new List<TVm>(await Service.GetAllAsync());
         return Page();
       }
 
-      if (Id.HasValue && Id.Value != Guid.Empty)
+      var entityExist = (EntityVm is BaseVmEntity baseEntity && baseEntity.Id != Guid.Empty)
+          ? await Service.GetByIdAsync(baseEntity.Id)
+          : null;
+
+      if (entityExist == null)
       {
-        // Edição
-        await Service.UpdateAsync(Item);
+        await Service.CreateAsync(EntityVm);
       }
       else
       {
-        // Novo cadastro
-        await Service.CreateAsync(Item);
+        await Service.UpdateAsync(EntityVm);
       }
 
       if (!string.IsNullOrWhiteSpace(PageName))
@@ -82,7 +85,7 @@ namespace WebApp.Pages.Base
           return RedirectToPage($"/{PageName}");
       }
 
-      return RedirectToPage(); // recarrega a mesma página
+      return RedirectToPage();
     }
   }
 }
