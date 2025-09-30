@@ -3,275 +3,294 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    Layout = "_Layout";
+  Layout = "_Layout";
 }
 
 <div class="container mt-4">
-    <h4>Cadastro de Procedimento Botox</h4>
+  <h4>Cadastro de Procedimento Botox</h4>
+  <hr />
+
+  <form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="EntityVm.Id" />
+    <!-- Pessoa -->
+    <div class="mb-3">
+      <label asp-for="EntityVm.PessoaId" class="form-label"></label>
+      <select asp-for="EntityVm.PessoaId" class="form-select" asp-items="Model.PessoasSelectList">
+        <option value="">-- Selecione uma pessoa --</option>
+      </select>
+      <span asp-validation-for="EntityVm.PessoaId" class="text-danger"></span>
+    </div>
+
+    <!-- Dados do procedimento -->
+    <div class="mb-3">
+      <label asp-for="EntityVm.DataProcedimento" class="form-label"></label>
+      <input asp-for="EntityVm.DataProcedimento" class="form-control date-mask" type="text"
+             value="@(Model.EntityVm?.DataProcedimento?.ToString("dd/MM/yyyy"))" />
+      <span asp-validation-for="EntityVm.DataProcedimento" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+      <label asp-for="EntityVm.MarcaProduto" class="form-label"></label>
+      <input asp-for="EntityVm.MarcaProduto" class="form-control" />
+      <span asp-validation-for="EntityVm.MarcaProduto" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+      <label asp-for="EntityVm.DataDiluicao" class="form-label"></label>
+      <input asp-for="EntityVm.DataDiluicao" class="form-control date-mask" type="text" value="@(Model.EntityVm?.DataDiluicao?.ToString("dd/MM/yyyy"))" />
+      <span asp-validation-for="EntityVm.DataDiluicao" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+      <label asp-for="EntityVm.VolumeDiluicao" class="form-label"></label>
+      <input asp-for="EntityVm.VolumeDiluicao" class="form-control" type="number" step="any" />
+      <span asp-validation-for="EntityVm.VolumeDiluicao" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+      <label asp-for="EntityVm.NumeroLote" class="form-label"></label>
+      <input asp-for="EntityVm.NumeroLote" class="form-control" />
+      <span asp-validation-for="EntityVm.NumeroLote" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+      <label asp-for="EntityVm.DataValidade" class="form-label"></label>
+      <input asp-for="EntityVm.DataValidade" class="form-control date-mask" type="text" value="@(Model.EntityVm?.DataValidade?.ToString("dd/MM/yyyy"))" />
+      <span asp-validation-for="EntityVm.DataValidade" class="text-danger"></span>
+    </div>
+
+    <!-- Pontos de aplicação -->
+    <h5 class="mt-4">Pontos de Aplicação</h5>
     <hr />
 
-    <form method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="EntityVm.Id" />
-        <!-- Pessoa -->
-        <div class="mb-3">
-            <label asp-for="EntityVm.PessoaId" class="form-label"></label>
-            <select asp-for="EntityVm.PessoaId" class="form-select" asp-items="Model.PessoasSelectList">
-                <option value="">-- Selecione uma pessoa --</option>
-            </select>
-            <span asp-validation-for="EntityVm.PessoaId" class="text-danger"></span>
-        </div>
+    @* Renderiza todos os campos numéricos *@
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label asp-for="EntityVm.Frontal" class="form-label"></label>
+        <input asp-for="EntityVm.Frontal" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.Frontal" class="text-danger"></span>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label asp-for="EntityVm.Procero" class="form-label"></label>
+        <input asp-for="EntityVm.Procero" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.Procero" class="text-danger"></span>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label asp-for="EntityVm.Nasal" class="form-label"></label>
+        <input asp-for="EntityVm.Nasal" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.Nasal" class="text-danger"></span>
+      </div>
+    </div>
 
-        <!-- Dados do procedimento -->
-        <div class="mb-3">
-            <label asp-for="EntityVm.DataProcedimento" class="form-label"></label>
-            <input asp-for="EntityVm.DataProcedimento" class="form-control date-mask" type="text"
-                   value="@(Model.EntityVm?.DataProcedimento?.ToString("dd/MM/yyyy"))" />
-            <span asp-validation-for="EntityVm.DataProcedimento" class="text-danger"></span>
-        </div>
+    @* Continue no mesmo padrão para os demais *@
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label asp-for="EntityVm.DepressorSeptoNasal" class="form-label"></label>
+        <input asp-for="EntityVm.DepressorSeptoNasal" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.DepressorSeptoNasal" class="text-danger"></span>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label asp-for="EntityVm.OrbicularBoca" class="form-label"></label>
+        <input asp-for="EntityVm.OrbicularBoca" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.OrbicularBoca" class="text-danger"></span>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label asp-for="EntityVm.DepressorAnguloBocaDireito" class="form-label"></label>
+        <input asp-for="EntityVm.DepressorAnguloBocaDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.DepressorAnguloBocaDireito" class="text-danger"></span>
+      </div>
+    </div>
 
-        <div class="mb-3">
-            <label asp-for="EntityVm.MarcaProduto" class="form-label"></label>
-            <input asp-for="EntityVm.MarcaProduto" class="form-control" />
-            <span asp-validation-for="EntityVm.MarcaProduto" class="text-danger"></span>
-        </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label asp-for="EntityVm.DepressorAnguloBocaEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.DepressorAnguloBocaEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.DepressorAnguloBocaEsquerdo" class="text-danger"></span>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label asp-for="EntityVm.CorrugadorDireito" class="form-label"></label>
+        <input asp-for="EntityVm.CorrugadorDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.CorrugadorDireito" class="text-danger"></span>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label asp-for="EntityVm.CorrugadorEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.CorrugadorEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.CorrugadorEsquerdo" class="text-danger"></span>
+      </div>
+    </div>
 
-        <div class="mb-3">
-            <label asp-for="EntityVm.DataDiluicao" class="form-label"></label>
-            <input asp-for="EntityVm.DataDiluicao" class="form-control date-mask" type="text" value="@(Model.EntityVm?.DataDiluicao?.ToString("dd/MM/yyyy"))" />
-            <span asp-validation-for="EntityVm.DataDiluicao" class="text-danger"></span>
-        </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.LevantadorLabioSuperiorDireito" class="form-label"></label>
+        <input asp-for="EntityVm.LevantadorLabioSuperiorDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.LevantadorLabioSuperiorDireito" class="text-danger"></span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.LevantadorLabioSuperiorEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.LevantadorLabioSuperiorEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.LevantadorLabioSuperiorEsquerdo" class="text-danger"></span>
+      </div>
+    </div>
 
-        <div class="mb-3">
-            <label asp-for="EntityVm.VolumeDiluicao" class="form-label"></label>
-            <input asp-for="EntityVm.VolumeDiluicao" class="form-control" type="number" step="any" />
-            <span asp-validation-for="EntityVm.VolumeDiluicao" class="text-danger"></span>
-        </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.LLabioSupAsaNarizDireito" class="form-label"></label>
+        <input asp-for="EntityVm.LLabioSupAsaNarizDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.LLabioSupAsaNarizDireito" class="text-danger"></span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.LLabioSupAsaNarizEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.LLabioSupAsaNarizEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.LLabioSupAsaNarizEsquerdo" class="text-danger"></span>
+      </div>
+    </div>
 
-        <div class="mb-3">
-            <label asp-for="EntityVm.NumeroLote" class="form-label"></label>
-            <input asp-for="EntityVm.NumeroLote" class="form-control" />
-            <span asp-validation-for="EntityVm.NumeroLote" class="text-danger"></span>
-        </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.RisorioDireito" class="form-label"></label>
+        <input asp-for="EntityVm.RisorioDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.RisorioDireito" class="text-danger"></span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.RisorioEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.RisorioEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.RisorioEsquerdo" class="text-danger"></span>
+      </div>
+    </div>
 
-        <div class="mb-3">
-            <label asp-for="EntityVm.DataValidade" class="form-label"></label>
-            <input asp-for="EntityVm.DataValidade" class="form-control date-mask" type="text" value="@(Model.EntityVm?.DataValidade?.ToString("dd/MM/yyyy"))" />
-            <span asp-validation-for="EntityVm.DataValidade" class="text-danger"></span>
-        </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.ZigomaticoMaiorDireito" class="form-label"></label>
+        <input asp-for="EntityVm.ZigomaticoMaiorDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.ZigomaticoMaiorDireito" class="text-danger"></span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.ZigomaticoMaiorEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.ZigomaticoMaiorEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.ZigomaticoMaiorEsquerdo" class="text-danger"></span>
+      </div>
+    </div>
 
-        <!-- Pontos de aplicação -->
-        <h5 class="mt-4">Pontos de Aplicação</h5>
-        <hr />
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.ZigomaticoMenorDireito" class="form-label"></label>
+        <input asp-for="EntityVm.ZigomaticoMenorDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.ZigomaticoMenorDireito" class="text-danger"></span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.ZigomaticoMenorEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.ZigomaticoMenorEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.ZigomaticoMenorEsquerdo" class="text-danger"></span>
+      </div>
+    </div>
 
-        @* Renderiza todos os campos numéricos *@
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label asp-for="EntityVm.Frontal" class="form-label"></label>
-                <input asp-for="EntityVm.Frontal" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.Frontal" class="text-danger"></span>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label asp-for="EntityVm.Procero" class="form-label"></label>
-                <input asp-for="EntityVm.Procero" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.Procero" class="text-danger"></span>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label asp-for="EntityVm.Nasal" class="form-label"></label>
-                <input asp-for="EntityVm.Nasal" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.Nasal" class="text-danger"></span>
-            </div>
-        </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.OrbicularOlhoDireito" class="form-label"></label>
+        <input asp-for="EntityVm.OrbicularOlhoDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.OrbicularOlhoDireito" class="text-danger"></span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.OrbicularOlhoEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.OrbicularOlhoEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.OrbicularOlhoEsquerdo" class="text-danger"></span>
+      </div>
+    </div>
 
-        @* Continue no mesmo padrão para os demais *@
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label asp-for="EntityVm.DepressorSeptoNasal" class="form-label"></label>
-                <input asp-for="EntityVm.DepressorSeptoNasal" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.DepressorSeptoNasal" class="text-danger"></span>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label asp-for="EntityVm.OrbicularBoca" class="form-label"></label>
-                <input asp-for="EntityVm.OrbicularBoca" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.OrbicularBoca" class="text-danger"></span>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label asp-for="EntityVm.DepressorAnguloBocaDireito" class="form-label"></label>
-                <input asp-for="EntityVm.DepressorAnguloBocaDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.DepressorAnguloBocaDireito" class="text-danger"></span>
-            </div>
-        </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.MentonianoDireito" class="form-label"></label>
+        <input asp-for="EntityVm.MentonianoDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.MentonianoDireito" class="text-danger"></span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.MentonianoEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.MentonianoEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.MentonianoEsquerdo" class="text-danger"></span>
+      </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label asp-for="EntityVm.DepressorAnguloBocaEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.DepressorAnguloBocaEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.DepressorAnguloBocaEsquerdo" class="text-danger"></span>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label asp-for="EntityVm.CorrugadorDireito" class="form-label"></label>
-                <input asp-for="EntityVm.CorrugadorDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.CorrugadorDireito" class="text-danger"></span>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label asp-for="EntityVm.CorrugadorEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.CorrugadorEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.CorrugadorEsquerdo" class="text-danger"></span>
-            </div>
-        </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.PlatismaDireito" class="form-label"></label>
+        <input asp-for="EntityVm.PlatismaDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.PlatismaDireito" class="text-danger"></span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.PlatismaEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.PlatismaEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.PlatismaEsquerdo" class="text-danger"></span>
+      </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.LevantadorLabioSuperiorDireito" class="form-label"></label>
-                <input asp-for="EntityVm.LevantadorLabioSuperiorDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.LevantadorLabioSuperiorDireito" class="text-danger"></span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.LevantadorLabioSuperiorEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.LevantadorLabioSuperiorEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.LevantadorLabioSuperiorEsquerdo" class="text-danger"></span>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.LLabioSupAsaNarizDireito" class="form-label"></label>
-                <input asp-for="EntityVm.LLabioSupAsaNarizDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.LLabioSupAsaNarizDireito" class="text-danger"></span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.LLabioSupAsaNarizEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.LLabioSupAsaNarizEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.LLabioSupAsaNarizEsquerdo" class="text-danger"></span>
-            </div>
-        </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.DepressorLabioInferiorDireito" class="form-label"></label>
+        <input asp-for="EntityVm.DepressorLabioInferiorDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.DepressorLabioInferiorDireito" class="text-danger"></span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.DepressorLabioInferiorEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.DepressorLabioInferiorEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.DepressorLabioInferiorEsquerdo" class="text-danger"></span>
+      </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.RisorioDireito" class="form-label"></label>
-                <input asp-for="EntityVm.RisorioDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.RisorioDireito" class="text-danger"></span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.RisorioEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.RisorioEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.RisorioEsquerdo" class="text-danger"></span>
-            </div>
-        </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.MassesterDireito" class="form-label"></label>
+        <input asp-for="EntityVm.MassesterDireito" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.MassesterDireito" class="text-danger"></span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label asp-for="EntityVm.MassesterEsquerdo" class="form-label"></label>
+        <input asp-for="EntityVm.MassesterEsquerdo" class="form-control soma-campo" type="number" step="any" />
+        <span asp-validation-for="EntityVm.MassesterEsquerdo" class="text-danger"></span>
+      </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.ZigomaticoMaiorDireito" class="form-label"></label>
-                <input asp-for="EntityVm.ZigomaticoMaiorDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.ZigomaticoMaiorDireito" class="text-danger"></span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.ZigomaticoMaiorEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.ZigomaticoMaiorEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.ZigomaticoMaiorEsquerdo" class="text-danger"></span>
-            </div>
-        </div>
+    <div class="mb-3">
+      <label asp-for="EntityVm.TotalUtilizado" class="form-label"></label>
+      <input asp-for="EntityVm.TotalUtilizado" id="TotalUtilizado" class="form-control" type="number" step="any" readonly />
+      <span asp-validation-for="EntityVm.TotalUtilizado" class="text-danger"></span>
+    </div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.ZigomaticoMenorDireito" class="form-label"></label>
-                <input asp-for="EntityVm.ZigomaticoMenorDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.ZigomaticoMenorDireito" class="text-danger"></span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.ZigomaticoMenorEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.ZigomaticoMenorEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.ZigomaticoMenorEsquerdo" class="text-danger"></span>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.OrbicularOlhoDireito" class="form-label"></label>
-                <input asp-for="EntityVm.OrbicularOlhoDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.OrbicularOlhoDireito" class="text-danger"></span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.OrbicularOlhoEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.OrbicularOlhoEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.OrbicularOlhoEsquerdo" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.MentonianoDireito" class="form-label"></label>
-                <input asp-for="EntityVm.MentonianoDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.MentonianoDireito" class="text-danger"></span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.MentonianoEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.MentonianoEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.MentonianoEsquerdo" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.PlatismaDireito" class="form-label"></label>
-                <input asp-for="EntityVm.PlatismaDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.PlatismaDireito" class="text-danger"></span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.PlatismaEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.PlatismaEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.PlatismaEsquerdo" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.DepressorLabioInferiorDireito" class="form-label"></label>
-                <input asp-for="EntityVm.DepressorLabioInferiorDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.DepressorLabioInferiorDireito" class="text-danger"></span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.DepressorLabioInferiorEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.DepressorLabioInferiorEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.DepressorLabioInferiorEsquerdo" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.MassesterDireito" class="form-label"></label>
-                <input asp-for="EntityVm.MassesterDireito" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.MassesterDireito" class="text-danger"></span>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="EntityVm.MassesterEsquerdo" class="form-label"></label>
-                <input asp-for="EntityVm.MassesterEsquerdo" class="form-control" type="number" step="any" />
-                <span asp-validation-for="EntityVm.MassesterEsquerdo" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="EntityVm.TotalUtilizado" class="form-label"></label>
-            <input asp-for="EntityVm.TotalUtilizado" class="form-control" type="number" step="any" />
-            <span asp-validation-for="EntityVm.TotalUtilizado" class="text-danger"></span>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Salvar</button>
-        <a asp-page="PtBotox" class="btn btn-secondary">Cancelar</a>
-    </form>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a asp-page="PtBotox" class="btn btn-secondary">Cancelar</a>
+  </form>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
-        function aplicarMascaraData() {
-            $('.date-mask').mask('00/00/0000');
-        }
+  <partial name="_ValidationScriptsPartial" />
+  <script>
+    function aplicarMascaraData() {
+        $('.date-mask').mask('00/00/0000');
+    }
 
-        // Aplica a máscara assim que a página carregar
-        $(document).ready(function () {
-            aplicarMascaraData();
+    // Aplica a máscara assim que a página carregar
+    $(document).ready(function () {
+        aplicarMascaraData();
+    });
+    document.addEventListener("DOMContentLoaded", atualizarTotal);
+
+
+    function atualizarTotal() {
+        let soma = 0;
+        document.querySelectorAll(".soma-campo").forEach(input => {
+            let valor = parseFloat(input.value);
+            if (!isNaN(valor)) soma += valor;
         });
+        document.getElementById("TotalUtilizado").value = soma;
+    }
 
-    </script>
+    // adiciona evento em todos os campos que participam da soma
+    document.querySelectorAll(".soma-campo").forEach(input => {
+        input.addEventListener("input", atualizarTotal);
+    });
+
+
+  </script>
 }
