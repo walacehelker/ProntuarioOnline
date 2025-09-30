@@ -20,5 +20,6 @@ namespace Domain.Cadastro
     public byte[] PdfAssinado { get; set; }
     public virtual List<CadPessoaHistorico> CadPessoaHistoricoList { get; set; }
     public virtual List<PtBotox> PtBotoxList { get; set; }
+    public virtual List<PtBioestimulador> PtBioestimuladorList { get; set; }
   }
 }

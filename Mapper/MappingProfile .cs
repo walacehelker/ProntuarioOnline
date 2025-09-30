@@ -10,5 +10,6 @@ public class MappingProfile : Profile
     CreateMap<CadPessoa, CadPessoaVm>().ReverseMap();
     CreateMap<CadPessoaHistorico, CadPessoaHistoricoVm>().ReverseMap();
     CreateMap<PtBotox, PtBotoxVm>().ReverseMap();
+    CreateMap<PtBioestimulador, PtBioestimuladorVm>().ReverseMap();
   }
 }

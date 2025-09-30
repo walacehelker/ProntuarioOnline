@@ -1,0 +1,277 @@
+﻿@page
+@model ProntuarioOnline.Areas.Prontuarios.Pages.PtBioestimuladorCadModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+  Layout = "_Layout";
+}
+
+<style>
+  .tabela-bioestimulador th {
+    text-align: center;
+    background-color: #f8f9fa;
+    font-weight: 600;
+  }
+
+  .tabela-bioestimulador td {
+    vertical-align: middle;
+  }
+
+  .tabela-bioestimulador input {
+    text-align: center;
+  }
+
+  .tabela-bioestimulador caption {
+    caption-side: top;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: .5rem;
+    color: #495057;
+  }
+</style>
+
+<div class="container mt-4">
+  <h4>Cadastro de Procedimento Bioestimulador</h4>
+  <hr />
+
+  <form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="EntityVm.Id" />
+
+    <!-- Pessoa -->
+    <div class="mb-3">
+      <label asp-for="EntityVm.PessoaId" class="form-label"></label>
+      <select asp-for="EntityVm.PessoaId" class="form-select" asp-items="Model.PessoasSelectList">
+        <option value="">-- Selecione uma pessoa --</option>
+      </select>
+      <span asp-validation-for="EntityVm.PessoaId" class="text-danger"></span>
+    </div>
+
+    <!-- Data -->
+    <div class="mb-3">
+      <label asp-for="EntityVm.DataProcedimento" class="form-label"></label>
+      <input asp-for="EntityVm.DataProcedimento" class="form-control date-mask" type="text"
+             value="@(Model.EntityVm?.DataProcedimento?.ToString("dd/MM/yyyy"))" />
+      <span asp-validation-for="EntityVm.DataProcedimento" class="text-danger"></span>
+    </div>
+
+    <div class="form-check form-switch mb-3">
+      <input asp-for="EntityVm.TratamentoFace" class="form-check-input" type="checkbox" id="chkFace" />
+      <label class="form-check-label" for="chkFace">Tratamento da Face</label>
+    </div>
+
+    <div class="form-check form-switch mb-3">
+      <input asp-for="EntityVm.TratamentoCorpo" class="form-check-input" type="checkbox" id="chkCorpo" />
+      <label class="form-check-label" for="chkCorpo">Tratamento do Corpo</label>
+    </div>
+
+    <!-- Tratamento da Face -->
+    <div class="table-responsive mt-4" id="tabelaFace" style="display:none;">
+      <table class="table table-bordered table-sm table-striped table-hover align-middle tabela-bioestimulador">
+        <caption>Tratamento da Face</caption>
+        <thead>
+          <tr>
+            <th>Região</th>
+            <th>Radiesse Lidocaína</th>
+            <th>Radiesse Duo</th>
+            <th>Direita</th>
+            <th>Esquerda</th>
+            <th>Qtd Total</th>
+            <th>Diluição</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ângulo da Mandíbula</td>
+            <td><input asp-for="EntityVm.AnguloMandibulaRadiesseLidocaina" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.AnguloMandibulaRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.AnguloMandibulaDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.AnguloMandibulaEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.AnguloMandibulaQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.AnguloMandibulaDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Linha Mandibular</td>
+            <td><input asp-for="EntityVm.LinhaMandibularRadiesseLidocaina" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.LinhaMandibularRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.LinhaMandibularDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.LinhaMandibularEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.LinhaMandibularQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.LinhaMandibularDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Região Mentoniana</td>
+            <td><input asp-for="EntityVm.RegiaoMentonianaRadiesseLidocaina" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoMentonianaRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoMentonianaDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoMentonianaEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoMentonianaQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoMentonianaDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Região Submalar</td>
+            <td><input asp-for="EntityVm.RegiaoSubmalarRadiesseLidocaina" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoSubmalarRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoSubmalarDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoSubmalarEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoSubmalarQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoSubmalarDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Região Temporal</td>
+            <td><input asp-for="EntityVm.RegiaoTemporalRadiesseLidocaina" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoTemporalRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoTemporalDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoTemporalEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoTemporalQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.RegiaoTemporalDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+
+          <tr>
+            <td>Sulco Labiomentual</td>
+            <td><input asp-for="EntityVm.SulcoLabiomentualRadiesseLidocaina" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.SulcoLabiomentualRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.SulcoLabiomentualDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.SulcoLabiomentualEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.SulcoLabiomentualQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.SulcoLabiomentualDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Sulco Nasolabial</td>
+            <td><input asp-for="EntityVm.SulcoNasolabialRadiesseLidocaina" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.SulcoNasolabialRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.SulcoNasolabialDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.SulcoNasolabialEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.SulcoNasolabialQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.SulcoNasolabialDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tratamento do Corpo -->
+    <div class="table-responsive mt-4" id="tabelaCorpo" style="display:none;">
+      <table class="table table-bordered table-sm table-striped table-hover align-middle tabela-bioestimulador">
+        <caption>Tratamento do Corpo</caption>
+        <thead>
+          <tr>
+            <th>Região</th>
+            <th>Radiesse Duo</th>
+            <th>Direita</th>
+            <th>Esquerda</th>
+            <th>Qtd Total</th>
+            <th>Diluição</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Abdômen</td>
+            <td><input asp-for="EntityVm.AbdomenRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.AbdomenDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.AbdomenEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.AbdomenQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.AbdomenDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Braços</td>
+            <td><input asp-for="EntityVm.BracosRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.BracosDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.BracosEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.BracosQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.BracosDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Colo</td>
+            <td><input asp-for="EntityVm.ColoRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.ColoDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.ColoEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.ColoQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.ColoDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Cotovelos</td>
+            <td><input asp-for="EntityVm.CotovelosRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.CotovelosDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.CotovelosEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.CotovelosQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.CotovelosDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Coxas</td>
+            <td><input asp-for="EntityVm.CoxasRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.CoxasDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.CoxasEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.CoxasQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.CoxasDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Glúteos</td>
+            <td><input asp-for="EntityVm.GluteosRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.GluteosDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.GluteosEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.GluteosQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.GluteosDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Joelhos</td>
+            <td><input asp-for="EntityVm.JoelhoRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.JoelhoDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.JoelhoEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.JoelhoQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.JoelhoDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Mãos</td>
+            <td><input asp-for="EntityVm.MaosRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.MaosDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.MaosEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.MaosQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.MaosDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+          <tr>
+            <td>Pescoço</td>
+            <td><input asp-for="EntityVm.PescocoRadiesseDuo" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.PescocoDireita" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.PescocoEsquerda" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.PescocoQtdTotal" class="form-control form-control-sm" type="number" step="any" /></td>
+            <td><input asp-for="EntityVm.PescocoDiluicao" class="form-control form-control-sm" type="number" step="any" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a asp-page="PtBioestimulador" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+  <script>
+    function aplicarMascaraData() {
+        $('.date-mask').mask('00/00/0000');
+    }
+
+    // Aplica a máscara assim que a página carregar
+    $(document).ready(function () {
+        aplicarMascaraData();
+    });
+
+    function toggleTabelas() {
+      $("#tabelaFace").toggle($("#chkFace").is(":checked"));
+      $("#tabelaCorpo").toggle($("#chkCorpo").is(":checked"));
+    }
+
+    $(document).ready(function () {
+      // Aplica máscara de data
+      $('.date-mask').mask('00/00/0000');
+
+      // Inicializa visibilidade conforme valores já carregados
+      toggleTabelas();
+
+      // Atualiza ao clicar
+      $("#chkFace, #chkCorpo").on("change", toggleTabelas);
+    });
+
+  </script>
+}

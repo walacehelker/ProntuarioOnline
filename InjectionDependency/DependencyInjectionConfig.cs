@@ -15,6 +15,8 @@ namespace InjectionDependency
       services.AddScoped<IPessoaHistoricoService, PessoaHistoricoService>();
       services.AddScoped<IPtBotoxService, PtBotoxService>();
       services.AddScoped<IPtBotoxCadService, PtBotoxCadService>();
+      services.AddScoped<IPtBioestimuladorService, PtBioestimuladorService>();
+      services.AddScoped<IPtBioestimuladorCadService, PtBioestimuladorCadService>();
 
       return services;
     }
