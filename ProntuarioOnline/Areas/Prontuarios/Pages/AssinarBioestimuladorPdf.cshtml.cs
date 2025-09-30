@@ -1,5 +1,7 @@
 using Domain.Cadastro;
+using Domain.Identity;
 using Domain.Prontuarios;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services.Prontuarios;
@@ -9,9 +11,12 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
   public class AssinarBioestimuladorPdfModel : PageModel
   {
     private readonly IPtBioestimuladorCadService _ptBioestimuladorCadService;
-    public AssinarBioestimuladorPdfModel(IPtBioestimuladorCadService ptBioestimuladorCadService)
+    private readonly UserManager<ApplicationUser> _userManager;
+    public AssinarBioestimuladorPdfModel(IPtBioestimuladorCadService ptBioestimuladorCadService,
+      UserManager<ApplicationUser> userManager)
     {
       _ptBioestimuladorCadService = ptBioestimuladorCadService;
+      _userManager = userManager;
     }
 
     [BindProperty(SupportsGet = true)]
@@ -27,7 +32,8 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
     public async Task OnGetAsync()
     {
       Dados = await _ptBioestimuladorCadService.GetByIdComPessoaAsync(Id);
-      UsuarioLogado = User.Identity?.Name;
+      var user = await _userManager.GetUserAsync(User);
+      UsuarioLogado = user?.NomeCompleto;
     }
 
     [ValidateAntiForgeryToken]

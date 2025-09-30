@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -12,12 +14,17 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
   {
     private readonly IPtBioestimuladorCadService _ptBioestimuladorCadService;
     private readonly IPessoaService _pessoaService;
+    private readonly UserManager<ApplicationUser> _userManager;
+
 
     public GerarTermoBioestimuladorPdfModel(IPtBioestimuladorCadService ptBioestimuladorCadService,
-      IPessoaService pessoaService)
+      IPessoaService pessoaService,
+      UserManager<ApplicationUser> userManager)
     {
       _ptBioestimuladorCadService = ptBioestimuladorCadService;
       _pessoaService = pessoaService;
+      _userManager = userManager;
+
     }
 
     [BindProperty(SupportsGet = true)]
@@ -39,7 +46,9 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
           idade--;
       }
       var endereco = pessoa.Rua + ", " + pessoa.Numero + ", " + pessoa.Bairro;
-      var UsuarioLogado = User.Identity?.Name;
+      var user = await _userManager.GetUserAsync(User);
+      var UsuarioLogado = user?.NomeCompleto;
+
       var pdf = Document.Create(container =>
       {
         container.Page(page =>
