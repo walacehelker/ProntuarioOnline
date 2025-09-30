@@ -6,5 +6,6 @@ namespace Services.Prontuarios
 {
   public interface IPtBioestimuladorCadService : IBaseService<PtBioestimuladorCadVm>
   {
+    Task<PtBioestimuadorDadosPessoaVm> GetByIdComPessoaAsync(Guid id);
   }
 }

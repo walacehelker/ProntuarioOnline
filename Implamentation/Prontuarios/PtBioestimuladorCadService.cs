@@ -3,6 +3,7 @@ using Configuration;
 using Domain.Cadastro;
 using Domain.Prontuarios;
 using Implementations.Base;
+using Microsoft.EntityFrameworkCore;
 using Services.Prontuarios;
 
 namespace Implementations.Prontuarios
@@ -26,6 +27,26 @@ namespace Implementations.Prontuarios
       var pessoaCadVm = MapperToCadVm(pessoaVm);
 
       return pessoaCadVm;
+    }
+
+    public virtual async Task<PtBioestimuadorDadosPessoaVm> GetByIdComPessoaAsync(Guid id)
+    {
+      var dados = await _context.Set<PtBioestimulador>().Include(c => c.CadPessoa)
+        .Where(c => c.Id == id)
+        .Select(c => new PtBioestimuadorDadosPessoaVm
+        {
+          PessoaNome = c.CadPessoa.Nome,
+          PessoaCpf = c.CadPessoa.Cpf,
+          PessoaTelefone = c.CadPessoa.Telefone,
+          PessoaIdade =
+                DateTime.Now.Year - c.CadPessoa.DataNascimento.Year -
+                ((DateTime.Now.Month < c.CadPessoa.DataNascimento.Month ||
+                 (DateTime.Now.Month == c.CadPessoa.DataNascimento.Month &&
+                  DateTime.Now.Day < c.CadPessoa.DataNascimento.Day)) ? 1 : 0),
+          PessoaEndereco = c.CadPessoa.Rua + ", " + c.CadPessoa.Numero + ", " + c.CadPessoa.Bairro
+
+        }).FirstOrDefaultAsync();
+      return dados;
     }
 
     private PtBioestimuladorCadVm MapperToCadVm(PtBioestimuladorVm modelCadVm)

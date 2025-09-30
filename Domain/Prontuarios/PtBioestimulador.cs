@@ -116,6 +116,10 @@ namespace Domain.Prontuarios
     public decimal? PescocoDiluicao { get; set; }
 
     public byte[] PdfAssinado { get; set; }
+    public string Observacoes { get; set; }
+    public bool? AceitaCompartilhamentoDados { get; set; }
+    public bool? AceitaDivulgacao { get; set; }
+    public bool? AceitaDivulgacaoCongresso { get; set; }
     public CadPessoa CadPessoa { get; set; }
   }
 }

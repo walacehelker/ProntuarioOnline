@@ -30,6 +30,17 @@
                     Cadastro de Pessoas
                   </a>
                 </li>
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-dark" href="#" id="cadastrosDropdown"
+                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Prontuários
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="cadastrosDropdown">
+                <li>
+                </li>
                 <li>
                   <a class="dropdown-item" asp-area="Prontuarios" asp-page="/PtBotox">
                     Prontuário Botox
@@ -43,9 +54,9 @@
               </ul>
             </li>
 
-            <li class="nav-item">
+            @* <li class="nav-item">
               <a class="nav-link text-dark" asp-area="Cadastral" asp-page="/Usuarios">Cadastro de Usuários</a>
-            </li>
+            </li> *@
           </ul>
           <partial name="_LoginPartial" />
         </div>

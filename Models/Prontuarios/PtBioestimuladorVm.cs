@@ -235,12 +235,28 @@ namespace Domain.Prontuarios
     public decimal? PescocoDiluicao { get; set; }
 
     public byte[] PdfAssinado { get; set; }
+    public string Observacoes { get; set; }
+    public bool? AceitaCompartilhamentoDados { get; set; }
+    public bool? AceitaDivulgacao { get; set; }
+    public bool? AceitaDivulgacaoCongresso { get; set; }
   }
 
   public class AssinaturaBioestimuladorVm
   {
     public Guid Id { get; set; }
     public byte[] PdfAssinado { get; set; }
+    public string Observacoes { get; set; }
+    public bool? AceitaCompartilhamentoDados { get; set; }
+    public bool? AceitaDivulgacao { get; set; }
+    public bool? AceitaDivulgacaoCongresso { get; set; }
+  }
 
+  public class PtBioestimuadorDadosPessoaVm
+  {
+    public string PessoaNome { get; set; }
+    public string PessoaCpf { get; set; }
+    public int PessoaIdade { get; set; }
+    public string PessoaTelefone { get; set; }
+    public string PessoaEndereco { get; set; }
   }
 }

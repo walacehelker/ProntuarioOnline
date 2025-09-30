@@ -1,0 +1,256 @@
+﻿@page "{id}"
+@model ProntuarioOnline.Areas.Prontuarios.Pages.AssinarBioestimuladorPdfModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@Html.AntiForgeryToken()
+
+@{
+  Layout = "_Layout";
+}
+
+<style>
+  .texto-menor {
+    font-size: 0.8rem;
+  }
+</style>
+
+<div class="container-fluid mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Dados do Cadastro</h4>
+    </div>
+    <div class="card-body" style="max-height:80vh; overflow-y:auto;">
+      <h2 class="text-center mb-3">Termo de Consentimento</h2>
+
+      <p class="fs-5 text-justify">
+        Pelo presente termo, eu @Model.Dados.PessoaNome, portador(a) do CPF: @Model.Dados.PessoaCpf, idade: @Model.Dados.PessoaIdade, telefone: @Model.Dados.PessoaTelefone,
+        endereço: @Model.Dados.PessoaEndereco declaro estar informado sobre os possíveis riscos e efeitos esperados, e autorizo o(a) Dr.(a): @Model.UsuarioLogado, Conselho de Classe: ------,
+        a realizar o(s) rocedimento(s) com RADIESSE® Duo e/ou RADIESSE® (+) Lidocaíne.
+      </p>
+
+      <p class="fs-5 text-justify">
+        Declaro estar ciente de que o uso de ácido acetilsalicílico ou outros medicamentos pode inibir o processo de cicatrização. Declaro estar ciente também
+        de que, logo após a aplicação do procudo acima mensionado, posso apresentar dor, eritema (coloração avermelhada na pele), edema (inchaço) e
+        prurido (coceira) nos locais de aplicação. Esses sintomas desaparecem espontaneamente em um ou dois dias após a injeção.
+      </p>
+
+      <p class="fs-5 text-justify">
+        Enquanto os eventos adversos estiverem presentes, comprometo-me a usar protetor solar, de maneira a evitar que minha pele possa sofrer
+        hiperpigmentação (manchar). Declaro ainda estar ciente da possibilidade dos seguintes riscos e complicações: inchaço, reações alérgicas, infecção
+        local, necrose, estrusão (rejeição) do material e formação de nódulos. Estou ciente de que o resultado estético depente também da minha resposta ao
+        tratamento, podendo ser insuficiente, com a persistência de linhas ou dobras e necessidade de um possível tratamento complementar.
+      </p>
+
+      <p class="fs-5 text-justify">
+        Afirmo saber que esse procedimento pode ser contraíndicado para mim, caso possua distúrbios de coagulação (afinamento do sangue) ou da 
+        cicatrização (cicatriz com qualidade ruim), se possuir implantes definitivos no local (prótese ou injeção de materiais não absorvíveis)
+        e se estiver grávida ou amamentando, Declaro que comuniquei ao(s) profissional(is) de saúde injetor(es) das condições
+        acima e qualquer medicamento que esteja em uso no momento.
+      </p>
+
+      <div class="mb-3">
+        <label for="observacoes" class="form-label">Outros riscos específicos, caso ocorram, associados à minha condição física:</label>
+        <textarea id="observacoes" class="form-control" rows="4"></textarea>
+      </div>
+
+      <p class="fs-5 text-justify">
+        Autorizo o(s) profissional(is) de saúde acima descrito(s) a realizar(em) a bioestimulação de colágeno da pele da face e/ou corpo com o produto da 
+        linha <strong>RADIESSE Collection</strong>, que é um bioestimulador de colágeno de longa duração e não permanente.
+      </p>
+
+      <p class="fs-5 text-justify">
+        Declaro que li e entendi as informações contidas nesse formulário para a autorização do procedimento. Declaro que tive oportunidade de fazer qualquer
+        pergunta sobre o tratamento, riscos de eventos adverson e/ou necessidade de tratamentos complementares e todas as minhas dúvidas foram
+        satisfatóriamente respondidas.
+      </p>
+
+      <p class="fs-5 text-justify">
+        Estando, pois, ciente dos riscos e dos eventos adversos presente com a utilização do produto da linha <strong>RADIESSE Collection</strong>, em relação aos quais
+        fui e estou suficientemente informado(a) e, sobretudo, tendo em vista a minha autorização em forma livre, consciente e voluntária em submeter-me ao
+        tratamento com o produto da linha <strong>RADIESSE Collection</strong>, isento, para todos os fins de direito, empresa e/ou profissional(is) responsável(is) pela
+        avaliação e tratamento injetável com o produto da linha <strong>RADIESSE Collection</strong>, de qualquer responsabilidade civil, incluindo, mas não se limitando aos
+        danos físicos/estéticos, lucros cessantes ou outra responsabilidade de qualquer natureza.
+      </p>
+
+      <p class="fs-5 text-justify">
+        Dou o meu consentimento para ser fotografado(a) e/ou filmado(a) antes, durante e depois do procedimento, autorizo o(s) profissional(is)
+        interventor(es) a utilizar(em) a minha imagem pessoa, de forma gratuita, em revistas cientificas e/ou congressos médicos com propósito
+        médico educacional.
+      </p>
+
+      <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" id="aceitaCompartilhamentoDados" />
+        <label class="form-check-label" for="aceitaCompartilhamentoDados">
+          Ao consentir a realização do procedimento acima descrito, autorizo expressamente que o(s) profissional(is) de sáude acima mencionado(s)
+          realizeo tratamento de meus dados pessoais, livremente fornecidos por mim neste documento, para a finalidade específica de atendimento
+          à legislação sanitária aplicável e de proteção a vida. Autorizo ainda, a transferência de meus dados pessoais contidos neste termo com
+          o fabricante/distribuidor do equipamento/produto, para a finalidade específica de atendimento à legislação sanitária aplicável e de proteçãoa a vida.
+        </label>
+      </div>
+
+      <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" id="aceitaDivulgacao" />
+        <label class="form-check-label" for="aceitaDivulgacao">
+          Autorizo o uso de minha imagem pessoal em revistas científicas, redes sociais e websites.
+        </label>
+      </div>
+
+      <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" id="aceitaDivulgacaoCongresso" />
+        <label class="form-check-label" for="aceitaDivulgacaoCongresso">
+          Autorizo o uso de minha imagem pessoal em congressos.
+        </label>
+      </div>
+
+      <p class="fs-5 text-justify">
+        Por ser expressão da verdade, firmo o presente <strong>"Termo de Consentimento."</strong>
+      </p>
+
+      <p class="texto-menor text-justify">
+        <strong>RADIESSE® Duo</strong> (Reg. MS. n° 80829430004) e <strong>RADIESSE® Lidocaíne</strong> (Reg. MS. n° 80829430003) são produtos para a saúde, que consistem em aproximadamento 30% de
+        hidroxiapatita de cálcio e 70% de gel como veículo por volume, sendo totalmente biodegradáveis, de aplicação subdérmica e profunda. <strong>RADIESSE® Lidocaíne</strong> contém ainda
+        0,3% de cloridrato de lidocaína em sua formulação. Precauções: Reações, incluíndo eritema, edema, dor, prurido, descoloração ou sensibilidade, podem ocorrer no local da injeção.
+        Esses sintomas normalmente desaparecem espontaneamente em um dois dias após a aplicação.
+      </p>
+
+      <p class="fs-5 text-justify">
+        <strong>
+          CONTRAINDICAÇÕES: EM CASOS DE PRESENÇA DE INFLAMAÇÃO OU INFECÇÃO AGUDA E/OU CRÔNICA NA ÁREA
+          A SER TRATADA, RADIESSE® (+) LIDOCAINE É CONTRAINDICADO EM CASOS DE HIPERSENSIBILIDADE CONHECIDA
+          À LIDOCAÍNA OU ANESTÉSICOS DO TIPO AMIDA.
+        </strong>
+      </p>
+
+      <p class="fs-5 text-justify">
+        <strong>Radiesse Collection</strong> refere-se à família de produtos RADIESSE® Duo (Reg. MS. n° 80829430004) e RADIESSE® Lidocaíne (Reg. MS. n° 80829430003).
+      </p>
+      
+      <div class="mt-4 text-center">
+        <button type="button" class="btn btn-primary" id="start">Assinar Documento</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal fullscreen para assinatura -->
+<div class="modal fade" id="signatureModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Assine o documento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <canvas id="signature-pad" class="border w-100" style="height:400px;"></canvas>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="clear">Limpar</button>
+        <button type="button" class="btn btn-success" id="save">Salvar Assinatura</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast para feedback -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="toastMsg" class="toast align-items-center text-bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">Assinatura salva com sucesso!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+  <script>
+    var signaturePad = null;
+
+    // Abre modal e inicializa assinatura
+    document.getElementById('start').addEventListener('click', function () {
+        var modalEl = document.getElementById('signatureModal');
+        var modal = new bootstrap.Modal(modalEl);
+        modal.show();
+
+        modalEl.addEventListener('shown.bs.modal', function () {
+            var canvas = document.getElementById('signature-pad');
+            signaturePad = new SignaturePad(canvas);
+
+            // Ajusta o canvas para telas de alta densidade
+            var ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext("2d").scale(ratio, ratio);
+            signaturePad.clear();
+        }, { once: true });
+    });
+
+    // Limpar assinatura
+    document.getElementById('clear').addEventListener('click', function () {
+        if (signaturePad) signaturePad.clear();
+    });
+
+    // Converter base64 em array de bytes
+    function base64ToBytes(base64) {
+        const binary = atob(base64);
+        const len = binary.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return Array.from(bytes);
+    }
+
+    function getCsrfToken() {
+        const el = document.querySelector('input[name="__RequestVerificationToken"]');
+        return el ? el.value : null;
+    }
+
+    document.getElementById('save').addEventListener('click', function () {
+        if (signaturePad && !signaturePad.isEmpty()) {
+            var data = signaturePad.toDataURL('image/png');
+            var base64 = data.replace(/^data:image\/(png|jpeg);base64,/, "");
+            var byteArray = base64ToBytes(base64);
+
+            const token = getCsrfToken();
+            if (!token) {
+                console.error("Token antiforgery não encontrado na página.");
+                alert("Erro de segurança: token não encontrado.");
+                return;
+            }
+
+            var aceitaDivulgacao = document.getElementById('aceitaDivulgacao').checked;
+            var observacoes = document.getElementById('observacoes').value;
+            var aceitaCompartilhamentoDados = document.getElementById('aceitaCompartilhamentoDados').checked;
+            var aceitaDivulgacao = document.getElementById('aceitaDivulgacao').checked;
+            var aceitaDivulgacaoCongresso = document.getElementById('aceitaDivulgacaoCongresso').checked;
+
+
+            fetch(`/Prontuarios/AssinarBioestimulador/@Model.BioestimuladorId?handler=SalvarAssinatura`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify({
+                    Id: '@Model.BioestimuladorId',
+                    PdfAssinado: base64,
+                    AceitaDivulgacao: aceitaDivulgacao,
+                    Observacoes: observacoes,
+                    AceitaCompartilhamentoDados: aceitaCompartilhamentoDados,
+                    AceitaDivulgacaoCongresso: aceitaDivulgacaoCongresso
+                })
+            }).then(r => {
+                if (r.ok) {
+                    bootstrap.Modal.getInstance(document.getElementById('signatureModal')).hide();
+                    new bootstrap.Toast(document.getElementById('toastMsg')).show();
+                    setTimeout(() => window.location.href = '/Prontuarios/PtBioestimulador', 2000);
+                } else {
+                    r.text().then(t => console.error("Erro no backend:", t));
+                }
+            });
+        } else {
+            alert("Por favor, faça sua assinatura antes de salvar.");
+        }
+    });
+  </script>
+}

@@ -491,6 +491,31 @@ namespace Configuration.Prontuarios
              .HasColumnType("decimal(10,2)")
              .IsRequired(false);
 
+      builder.Property(e => e.PdfAssinado)
+             .HasColumnName("pdf_assinado")
+             .HasColumnType("varbinary(max)")
+             .IsRequired(false);
+
+      builder.Property(h => h.Observacoes)
+             .HasColumnName("observacoes")
+             .HasColumnType("varchar(max)")
+             .IsRequired(false);
+
+      builder.Property(h => h.AceitaDivulgacao)
+             .HasColumnName("aceita_divulgacao")
+             .HasDefaultValue(false)
+             .IsRequired(false);
+
+      builder.Property(h => h.AceitaCompartilhamentoDados)
+             .HasColumnName("aceita_compartilhamento_dados")
+             .HasDefaultValue(false)
+             .IsRequired(false);
+
+      builder.Property(h => h.AceitaDivulgacaoCongresso)
+             .HasColumnName("aceita_divulgacao_congresso")
+             .HasDefaultValue(false)
+             .IsRequired(false);
+
 
       builder.HasOne(h => h.CadPessoa)
           .WithMany(p => p.PtBioestimuladorList)
