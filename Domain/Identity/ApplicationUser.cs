@@ -7,5 +7,6 @@ namespace Domain.Identity
   {
     public string NomeCompleto { get; set; }
     public TipoUsuario TipoUsuario { get; set; }
+    public byte[] Assinatura { get; set; }
   }
 }

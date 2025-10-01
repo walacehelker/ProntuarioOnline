@@ -48,6 +48,7 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
       var endereco = pessoa.Rua + ", " + pessoa.Numero + ", " + pessoa.Bairro;
       var user = await _userManager.GetUserAsync(User);
       var UsuarioLogado = user?.NomeCompleto;
+      var assinaturaUsuario = user?.Assinatura;
 
       var pdf = Document.Create(container =>
       {
@@ -202,6 +203,18 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
               c.Item().Text(dados.AceitaDivulgacaoCongresso == true ? "[x] Autorizo o uso de minha imagem pessoal em congressos."
                                                                     : "[ ] Autorizo o uso de minha imagem pessoal em congressos.")
                 .FontSize(10);
+            });
+
+            AddSection("Assinatura do porfissional de sáude responsável", container =>
+            {
+              if (assinaturaUsuario != null)
+              {
+                container.AlignCenter().Width(150).Image(assinaturaUsuario).FitWidth();
+              }
+              else
+              {
+                container.Text("Sem assinatura registrada.").FontSize(10);
+              }
             });
 
             // Encerramento

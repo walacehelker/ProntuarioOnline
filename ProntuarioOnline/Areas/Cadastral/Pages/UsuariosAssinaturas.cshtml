@@ -1,0 +1,128 @@
+﻿@page "{id}"
+@model ProntuarioOnline.Areas.Cadastral.Pages.UsuariosAssinaturasModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@Html.AntiForgeryToken()
+
+@{
+  Layout = "_Layout";
+}
+
+<div class="container mt-4">
+  <h4>Assinatura de Documento</h4>
+
+  <div class="mt-4 text-center">
+    <button type="button" class="btn btn-primary" id="start">Assinar Documento</button>
+  </div>
+</div>
+
+<!-- Modal fullscreen para assinatura -->
+<div class="modal fade" id="signatureModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Assine o documento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <canvas id="signature-pad" class="border w-100" style="height:400px;"></canvas>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="clear">Limpar</button>
+        <button type="button" class="btn btn-success" id="save">Salvar Assinatura</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast para feedback -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="toastMsg" class="toast align-items-center text-bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">Assinatura salva com sucesso!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+  <script>
+    var signaturePad = null;
+
+    // Abre modal e inicializa assinatura
+    document.getElementById('start').addEventListener('click', function () {
+        var modalEl = document.getElementById('signatureModal');
+        var modal = new bootstrap.Modal(modalEl);
+        modal.show();
+
+        modalEl.addEventListener('shown.bs.modal', function () {
+            var canvas = document.getElementById('signature-pad');
+            signaturePad = new SignaturePad(canvas);
+
+            // Ajusta o canvas para telas de alta densidade
+            var ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext("2d").scale(ratio, ratio);
+            signaturePad.clear();
+        }, { once: true });
+    });
+
+    // Limpar assinatura
+    document.getElementById('clear').addEventListener('click', function () {
+        if (signaturePad) signaturePad.clear();
+    });
+
+    // Converter base64 em array de bytes
+    function base64ToBytes(base64) {
+        const binary = atob(base64);
+        const len = binary.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return Array.from(bytes);
+    }
+
+    function getCsrfToken() {
+        const el = document.querySelector('input[name="__RequestVerificationToken"]');
+        return el ? el.value : null;
+    }
+
+    document.getElementById('save').addEventListener('click', function () {
+        if (signaturePad && !signaturePad.isEmpty()) {
+            var data = signaturePad.toDataURL('image/png');
+            var base64 = data.replace(/^data:image\/(png|jpeg);base64,/, "");
+
+            const token = getCsrfToken();
+            if (!token) {
+                console.error("Token antiforgery não encontrado na página.");
+                alert("Erro de segurança: token não encontrado.");
+                return;
+            }
+
+            fetch(`/Cadastral/UsuariosAssinaturas/@Model.UsuarioId?handler=SalvarAssinatura`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify({
+                    Id: '@Model.UsuarioId',
+                    PdfAssinado: base64
+                })
+            }).then(r => {
+                if (r.ok) {
+                    bootstrap.Modal.getInstance(document.getElementById('signatureModal')).hide();
+                    new bootstrap.Toast(document.getElementById('toastMsg')).show();
+                    setTimeout(() => window.location.href = '/Cadastral/Usuarios', 2000);
+                } else {
+                    r.text().then(t => console.error("Erro no backend:", t));
+                }
+            });
+        } else {
+            alert("Por favor, faça sua assinatura antes de salvar.");
+        }
+    });
+  </script>
+}

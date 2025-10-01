@@ -19,12 +19,10 @@ namespace ProntuarioOnline.Data.Configurations
              .HasConversion<int>() 
              .IsRequired();
 
-      // Caso queira limitar tamanho de UserName, Email etc.
-      //builder.Property(u => u.UserName)
-      //       .HasMaxLength(256);
-
-      //builder.Property(u => u.Email)
-      //       .HasMaxLength(256);
+      builder.Property(e => e.Assinatura)
+             .HasColumnName("assinatura")
+             .HasColumnType("varbinary(max)")
+             .IsRequired(false);
     }
   }
 }
