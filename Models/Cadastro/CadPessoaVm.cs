@@ -229,7 +229,6 @@ namespace Domain.Cadastro
     public bool Ansiedade { get; set; }
 
     [DisplayName("Outros distúrbios emocionais?")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
     public string OutrosDisturbiosEmocionais { get; set; }
 
     [DisplayName("Já fez tratamento ortomolecular?")]

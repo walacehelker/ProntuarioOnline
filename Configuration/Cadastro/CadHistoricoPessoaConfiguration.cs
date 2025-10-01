@@ -21,27 +21,27 @@ namespace Configuration.Cadastro
       builder.Property(e => e.Queixa)
        .HasColumnName("queixa")
        .HasColumnType("varchar(max)")
-       .IsRequired();
+       .IsRequired(false);
 
       builder.Property(h => h.DiagnosticoClinico)
        .HasColumnName("diagnostico_clinico")
        .HasColumnType("varchar(max)")
-       .IsRequired();
+       .IsRequired(false);
 
       builder.Property(h => h.AntecedentesPatologicos)
        .HasColumnName("antecedentes_patologicos")
        .HasColumnType("varchar(max)")
-       .IsRequired();
+       .IsRequired(false);
 
       builder.Property(h => h.AntecedentesFamiliares)
        .HasColumnName("antecedentes_familiares")
        .HasColumnType("varchar(max)")
-       .IsRequired();
+       .IsRequired(false);
 
       builder.Property(h => h.AntecedentesFamiliares)
        .HasColumnName("antecedentes_familiares")
        .HasColumnType("varchar(max)")
-       .IsRequired();
+       .IsRequired(false);
 
       builder.Property(h => h.PossuiTratamentoEsteticoAnterior)
        .HasColumnName("possui_tratamento_estetico_anterior")
