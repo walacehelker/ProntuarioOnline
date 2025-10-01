@@ -30,94 +30,94 @@ namespace Domain.Prontuarios
 
     //Pontos de aplicação
 
-    [DisplayName("Frontal")]    
+    [DisplayName("Frontal")]
     public decimal? Frontal { get; set; }
 
-    [DisplayName("Procero")]    
+    [DisplayName("Procero")]
     public decimal? Procero { get; set; }
 
-    [DisplayName("Nasal")]    
+    [DisplayName("Nasal")]
     public decimal? Nasal { get; set; }
 
-    [DisplayName("Depressor septo nasal")]    
+    [DisplayName("Depressor septo nasal")]
     public decimal? DepressorSeptoNasal { get; set; }
 
-    [DisplayName("OrbicularBoca")]    
+    [DisplayName("Orbicular boca")]
     public decimal? OrbicularBoca { get; set; }
 
-    [DisplayName("DepressorAnguloBocaDireito")]    
+    [DisplayName("Depressor do ângulo da boca direito")]
     public decimal? DepressorAnguloBocaDireito { get; set; }
 
-    [DisplayName("DepressorAnguloBocaEsquerdo")]    
+    [DisplayName("Depressor do ângulo da boca esquerdo")]
     public decimal? DepressorAnguloBocaEsquerdo { get; set; }
 
-    [DisplayName("CorrugadorDireito")]    
+    [DisplayName("Corrugador direito")]
     public decimal? CorrugadorDireito { get; set; }
 
-    [DisplayName("CorrugadorEsquerdo")]    
+    [DisplayName("Corrugador esquerdo")]
     public decimal? CorrugadorEsquerdo { get; set; }
 
-    [DisplayName("LevantadorLabioSuperiorDireito")]    
+    [DisplayName("Levantador do lábio superior direito")]
     public decimal? LevantadorLabioSuperiorDireito { get; set; }
 
-    [DisplayName("LevantadorLabioSuperiorEsquerdo")]    
+    [DisplayName("Levantador do lábio superior esquerdo")]
     public decimal? LevantadorLabioSuperiorEsquerdo { get; set; }
 
-    [DisplayName("LLabioSupAsaNarizDireito")]    //
+    [DisplayName("L. do lábio sup. asa do nariz direito")]
     public decimal? LLabioSupAsaNarizDireito { get; set; }
 
-    [DisplayName("LLabioSupAsaNarizEsquerdo")]    //
+    [DisplayName("L. do lábio sup. asa do nariz esquerdo")]
     public decimal? LLabioSupAsaNarizEsquerdo { get; set; }
 
-    [DisplayName("RisorioDireito")]    
+    [DisplayName("Risório direito")]
     public decimal? RisorioDireito { get; set; }
 
-    [DisplayName("RisorioEsquerdo")]    
+    [DisplayName("Risório esquerdo")]
     public decimal? RisorioEsquerdo { get; set; }
 
-    [DisplayName("ZigomaticoMaiorDireito")]    
+    [DisplayName("Zigomático maior direito")]
     public decimal? ZigomaticoMaiorDireito { get; set; }
 
-    [DisplayName("ZigomaticoMaiorEsquerdo")]    
+    [DisplayName("Zigomático maior esquerdo")]
     public decimal? ZigomaticoMaiorEsquerdo { get; set; }
 
-    [DisplayName("ZigomaticoMenorDireito")]    
+    [DisplayName("Zigomático menor direito")]
     public decimal? ZigomaticoMenorDireito { get; set; }
 
-    [DisplayName("ZigomaticoMenorEsquerdo")]    
+    [DisplayName("Zigomático menor esquerdo")]
     public decimal? ZigomaticoMenorEsquerdo { get; set; }
 
-    [DisplayName("OrbicularOlhoDireito")]    
+    [DisplayName("Orbicular do olho direito")]
     public decimal? OrbicularOlhoDireito { get; set; }
 
-    [DisplayName("OrbicularOlhoEsquerdo")]    
+    [DisplayName("Orbicular do olho esquerdo")]
     public decimal? OrbicularOlhoEsquerdo { get; set; }
 
-    [DisplayName("MentonianoDireito")]    
+    [DisplayName("Mentoniano direito")]
     public decimal? MentonianoDireito { get; set; }
 
-    [DisplayName("MentonianoEsquerdo")]    
+    [DisplayName("Mentoniano esquerdo")]
     public decimal? MentonianoEsquerdo { get; set; }
 
-    [DisplayName("PlatismaDireito")]    
+    [DisplayName("Platisma direito")]
     public decimal? PlatismaDireito { get; set; }
 
-    [DisplayName("PlatismaEsquerdo")]    
+    [DisplayName("Platisma esquerdo")]
     public decimal? PlatismaEsquerdo { get; set; }
 
-    [DisplayName("DepressorLabioInferiorDireito")]    
+    [DisplayName("Depressor do lábio inferior direito")]
     public decimal? DepressorLabioInferiorDireito { get; set; }
 
-    [DisplayName("DepressorLabioInferiorEsquerdo")]    
+    [DisplayName("Depressor do lábio inferior esquerdo")]
     public decimal? DepressorLabioInferiorEsquerdo { get; set; }
 
-    [DisplayName("MassesterDireito")]    
+    [DisplayName("Massester direito")]
     public decimal? MassesterDireito { get; set; }
 
-    [DisplayName("MassesterEsquerdo")]    
+    [DisplayName("Massester esquerdo")]
     public decimal? MassesterEsquerdo { get; set; }
 
-    [DisplayName("TotalUtilizado")]
+    [DisplayName("Total utilizado")]
     public decimal? TotalUtilizado { get; set; }
 
     public byte[] PdfAssinado { get; set; }
@@ -171,123 +171,93 @@ namespace Domain.Prontuarios
     //Pontos de aplicação
 
     [DisplayName("Frontal")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
     public decimal? Frontal { get; set; }
 
     [DisplayName("Procero")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
     public decimal? Procero { get; set; }
 
     [DisplayName("Nasal")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
     public decimal? Nasal { get; set; }
 
     [DisplayName("Depressor septo nasal")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
     public decimal? DepressorSeptoNasal { get; set; }
 
-    [DisplayName("OrbicularBoca")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Orbicular boca")]
     public decimal? OrbicularBoca { get; set; }
 
-    [DisplayName("DepressorAnguloBocaDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Depressor do ângulo da boca direito")]
     public decimal? DepressorAnguloBocaDireito { get; set; }
 
-    [DisplayName("DepressorAnguloBocaEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Depressor do ângulo da boca esquerdo")]
     public decimal? DepressorAnguloBocaEsquerdo { get; set; }
 
-    [DisplayName("CorrugadorDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Corrugador direito")]
     public decimal? CorrugadorDireito { get; set; }
 
-    [DisplayName("CorrugadorEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Corrugador esquerdo")]
     public decimal? CorrugadorEsquerdo { get; set; }
 
-    [DisplayName("LevantadorLabioSuperiorDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Levantador do lábio superior direito")]
     public decimal? LevantadorLabioSuperiorDireito { get; set; }
 
-    [DisplayName("LevantadorLabioSuperiorEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Levantador do lábio superior esquerdo")]
     public decimal? LevantadorLabioSuperiorEsquerdo { get; set; }
 
-    [DisplayName("LLabioSupAsaNarizDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("L. do lábio sup. asa do nariz direito")]
     public decimal? LLabioSupAsaNarizDireito { get; set; }
 
-    [DisplayName("LLabioSupAsaNarizEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("L. do lábio sup. asa do nariz esquerdo")]
     public decimal? LLabioSupAsaNarizEsquerdo { get; set; }
 
-    [DisplayName("RisorioDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Risório direito")]
     public decimal? RisorioDireito { get; set; }
 
-    [DisplayName("RisorioEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Risório esquerdo")]
     public decimal? RisorioEsquerdo { get; set; }
 
-    [DisplayName("ZigomaticoMaiorDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Zigomático maior direito")]
     public decimal? ZigomaticoMaiorDireito { get; set; }
 
-    [DisplayName("ZigomaticoMaiorEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Zigomático maior esquerdo")]
     public decimal? ZigomaticoMaiorEsquerdo { get; set; }
 
-    [DisplayName("ZigomaticoMenorDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Zigomático menor direito")]
     public decimal? ZigomaticoMenorDireito { get; set; }
 
-    [DisplayName("ZigomaticoMenorEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Zigomático menor esquerdo")]
     public decimal? ZigomaticoMenorEsquerdo { get; set; }
 
-    [DisplayName("OrbicularOlhoDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Orbicular do olho direito")]
     public decimal? OrbicularOlhoDireito { get; set; }
 
-    [DisplayName("OrbicularOlhoEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Orbicular do olho esquerdo")]
     public decimal? OrbicularOlhoEsquerdo { get; set; }
 
-    [DisplayName("MentonianoDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Mentoniano direito")]
     public decimal? MentonianoDireito { get; set; }
 
-    [DisplayName("MentonianoEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Mentoniano esquerdo")]
     public decimal? MentonianoEsquerdo { get; set; }
 
-    [DisplayName("PlatismaDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Platisma direito")]
     public decimal? PlatismaDireito { get; set; }
 
-    [DisplayName("PlatismaEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Platisma esquerdo")]
     public decimal? PlatismaEsquerdo { get; set; }
 
-    [DisplayName("DepressorLabioInferiorDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Depressor do lábio inferior direito")]
     public decimal? DepressorLabioInferiorDireito { get; set; }
 
-    [DisplayName("DepressorLabioInferiorEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Depressor do lábio inferior esquerdo")]
     public decimal? DepressorLabioInferiorEsquerdo { get; set; }
 
-    [DisplayName("MassesterDireito")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Massester direito")]
     public decimal? MassesterDireito { get; set; }
 
-    [DisplayName("MassesterEsquerdo")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Massester esquerdo")]
     public decimal? MassesterEsquerdo { get; set; }
 
-    [DisplayName("TotalUtilizado")]
-    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DisplayName("Total utilizado")]
     public decimal? TotalUtilizado { get; set; }
 
     public byte[] PdfAssinado { get; set; }

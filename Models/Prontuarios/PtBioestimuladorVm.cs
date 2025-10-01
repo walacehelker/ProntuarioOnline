@@ -123,8 +123,16 @@ namespace Domain.Prontuarios
 
   public class PtBioestimuladorCadVm : BaseVmEntity
   {
+    [Display(Name = "Pessoa")]
+    [Required(ErrorMessage = "Campo obrigatório.")]
     public Guid PessoaId { get; set; }
+
+    [Display(Name = "Pessoa")]
     public string PessoaNome { get; set; }
+
+    [Display(Name = "Data do procedimento")]
+    [Required(ErrorMessage = "Campo obrigatório.")]
+    [DataType(DataType.Date)]
     public DateTime? DataProcedimento { get; set; }
 
     public bool TratamentoFace { get; set; }
