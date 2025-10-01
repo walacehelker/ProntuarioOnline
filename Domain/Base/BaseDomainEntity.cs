@@ -6,5 +6,7 @@
     public DateTime DataInsercao { get; set; }
     public bool Excluido { get; set; }
     public DateTime? ExcluidoEm { get; set; }
+    public string UsuarioProprietarioId { get; set; }
+
   }
 }

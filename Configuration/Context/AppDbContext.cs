@@ -1,5 +1,8 @@
-﻿using Domain.Cadastro;
+﻿using System.Security.Claims;
+using Domain.Base;
+using Domain.Cadastro;
 using Domain.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,23 +10,40 @@ namespace Configuration
 {
   public class AppDbContext : IdentityDbContext<ApplicationUser>
   {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public AppDbContext(DbContextOptions<AppDbContext> options,
+                        IHttpContextAccessor httpContextAccessor)
         : base(options)
     {
+      _httpContextAccessor = httpContextAccessor;
     }
-
-    // DbSets para cada entidade do domínio
-    public DbSet<CadPessoa> CadPessoas { get; set; }
-    public DbSet<CadPessoaHistorico> CadPessoaHistorico { get; set; }
-    // Adicione aqui todos os outros DbSets do seu domínio
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-      // Configura tabelas do Identity
       base.OnModelCreating(modelBuilder);
 
-      // Aplica todas as configurações Fluent API do projeto Configuration
       modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseConfiguration<>).Assembly);
+    }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+      var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+      var now = DateTime.UtcNow;
+
+      foreach (var entry in ChangeTracker.Entries<BaseDomainEntity>())
+      {
+        if (entry.State == EntityState.Added)
+        {
+          if (entry.Entity.DataInsercao == default)
+            entry.Entity.DataInsercao = now;
+
+          if (string.IsNullOrEmpty(entry.Entity.UsuarioProprietarioId) && !string.IsNullOrEmpty(userId))
+            entry.Entity.UsuarioProprietarioId = userId;
+        }
+      }
+
+      return await base.SaveChangesAsync(cancellationToken);
     }
   }
 }

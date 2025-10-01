@@ -23,6 +23,10 @@ namespace ProntuarioOnline.Data.Configurations
              .HasColumnName("assinatura")
              .HasColumnType("varbinary(max)")
              .IsRequired(false);
+
+      builder.Property(u => u.UsuarioProprietarioId)
+             .HasColumnType("varchar(50)")
+             .IsRequired();
     }
   }
 }

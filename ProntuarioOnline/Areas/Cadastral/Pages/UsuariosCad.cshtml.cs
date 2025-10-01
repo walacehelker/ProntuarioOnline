@@ -32,7 +32,7 @@ public class UsuariosCadModel : PageModel
       {
         Usuario = new CadUsuarioVm
         {
-          Id = Guid.Parse(user.Id),
+          Id = user.Id,
           NomeCompleto = user.NomeCompleto,
           Email = user.Email,
           TipoUsuario = user.TipoUsuario
@@ -71,8 +71,9 @@ public class UsuariosCadModel : PageModel
       return Page();
 
     ApplicationUser user;
+    var usuarioLogado = await _userManager.GetUserAsync(User);
 
-    if (Usuario.Id == Guid.Empty)
+    if (string.IsNullOrEmpty(Usuario.Id))
     {
       // Novo usuário
       user = new ApplicationUser
@@ -80,7 +81,8 @@ public class UsuariosCadModel : PageModel
         UserName = Usuario.Email,
         Email = Usuario.Email,
         NomeCompleto = Usuario.NomeCompleto,
-        TipoUsuario = Usuario.TipoUsuario
+        TipoUsuario = Usuario.TipoUsuario,
+        UsuarioProprietarioId = usuarioLogado?.Id
       };
 
       var result = await _userManager.CreateAsync(user, Usuario.Senha);
@@ -102,6 +104,7 @@ public class UsuariosCadModel : PageModel
       user.Email = Usuario.Email;
       user.UserName = Usuario.Email;
       user.TipoUsuario = Usuario.TipoUsuario;
+      user.UsuarioProprietarioId = usuarioLogado?.Id;
 
       var result = await _userManager.UpdateAsync(user);
       if (!result.Succeeded)

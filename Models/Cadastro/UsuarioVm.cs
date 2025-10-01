@@ -1,4 +1,5 @@
-﻿using Enuns;
+﻿using Domain.Identity;
+using Enuns;
 using System.ComponentModel.DataAnnotations;
 
 namespace Models.Cadastro
@@ -19,7 +20,7 @@ namespace Models.Cadastro
 
   public class CadUsuarioVm
   {
-    public Guid? Id { get; set; }
+    public string Id { get; set; }
 
     [Display(Name = "Nome")]
     [Required(ErrorMessage = "O nome é obrigatório")]
