@@ -1,0 +1,58 @@
+﻿@using Domain.Prontuarios
+@model List<PtPreenchimentoFacialRelacaoEtiquetaVm>
+
+<div class="card bg-secondary bg-opacity-10 mb-3 shadow-sm">
+  <div class="card-header fw-bold text-center">Etiquetas</div>
+  <div class="card-body">
+    <table class="table table-bordered table-sm mb-3 align-middle text-center" id="etiquetasTable">
+      <thead class="table-light">
+        <tr>
+          <th style="width:200px;" class="text-center">Imagem</th>
+          <th style="width:180px;" class="text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (Model != null && Model.Any())
+        {
+          for (int i = 0; i < Model.Count; i++)
+          {
+            <tr>
+              <td>
+                @if (Model[i].EtiquetaPreenchedor != null && Model[i].EtiquetaPreenchedor.Length > 0)
+                {
+                  var base64 = Convert.ToBase64String(Model[i].EtiquetaPreenchedor);
+                  <img src="data:image/png;base64,@base64"
+                       alt="Etiqueta"
+                       class="img-thumbnail preview"
+                       style="max-height:150px; max-width:150px;" />
+                  <input type="hidden" class="file-base64" value="@base64" />
+                }
+                else
+                {
+                  <input type="file" class="form-control file-input" accept="image/*" />
+                  <input type="hidden" class="file-base64" />
+                  <img class="img-thumbnail preview mt-2 d-none" style="max-height:150px; max-width:150px;" />
+                }
+              </td>
+              <td>
+                @if (Model[i].EtiquetaPreenchedor != null && Model[i].EtiquetaPreenchedor.Length > 0)
+                {
+                  var base64 = Convert.ToBase64String(Model[i].EtiquetaPreenchedor);
+                  <a href="data:image/png;base64,@base64" download="etiqueta-@(i).png"
+                     class="btn btn-outline-primary btn-sm me-2">
+                    Baixar
+                  </a>
+                }
+                <button type="button" class="btn btn-danger btn-sm remover-etiqueta">Remover</button>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+
+    <div class="text-center">
+      <button type="button" id="btnAddEtiqueta" class="btn btn-success btn-sm">Adicionar Etiqueta</button>
+    </div>
+  </div>
+</div>

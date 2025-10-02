@@ -1,0 +1,160 @@
+﻿@page
+@model ProntuarioOnline.Areas.Prontuarios.Pages.PtPreenchimentosFaciaisCadCadModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+  Layout = "_Layout";
+}
+
+<div class="container mt-4">
+  <h4>Cadastro do Procedimento de Preenchimento Facial</h4>
+  <hr />
+
+  <form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="EntityVm.Id" />
+    <input type="hidden" asp-for="EntityVm.AplicacoesJson" id="AplicacoesJson" />
+    <input type="hidden" asp-for="EntityVm.EtiquetasJson" id="EtiquetasJson" />
+
+    <!-- Pessoa -->
+    <div class="mb-3">
+      <label asp-for="EntityVm.PessoaId" class="form-label"></label>
+      <select asp-for="EntityVm.PessoaId" class="form-select" asp-items="Model.PessoasSelectList">
+        <option value="">-- Selecione uma pessoa --</option>
+      </select>
+      <span asp-validation-for="EntityVm.PessoaId" class="text-danger"></span>
+    </div>
+
+    <!-- Dados do procedimento -->
+    <div class="mb-3">
+      <label asp-for="EntityVm.DataProcedimento" class="form-label"></label>
+      <input asp-for="EntityVm.DataProcedimento" class="form-control date-mask" type="text"
+             value="@(Model.EntityVm?.DataProcedimento?.ToString("dd/MM/yyyy"))" />
+      <span asp-validation-for="EntityVm.DataProcedimento" class="text-danger"></span>
+    </div>
+
+    <partial name="PreenchimentoFacial/_AplicacoesGrid" model="Model.EntityVm.Aplicacoes" />
+    <partial name="PreenchimentoFacial/_EtiquetasGrid" model="Model.EntityVm.Etiquetas" />
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a asp-page="PtBotox" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+  <script>
+    function aplicarMascaraData() {
+        $('.date-mask').mask('00/00/0000');
+    }
+
+    $(document).ready(function () {
+        aplicarMascaraData();
+
+        // -----------------------------
+        // SUBMIT: monta JSONs
+        // -----------------------------
+        $("form").on("submit", function () {
+            // Aplicações
+            let aplicacoes = [];
+            $("#aplicacoesTable tbody tr").each(function () {
+                let area = $(this).find("input[name*='AreaAplicacao']").val();
+                let produto = $(this).find("input[name*='Produto']").val();
+                let quantidade = $(this).find("input[name*='Quantidade']").val();
+                let marca = $(this).find("input[name*='Marca']").val();
+                let lote = $(this).find("input[name*='Lote']").val();
+                let data = $(this).find("input[name*='Data']").val();
+                let validade = $(this).find("input[name*='Validade']").val();
+
+                aplicacoes.push({
+                    areaAplicacao: area,
+                    produto: produto,
+                    quantidade: quantidade ? parseFloat(quantidade) : null,
+                    marca: marca,
+                    lote: lote,
+                    data: data,
+                    validade: validade
+                });
+            });
+
+            // Etiquetas
+            let etiquetas = [];
+            $("#etiquetasTable tbody tr").each(function () {
+                let base64 = $(this).find(".file-base64").val();
+                if (base64) {
+                    etiquetas.push({
+                        etiquetaPreenchedor: base64
+                    });
+                }
+            });
+
+            // Joga nos hidden
+            $("#AplicacoesJson").val(JSON.stringify(aplicacoes));
+            $("#EtiquetasJson").val(JSON.stringify(etiquetas));
+        });
+
+        // -----------------------------
+        // APLICAÇÕES
+        // -----------------------------
+        let index = $("#aplicacoesTable tbody tr").length;
+
+        $("#btnAddAplicacao").click(function () {
+            let newRow = `
+                <tr>
+                    <td><input type="text" name="Aplicacoes[${index}].AreaAplicacao" class="form-control" /></td>
+                    <td><input type="date" name="Aplicacoes[${index}].Data" class="form-control" /></td>
+                    <td><input type="number" name="Aplicacoes[${index}].Quantidade" class="form-control" /></td>
+                    <td><input type="text" name="Aplicacoes[${index}].Marca" class="form-control" /></td>
+                    <td><input type="text" name="Aplicacoes[${index}].Produto" class="form-control" /></td>
+                    <td><input type="text" name="Aplicacoes[${index}].Lote" class="form-control" /></td>
+                    <td><input type="date" name="Aplicacoes[${index}].Validade" class="form-control" /></td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm remover-aplicacao">Remover</button>
+                    </td>
+                </tr>`;
+            $("#aplicacoesTable tbody").append(newRow);
+            index++;
+        });
+
+        $(document).on("click", ".remover-aplicacao", function () {
+            $(this).closest("tr").remove();
+        });
+
+        // -----------------------------
+        // ETIQUETAS
+        // -----------------------------
+        $("#btnAddEtiqueta").click(function () {
+            let newRow = `
+                <tr>
+                    <td>
+                        <input type="file" class="form-control file-input" accept="image/*" />
+                        <input type="hidden" class="file-base64" />
+                        <img class="img-thumbnail preview mt-2 d-none" style="max-height:150px; max-width:150px;" />
+                    </td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-danger btn-sm remover-etiqueta">Remover</button>
+                    </td>
+                </tr>`;
+            $("#etiquetasTable tbody").append(newRow);
+        });
+
+        // Preview da imagem + salva no hidden
+        $(document).on("change", ".file-input", function (e) {
+            let file = e.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function (ev) {
+                    let td = $(e.target).closest("td");
+                    td.find(".preview").attr("src", ev.target.result).removeClass("d-none");
+                    td.find(".file-base64").val(ev.target.result.split(",")[1]);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        $(document).on("click", ".remover-etiqueta", function () {
+            $(this).closest("tr").remove();
+        });
+    });
+  </script>
+}

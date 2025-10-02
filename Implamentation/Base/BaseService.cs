@@ -71,6 +71,8 @@ namespace Implementations.Base
       return true;
     }
 
+
+
     public virtual IEnumerable<TVmEntity> GetAll()
     {
       var entities = _dbSet.AsNoTracking().ToList();
@@ -142,6 +144,49 @@ namespace Implementations.Base
       var entities = await _dbSet.AsNoTracking().ToListAsync();
       var vms = _mapper.Map<IEnumerable<TVmEntity>>(entities);
       return vms.Where(predicate);
+    }
+
+    public virtual bool DeleteByPredicate(Func<TVmEntity, bool> predicate)
+    {
+      var entities = _dbSet.ToList();
+
+      var vms = _mapper.Map<IEnumerable<TVmEntity>>(entities);
+
+      var toDelete = vms.Where(predicate).ToList();
+
+      if (!toDelete.Any())
+        return false;
+
+      var entitiesToDelete = _mapper.Map<IEnumerable<TDbEntity>>(toDelete);
+
+      _dbSet.RemoveRange(entitiesToDelete);
+      _context.SaveChanges();
+
+      return true;
+    }
+
+    public virtual async Task<bool> DeleteByPredicateAsync(Func<TVmEntity, bool> predicate)
+    {
+      // Carrega todas as entidades rastreadas
+      var entities = await _dbSet.ToListAsync();
+
+      // Mapeia para VM
+      var vms = _mapper.Map<IEnumerable<TVmEntity>>(entities);
+
+      // Filtra no VM
+      var idsToDelete = vms.Where(predicate).Select(x => x.Id).ToList();
+
+      if (!idsToDelete.Any())
+        return false;
+
+      // Seleciona as entidades já rastreadas pelo EF
+      var entitiesToDelete = entities.Where(e => idsToDelete.Contains(e.Id)).ToList();
+
+      // Remove essas instâncias (sem recriar)
+      _dbSet.RemoveRange(entitiesToDelete);
+      await _context.SaveChangesAsync();
+
+      return true;
     }
   }
 }

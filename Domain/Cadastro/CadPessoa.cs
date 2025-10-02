@@ -21,5 +21,6 @@ namespace Domain.Cadastro
     public virtual List<CadPessoaHistorico> CadPessoaHistoricoList { get; set; }
     public virtual List<PtBotox> PtBotoxList { get; set; }
     public virtual List<PtBioestimulador> PtBioestimuladorList { get; set; }
+    public virtual List<PtPreenchimentoFacial> PtPreenchimentoFacialList { get; set; }
   }
 }

@@ -18,5 +18,7 @@ namespace Services.Base
     Task<TVmEntity> FindOneAsync(Func<TVmEntity, bool> predicate);
     IEnumerable<TVmEntity> Find(Func<TVmEntity, bool> predicate);
     Task<IEnumerable<TVmEntity>> FindAsync(Func<TVmEntity, bool> predicate);
+    bool DeleteByPredicate(Func<TVmEntity, bool> predicate);
+    Task<bool> DeleteByPredicateAsync(Func<TVmEntity, bool> predicate);
   }
 }
