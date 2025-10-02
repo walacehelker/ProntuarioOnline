@@ -36,6 +36,8 @@ namespace Domain.Prontuarios
 
     public string AplicacoesJson { get; set; }
     public string EtiquetasJson { get; set; }
+    public string Observacoes { get; set; }
+    public byte[] AssinaturaTermoConsentimento { get; set; }
 
   }
 

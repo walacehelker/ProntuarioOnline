@@ -29,7 +29,8 @@ namespace Implementations.Prontuarios
           Id = c.Id,
           PessoaId = c.PessoaId,
           PessoaNome = c.CadPessoa.Nome, 
-          DataProcedimento = c.DataProcedimento
+          DataProcedimento = c.DataProcedimento,
+          AssinaturaTermoConsentimento = c.AssinaturaTermoConsentimento
         }).ToListAsync();
 
       return entities;

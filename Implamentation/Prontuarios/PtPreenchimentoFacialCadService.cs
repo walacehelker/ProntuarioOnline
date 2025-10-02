@@ -90,6 +90,8 @@ namespace Implementations.Prontuarios
         PessoaId = cadVm.PessoaId,
         PessoaNome = cadVm.PessoaNome,
         DataProcedimento = cadVm.DataProcedimento,
+        Observacoes = cadVm.Observacoes,
+        AssinaturaTermoConsentimento = cadVm.AssinaturaTermoConsentimento
       };
 
       return vm;
