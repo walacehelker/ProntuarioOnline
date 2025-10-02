@@ -51,6 +51,8 @@ namespace Implementations.Prontuarios
         PessoaId = modelCadVm.PessoaId,
         PessoaNome = modelCadVm.PessoaNome,
         DataProcedimento = modelCadVm.DataProcedimento,
+        AssinaturaTermoConsentimento = modelCadVm.AssinaturaTermoConsentimento,
+        Observacoes = modelCadVm.Observacoes
       };
 
       return dado;

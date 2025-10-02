@@ -47,7 +47,9 @@ namespace Implementations.Prontuarios
         Id = retorno.Id,
         PessoaId = retorno.PessoaId,
         PessoaNome = retorno.CadPessoa?.Nome,
-        DataProcedimento = retorno.DataProcedimento,       
+        DataProcedimento = retorno.DataProcedimento,   
+        AssinaturaTermoConsentimento = retorno.AssinaturaTermoConsentimento,
+        Observacoes = retorno.Observacoes
       };
 
       return vm;
