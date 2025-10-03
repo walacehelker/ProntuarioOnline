@@ -10,8 +10,20 @@ using Microsoft.EntityFrameworkCore;
 using ProntuarioOnline.Mappings;
 using Implementations.Identity;
 using QuestPDF.Infrastructure;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var defaultCulture = new CultureInfo("pt-BR");
+var localizationOptions = new RequestLocalizationOptions
+{
+  DefaultRequestCulture = new RequestCulture(defaultCulture),
+  SupportedCultures = new List<CultureInfo> { defaultCulture },
+  SupportedUICultures = new List<CultureInfo> { defaultCulture }
+};
+
+
 
 // Connection string
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
@@ -76,6 +88,7 @@ builder.Services.AddProjectDependencies();
 
 var app = builder.Build();
 
+app.UseRequestLocalization(localizationOptions);
 // Pipeline
 if (app.Environment.IsDevelopment())
 {

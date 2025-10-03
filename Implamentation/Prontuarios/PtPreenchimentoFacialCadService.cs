@@ -62,10 +62,10 @@ namespace Implementations.Prontuarios
     public override async Task<PtPreenchimentoFacialCadVm> CreateAsync(PtPreenchimentoFacialCadVm cadVm)
     {
       var vm = MapperToVm(cadVm);
-      await _ptPreenchimentoFacialService.CreateAsync(vm);
+      var dados = await _ptPreenchimentoFacialService.CreateAsync(vm);
 
-      await MapAplicacoes(cadVm, vm.Id);
-      await MapEtiquetas(cadVm, vm.Id);
+      await MapAplicacoes(cadVm, dados.Id);
+      await MapEtiquetas(cadVm, dados.Id);
 
 
       return cadVm;
@@ -74,11 +74,10 @@ namespace Implementations.Prontuarios
     public override async Task<PtPreenchimentoFacialCadVm> UpdateAsync(PtPreenchimentoFacialCadVm cadVm)
     {
       var vm = MapperToVm(cadVm);
-      await _ptPreenchimentoFacialService.UpdateAsync(vm);
+      var dados = await _ptPreenchimentoFacialService.UpdateAsync(vm);
 
-      await MapAplicacoes(cadVm, vm.Id);
-      await MapEtiquetas(cadVm, vm.Id);
-
+      await MapAplicacoes(cadVm, dados.Id);
+      await MapEtiquetas(cadVm, dados.Id);
 
       return cadVm;
     }

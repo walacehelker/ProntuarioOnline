@@ -10,12 +10,12 @@
       <thead class="table-light">
         <tr>
           <th>Área</th>
-          <th>Produto</th>
+          <th>Data</th>
           <th>Quantidade</th>
           <th>Marca</th>
+          <th>Produto</th>
           <th>Lote</th>
           <th>Validade</th>
-          <th>Data</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -26,12 +26,12 @@
           {
             <tr>
               <td><input type="text" name="Aplicacoes[@i].AreaAplicacao" value="@Model[i].AreaAplicacao" class="form-control" /></td>
-              <td><input type="text" name="Aplicacoes[@i].Produto" value="@Model[i].Produto" class="form-control" /></td>
+              <td><input type="date" name="Aplicacoes[@i].Data" value="@Model[i].Data?.ToString("yyyy-MM-dd")" class="form-control" /></td>
               <td><input type="number" name="Aplicacoes[@i].Quantidade" value="@Model[i].Quantidade" class="form-control" /></td>
               <td><input type="text" name="Aplicacoes[@i].Marca" value="@Model[i].Marca" class="form-control" /></td>
+              <td><input type="text" name="Aplicacoes[@i].Produto" value="@Model[i].Produto" class="form-control" /></td>
               <td><input type="text" name="Aplicacoes[@i].Lote" value="@Model[i].Lote" class="form-control" /></td>
               <td><input type="date" name="Aplicacoes[@i].Validade" value="@Model[i].Validade?.ToString("yyyy-MM-dd")" class="form-control" /></td>
-              <td><input type="date" name="Aplicacoes[@i].Data" value="@Model[i].Data?.ToString("yyyy-MM-dd")" class="form-control" /></td>
               <td>
                 <button type="button" class="btn btn-danger btn-sm remover-aplicacao">Remover</button>
               </td>
