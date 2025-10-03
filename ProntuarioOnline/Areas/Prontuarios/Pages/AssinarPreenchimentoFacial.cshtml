@@ -16,16 +16,16 @@
       <h2 class="text-center mb-3">TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO - PREENCHEDORES</h2>
 
       <p class="fs-5 text-justify">
-        Eu, @Model.Pessoa.Nome, portador do CPF @Model.Pessoa.Cpf, em pleno gozo de minhas faculdade mentais, livre e voluntariamente, aceito o tratamento com preenchedores
+        Eu, @Model.Pessoa.Nome, portador do CPF @Model.Pessoa.Cpf, em pleno gozo de minhas faculdades mentais, livre e voluntariamente, aceito o tratamento com preenchedores
         faciais a ser realizado pela profissional habilitada para tal procedimento.
       </p>
       <p class="fs-5 text-justify">
-        Declaro que recebi esclarecimentos quanto ao uso de preenchedores e etou cinete de que a mesma tem ação temporária e que cada pessoa apresenta uma resposta individual
+        Declaro que recebi esclarecimentos quanto ao uso de preenchedores e estou ciente de que a mesma tem ação temporária e que cada pessoa apresenta uma resposta individual
         ao efeito do produto.
       </p>
       <p class="fs-5 text-justify">
-        Declaro que estou ciente dos transtornos possíveis tais como: reação alérgica, hipoestesia transitória (estimulos táteis abaixo do normal),
-        dor e edema no local da aplicação, eritema (vermelhidão na pele), hematomas, entorpecimento temporário, (fraqueza), náusea, dor de cabeça,
+        Declaro que estou ciente dos transtornos possíveis tais como: reação alérgica, hipoestesia transitória (estímulos táteis abaixo do normal),
+        dor e edema no local da aplicação, eritema (vermelhidão na pele), hematomas, entorpecimento temporário (fraqueza), náusea, dor de cabeça,
         extensão no local, paralisação indesejada de músculos adjacentes, xerostomia (secura excessiva da boca e alteração da voz), o que em sua maioria são
         transitórios e reversíveis.
       </p>
@@ -34,32 +34,42 @@
       </p>
       <p class="fs-5 text-justify">
         Declaro que recebi explicações verbais sobre a natureza e propósitos do procedimento, assim como benefícios, riscos, alternativas e meios de tratamento.
-        Estou ciente de que, para obter o melhor resultado, devo ficar sem abaixar a cabeça e sem relizar qualquer esforço fisíco durante quatro horas, assim como evitar
+        Estou ciente de que, para obter o melhor resultado, devo ficar sem abaixar a cabeça e sem realizar qualquer esforço físico durante quatro horas, assim como evitar
         apoiar as mãos sobre o rosto ou coçar as regiões que passaram por aplicações, pelo mesmo período de tempo e ainda, evitar atividades que possam provocar
         aquecimento (aplicar calor na face, consumo de álcool, exercício físico por 24h e exposição ao sol).
       </p>
       <p class="fs-5 text-justify">
-        Declaro que respondi à anamnese (exame clínico e questionamentos de saúde), e não apresento alergia a ovo 9albumina), problemas de miasteria grave 9esclerose múltipla),
-        acne, depressão, dismorfafobia, bem como nenhuma enfermidade descompensatória ou descompensada.
+        Declaro que respondi à anamnese (exame clínico e questionamentos de saúde), e não apresento alergia a ovo (albumina), problemas de miastenia grave (esclerose múltipla),
+        acne, depressão, dismorfofobia, bem como nenhuma enfermidade descompensatória ou descompensada.
       </p>
       <p class="fs-5 text-justify">
-        Declaro que entendi e estou safisfeito(a), com todas as explicações e esclarecimentos fornecidos pela profissional sobre o procedimento mencionado e que posso
-        desiste a qualquer momento antes do inicio do procedimento.
+        Declaro que entendi e estou satisfeito(a) com todas as explicações e esclarecimentos fornecidos pela profissional sobre o procedimento mencionado e que posso
+        desistir a qualquer momento antes do início do procedimento.
       </p>
       <p class="fs-5 text-justify">
-        É de meu conhecimento que a prática das ciências médicas não é uma ciência exata e reconheço que o prognóstico é apenas de ordem estatística não significando
+        É de meu conhecimento que a prática das ciências médicas não é uma ciência exata e reconheço que o prognóstico é apenas de ordem estatística, não significando
         necessariamente o resultado.
       </p>
-      
 
       <!-- Observações -->
       <div class="mb-3">
         <label for="observacoes" class="form-label">Assim sendo, reafirmo o meu consentimento para que seja realizado o procedimento:</label>
         <textarea id="observacoes" class="form-control" rows="4"></textarea>
       </div>
+
       <p class="fs-5 text-justify">
         E afirmo que a profissional colocou-se à minha disposição para esclarecer dúvidas ou ampliar informações caso eu demonstre interesse.
       </p>
+
+      <div class="mb-3">
+        <label for="dataAssinatura" class="form-label">Data da Assinatura</label>
+        <input type="text"
+               class="form-control"
+               id="dataAssinatura"
+               name="dataAssinatura"
+               value="@DateTime.Now.ToString("dd/MM/yyyy")"
+               readonly />
+      </div>
 
       <div class="mt-4 text-center">
         <button type="button" class="btn btn-primary" id="start">Assinar Documento</button>
@@ -87,13 +97,22 @@
   </div>
 </div>
 
-<!-- Toast para feedback -->
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-  <div id="toastMsg" class="toast align-items-center text-bg-success border-0" role="alert">
-    <div class="d-flex">
-      <div class="toast-body">Assinatura salva com sucesso!</div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-    </div>
+<!-- Overlay de Loading -->
+<div id="loadingOverlay" class="justify-content-center align-items-center d-none"
+     style="position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.5); z-index:2000; color:white; font-size:1.5rem;">
+  <div>
+    <div class="spinner-border text-light" role="status"></div>
+    <span class="ms-2">Salvando assinatura...</span>
+  </div>
+</div>
+
+<!-- Mensagem de sucesso centralizada -->
+<div id="successMessage" class="justify-content-center align-items-center d-none"
+     style="position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.5); z-index:2001; color:white; font-size:1.5rem;">
+  <div class="bg-success p-4 rounded shadow">
+    Assinatura salva com sucesso!
   </div>
 </div>
 
@@ -101,6 +120,18 @@
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
   <script>
     var signaturePad = null;
+
+    // Helpers para mostrar/ocultar overlays
+    function showFlex(id) {
+      var el = document.getElementById(id);
+      el.classList.remove('d-none');
+      el.classList.add('d-flex');
+    }
+    function hideFlex(id) {
+      var el = document.getElementById(id);
+      el.classList.remove('d-flex');
+      el.classList.add('d-none');
+    }
 
     // Abre modal e inicializa assinatura
     document.getElementById('start').addEventListener('click', function () {
@@ -126,7 +157,7 @@
         if (signaturePad) signaturePad.clear();
     });
 
-    // Converter base64 em array de bytes
+    // Converter base64 em array de bytes (não usado, mas mantido caso precise)
     function base64ToBytes(base64) {
         const binary = atob(base64);
         const len = binary.length;
@@ -142,21 +173,22 @@
         return el ? el.value : null;
     }
 
+    // Salvar assinatura
     document.getElementById('save').addEventListener('click', function () {
         if (signaturePad && !signaturePad.isEmpty()) {
             var data = signaturePad.toDataURL('image/png');
             var base64 = data.replace(/^data:image\/(png|jpeg);base64,/, "");
-            var byteArray = base64ToBytes(base64);
 
             const token = getCsrfToken();
             if (!token) {
-                console.error("Token antiforgery não encontrado na página.");
                 alert("Erro de segurança: token não encontrado.");
                 return;
             }
 
             var observacoes = document.getElementById('observacoes').value;
 
+            // Mostra overlay de loading
+            showFlex('loadingOverlay');
 
             fetch(`/Prontuarios/AssinarPreenchimentoFacial/@Model.PreenchimentoFacialId?handler=SalvarAssinatura`, {
                 method: 'POST',
@@ -170,13 +202,26 @@
                     Observacoes: observacoes
                 })
             }).then(r => {
+                // Esconde loading
+                hideFlex('loadingOverlay');
+
                 if (r.ok) {
-                    bootstrap.Modal.getInstance(document.getElementById('signatureModal')).hide();
-                    new bootstrap.Toast(document.getElementById('toastMsg')).show();
-                    setTimeout(() => window.location.href = '/Prontuarios/PtPreenchimentosFaciais', 2000);
+                    // Mostra mensagem de sucesso
+                    showFlex('successMessage');
+
+                    setTimeout(() => {
+                        hideFlex('successMessage');
+                        bootstrap.Modal.getInstance(document.getElementById('signatureModal')).hide();
+                        window.location.href = '/Prontuarios/PtPreenchimentosFaciais';
+                    }, 2000);
                 } else {
                     r.text().then(t => console.error("Erro no backend:", t));
+                    alert("Erro ao salvar assinatura.");
                 }
+            }).catch(err => {
+                hideFlex('loadingOverlay');
+                console.error("Falha na requisição:", err);
+                alert("Erro ao salvar assinatura.");
             });
         } else {
             alert("Por favor, faça sua assinatura antes de salvar.");

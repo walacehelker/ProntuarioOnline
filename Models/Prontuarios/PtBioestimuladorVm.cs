@@ -119,6 +119,7 @@ namespace Domain.Prontuarios
     public decimal? PescocoDiluicao { get; set; }
 
     public byte[] PdfAssinado { get; set; }
+    public DateTime? DataAssinatura { get; set; }
   }
 
   public class PtBioestimuladorCadVm : BaseVmEntity
@@ -247,6 +248,7 @@ namespace Domain.Prontuarios
     public bool? AceitaCompartilhamentoDados { get; set; }
     public bool? AceitaDivulgacao { get; set; }
     public bool? AceitaDivulgacaoCongresso { get; set; }
+    public DateTime? DataAssinatura { get; set; }
   }
 
   public class AssinaturaBioestimuladorVm

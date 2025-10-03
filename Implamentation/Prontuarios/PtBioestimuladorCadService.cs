@@ -165,8 +165,8 @@ namespace Implementations.Prontuarios
         PescocoDireita = modelCadVm.PescocoDireita,
         PescocoEsquerda = modelCadVm.PescocoEsquerda,
         PescocoQtdTotal = modelCadVm.PescocoQtdTotal,
-        PescocoDiluicao = modelCadVm.PescocoDiluicao
-
+        PescocoDiluicao = modelCadVm.PescocoDiluicao,
+        DataAssinatura = modelCadVm.DataAssinatura
       };
 
       return dado;
@@ -304,7 +304,8 @@ namespace Implementations.Prontuarios
         PescocoDireita = cadVm.PescocoDireita,
         PescocoEsquerda = cadVm.PescocoEsquerda,
         PescocoQtdTotal = cadVm.PescocoQtdTotal,
-        PescocoDiluicao = cadVm.PescocoDiluicao
+        PescocoDiluicao = cadVm.PescocoDiluicao,
+        DataAssinatura = cadVm.DataAssinatura,
       };
 
       return vm;

@@ -48,6 +48,7 @@ namespace Domain.Prontuarios
     public byte[] PdfAssinado { get; set; }
     public string Observacoes { get; set; }
     public bool? AceitaDivulgacao { get; set; }
+    public DateTime? DataAssinatura { get; set; }
 
     public CadPessoa CadPessoa { get; set; }
   }

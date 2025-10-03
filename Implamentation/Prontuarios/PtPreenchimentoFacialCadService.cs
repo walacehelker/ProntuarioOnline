@@ -52,7 +52,8 @@ namespace Implementations.Prontuarios
         PessoaNome = modelCadVm.PessoaNome,
         DataProcedimento = modelCadVm.DataProcedimento,
         AssinaturaTermoConsentimento = modelCadVm.AssinaturaTermoConsentimento,
-        Observacoes = modelCadVm.Observacoes
+        Observacoes = modelCadVm.Observacoes,
+        DataAssinatura = modelCadVm.DataAssinatura
       };
 
       return dado;
@@ -93,7 +94,8 @@ namespace Implementations.Prontuarios
         PessoaNome = cadVm.PessoaNome,
         DataProcedimento = cadVm.DataProcedimento,
         Observacoes = cadVm.Observacoes,
-        AssinaturaTermoConsentimento = cadVm.AssinaturaTermoConsentimento
+        AssinaturaTermoConsentimento = cadVm.AssinaturaTermoConsentimento,
+        DataAssinatura = cadVm.DataAssinatura,
       };
 
       return vm;

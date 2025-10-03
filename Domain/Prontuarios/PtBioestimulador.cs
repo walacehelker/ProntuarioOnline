@@ -120,6 +120,7 @@ namespace Domain.Prontuarios
     public bool? AceitaCompartilhamentoDados { get; set; }
     public bool? AceitaDivulgacao { get; set; }
     public bool? AceitaDivulgacaoCongresso { get; set; }
+    public DateTime? DataAssinatura { get; set; }
     public CadPessoa CadPessoa { get; set; }
   }
 }

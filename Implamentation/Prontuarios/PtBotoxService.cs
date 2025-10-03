@@ -36,6 +36,7 @@ namespace Implementations.Prontuarios
           NumeroLote = c.NumeroLote,
           DataValidade = c.DataValidade,
           PdfAssinado = c.PdfAssinado,
+          DataAssinatura = c.DataAssinatura,
         }).ToListAsync();
 
       return entities;
@@ -93,6 +94,7 @@ namespace Implementations.Prontuarios
         Observacoes = retorno.Observacoes,
         AceitaDivulgacao = retorno.AceitaDivulgacao,
         PdfAssinado = retorno.PdfAssinado,
+        DataAssinatura = retorno.DataAssinatura,
       };
 
       return vm;

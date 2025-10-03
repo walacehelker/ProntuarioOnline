@@ -49,6 +49,7 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
       dados.AceitaCompartilhamentoDados = assinatura.AceitaCompartilhamentoDados;
       dados.AceitaDivulgacao = assinatura.AceitaDivulgacao;
       dados.AceitaDivulgacaoCongresso = assinatura.AceitaDivulgacaoCongresso;
+      dados.DataAssinatura = DateTime.Now;
 
       await _ptBioestimuladorCadService.UpdateAsync(dados);
 

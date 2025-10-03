@@ -25,7 +25,7 @@ namespace Configuration.Prontuarios
 
       builder.Property(e => e.DataProcedimento)
              .HasColumnName("data_procedimento")
-             .HasColumnType("datetime")
+             .HasColumnType("datetime2")
              .IsRequired();
 
       builder.Property(e => e.MarcaProduto)
@@ -35,7 +35,7 @@ namespace Configuration.Prontuarios
 
       builder.Property(e => e.DataDiluicao)
              .HasColumnName("data_diluicao")
-             .HasColumnType("datetime")
+             .HasColumnType("datetime2")
              .IsRequired(false);
 
       builder.Property(e => e.VolumeDiluicao)
@@ -50,7 +50,7 @@ namespace Configuration.Prontuarios
 
       builder.Property(e => e.DataValidade)
              .HasColumnName("data_validade")
-             .HasColumnType("datetime")
+             .HasColumnType("datetime2")
              .IsRequired(false);
 
       // 🔹 Pontos de aplicação
@@ -220,6 +220,11 @@ namespace Configuration.Prontuarios
       builder.Property(h => h.AceitaDivulgacao)
              .HasColumnName("aceita_divulgacao")
              .HasDefaultValue(false)
+             .IsRequired(false);
+
+      builder.Property(e => e.DataAssinatura)
+             .HasColumnName("data_assinatura")
+             .HasColumnType("datetime2")
              .IsRequired(false);
 
 

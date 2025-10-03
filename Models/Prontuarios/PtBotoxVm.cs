@@ -127,6 +127,7 @@ namespace Domain.Prontuarios
 
     [DisplayName("Observações")]
     public string Observacoes { get; set; }
+    public DateTime? DataAssinatura { get; set; }
   }
 
   public class PtBotoxCadVm : BaseVmEntity
@@ -263,6 +264,7 @@ namespace Domain.Prontuarios
     public byte[] PdfAssinado { get; set; }
     public bool? AceitaDivulgacao { get; set; }
     public string Observacoes { get; set; }
+    public DateTime? DataAssinatura { get; set; }
   }
 
   public class AssinaturaBotoxVm

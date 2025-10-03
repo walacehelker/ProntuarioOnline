@@ -25,7 +25,7 @@ namespace Configuration.Prontuarios
 
       builder.Property(e => e.DataProcedimento)
              .HasColumnName("data_procedimento")
-             .HasColumnType("datetime")
+             .HasColumnType("datetime2")
              .IsRequired();
 
       builder.Property(e => e.Observacoes)
@@ -36,6 +36,11 @@ namespace Configuration.Prontuarios
       builder.Property(e => e.AssinaturaTermoConsentimento)
              .HasColumnName("assinatura_termo_consentimento")
              .HasColumnType("varbinary(max)")
+             .IsRequired(false);
+
+      builder.Property(e => e.DataAssinatura)
+             .HasColumnName("data_assinatura")
+             .HasColumnType("datetime2")
              .IsRequired(false);
 
       builder.HasOne(h => h.CadPessoa)

@@ -30,7 +30,8 @@ namespace Implementations.Prontuarios
           PessoaId = c.PessoaId,
           PessoaNome = c.CadPessoa.Nome, 
           DataProcedimento = c.DataProcedimento,
-          AssinaturaTermoConsentimento = c.AssinaturaTermoConsentimento
+          AssinaturaTermoConsentimento = c.AssinaturaTermoConsentimento,
+          DataAssinatura = c.DataAssinatura,
         }).ToListAsync();
 
       return entities;
@@ -49,7 +50,8 @@ namespace Implementations.Prontuarios
         PessoaNome = retorno.CadPessoa?.Nome,
         DataProcedimento = retorno.DataProcedimento,   
         AssinaturaTermoConsentimento = retorno.AssinaturaTermoConsentimento,
-        Observacoes = retorno.Observacoes
+        Observacoes = retorno.Observacoes,
+        DataAssinatura = retorno.DataAssinatura,
       };
 
       return vm;

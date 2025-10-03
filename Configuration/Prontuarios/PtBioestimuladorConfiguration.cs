@@ -25,7 +25,7 @@ namespace Configuration.Prontuarios
 
       builder.Property(e => e.DataProcedimento)
              .HasColumnName("data_procedimento")
-             .HasColumnType("datetime")
+             .HasColumnType("datetime2")
              .IsRequired();
 
       builder.Property(e => e.TratamentoFace)
@@ -514,6 +514,11 @@ namespace Configuration.Prontuarios
       builder.Property(h => h.AceitaDivulgacaoCongresso)
              .HasColumnName("aceita_divulgacao_congresso")
              .HasDefaultValue(false)
+             .IsRequired(false);
+
+      builder.Property(e => e.DataAssinatura)
+             .HasColumnName("data_assinatura")
+             .HasColumnType("datetime2")
              .IsRequired(false);
 
 

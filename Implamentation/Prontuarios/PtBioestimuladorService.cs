@@ -33,6 +33,7 @@ namespace Implementations.Prontuarios
           TratamentoFace = c.TratamentoFace,
           TratamentoCorpo = c.TratamentoCorpo,
           PdfAssinado = c.PdfAssinado,
+          DataAssinatura = c.DataAssinatura,
         }).ToListAsync();
 
       return entities;
@@ -156,8 +157,8 @@ namespace Implementations.Prontuarios
         PescocoDireita = retorno.PescocoDireita,
         PescocoEsquerda = retorno.PescocoEsquerda,
         PescocoQtdTotal = retorno.PescocoQtdTotal,
-        PescocoDiluicao = retorno.PescocoDiluicao
-
+        PescocoDiluicao = retorno.PescocoDiluicao,
+        DataAssinatura = retorno.DataAssinatura
       };
 
       return vm;

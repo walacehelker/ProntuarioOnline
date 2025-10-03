@@ -78,6 +78,7 @@ namespace Implementations.Prontuarios
         PdfAssinado = modelCadVm.PdfAssinado,
         Observacoes = modelCadVm.Observacoes,
         AceitaDivulgacao = modelCadVm.AceitaDivulgacao,
+        DataAssinatura = modelCadVm.DataAssinatura
       };
 
       return dado;
@@ -149,6 +150,7 @@ namespace Implementations.Prontuarios
         PdfAssinado = cadVm.PdfAssinado,
         Observacoes = cadVm.Observacoes,
         AceitaDivulgacao = cadVm.AceitaDivulgacao,
+        DataAssinatura = cadVm.DataAssinatura,
       };
 
       return vm;

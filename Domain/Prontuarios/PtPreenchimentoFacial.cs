@@ -9,6 +9,7 @@ namespace Domain.Prontuarios
     public DateTime? DataProcedimento { get; set; }
     public string Observacoes { get; set; }
     public byte[] AssinaturaTermoConsentimento { get; set; }
+    public DateTime? DataAssinatura { get; set; }
     public virtual CadPessoa CadPessoa { get; set; }  
     public virtual List<PtPreenchimentoFacialRelacaoAplicacao> PtPreenchimentoFacialRelacaoAplicacaoList { get; set; }
     public virtual List<PtPreenchimentoFacialRelacaoEtiqueta> PtPreenchimentoFacialRelacaoEtiquetaList { get; set; }

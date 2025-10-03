@@ -34,6 +34,7 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
       dados.PdfAssinado = assinatura.PdfAssinado;
       dados.AceitaDivulgacao = assinatura.AceitaDivulgacao;
       dados.Observacoes = assinatura.Observacoes;
+      dados.DataAssinatura = DateTime.Now;
 
       await _ptBotoxCadService.UpdateAsync(dados);
 

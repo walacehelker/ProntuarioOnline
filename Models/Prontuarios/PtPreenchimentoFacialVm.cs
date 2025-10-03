@@ -14,6 +14,7 @@ namespace Domain.Prontuarios
     public DateTime? DataProcedimento { get; set; }
     public string Observacoes { get; set; }
     public byte[] AssinaturaTermoConsentimento { get; set; }
+    public DateTime? DataAssinatura { get; set; }
   }
 
   public class PtPreenchimentoFacialCadVm : BaseVmEntity
@@ -38,6 +39,7 @@ namespace Domain.Prontuarios
     public string EtiquetasJson { get; set; }
     public string Observacoes { get; set; }
     public byte[] AssinaturaTermoConsentimento { get; set; }
+    public DateTime? DataAssinatura { get; set; }
 
   }
 

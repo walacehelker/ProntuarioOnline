@@ -66,29 +66,12 @@
         Fui devidamente informado sobre os riscos associados à aplicação de toxina butolínica, que pode incluir, mas não se limitam a:
       </p>
 
-      <p class="fs-5 text-justify">
-        ·Reações alérgicas, como coceira, vermelhidão, inchaço ou erupções cuâneas;
-      </p>
-
-      <p class="fs-5 text-justify">
-        ·Hematomas, dor ou desconforto no local da injeção;
-      </p>
-
-      <p class="fs-5 text-justify">
-        ·Fraqueza muscular temporária na área tratada;
-      </p>
-
-      <p class="fs-5 text-justify">
-        ·Assimetria facial ou alterações na expressão facial;
-      </p>
-
-      <p class="fs-5 text-justify">
-        ·Infecção no local da injeção;
-      </p>
-
-      <p class="fs-5 text-justify">
-        ·Outras complicações possíveis que me foram explicadas pelo(a) profissional;
-      </p>
+      <p class="fs-5 text-justify">·Reações alérgicas, como coceira, vermelhidão, inchaço ou erupções cuâneas;</p>
+      <p class="fs-5 text-justify">·Hematomas, dor ou desconforto no local da injeção;</p>
+      <p class="fs-5 text-justify">·Fraqueza muscular temporária na área tratada;</p>
+      <p class="fs-5 text-justify">·Assimetria facial ou alterações na expressão facial;</p>
+      <p class="fs-5 text-justify">·Infecção no local da injeção;</p>
+      <p class="fs-5 text-justify">·Outras complicações possíveis que me foram explicadas pelo(a) profissional;</p>
 
       <!-- Observações -->
       <div class="mb-3">
@@ -102,6 +85,16 @@
         <label class="form-check-label" for="aceitaDivulgacao">
           Autorizo a divulgação de imagens para fins científicos/educacionais
         </label>
+      </div>
+
+      <div class="mb-3">
+        <label for="dataAssinatura" class="form-label">Data da Assinatura</label>
+        <input type="text"
+               class="form-control"
+               id="dataAssinatura"
+               name="dataAssinatura"
+               value="@DateTime.Now.ToString("dd/MM/yyyy")"
+               readonly />
       </div>
 
       <div class="mt-4 text-center">
@@ -130,13 +123,22 @@
   </div>
 </div>
 
-<!-- Toast para feedback -->
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-  <div id="toastMsg" class="toast align-items-center text-bg-success border-0" role="alert">
-    <div class="d-flex">
-      <div class="toast-body">Assinatura salva com sucesso!</div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-    </div>
+<!-- Overlay de Loading -->
+<div id="loadingOverlay" class="justify-content-center align-items-center d-none"
+     style="position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.5); z-index:2000; color:white; font-size:1.5rem;">
+  <div>
+    <div class="spinner-border text-light" role="status"></div>
+    <span class="ms-2">Salvando assinatura...</span>
+  </div>
+</div>
+
+<!-- Mensagem de sucesso centralizada -->
+<div id="successMessage" class="justify-content-center align-items-center d-none"
+     style="position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.5); z-index:2001; color:white; font-size:1.5rem;">
+  <div class="bg-success p-4 rounded shadow">
+    Assinatura salva com sucesso!
   </div>
 </div>
 
@@ -144,6 +146,18 @@
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
   <script>
     var signaturePad = null;
+
+    // Helpers para mostrar/ocultar overlays
+    function showFlex(id) {
+      var el = document.getElementById(id);
+      el.classList.remove('d-none');
+      el.classList.add('d-flex');
+    }
+    function hideFlex(id) {
+      var el = document.getElementById(id);
+      el.classList.remove('d-flex');
+      el.classList.add('d-none');
+    }
 
     // Abre modal e inicializa assinatura
     document.getElementById('start').addEventListener('click', function () {
@@ -169,17 +183,6 @@
         if (signaturePad) signaturePad.clear();
     });
 
-    // Converter base64 em array de bytes
-    function base64ToBytes(base64) {
-        const binary = atob(base64);
-        const len = binary.length;
-        const bytes = new Uint8Array(len);
-        for (let i = 0; i < len; i++) {
-            bytes[i] = binary.charCodeAt(i);
-        }
-        return Array.from(bytes);
-    }
-
     function getCsrfToken() {
         const el = document.querySelector('input[name="__RequestVerificationToken"]');
         return el ? el.value : null;
@@ -189,7 +192,6 @@
         if (signaturePad && !signaturePad.isEmpty()) {
             var data = signaturePad.toDataURL('image/png');
             var base64 = data.replace(/^data:image\/(png|jpeg);base64,/, "");
-            var byteArray = base64ToBytes(base64);
 
             const token = getCsrfToken();
             if (!token) {
@@ -201,6 +203,8 @@
             var aceitaDivulgacao = document.getElementById('aceitaDivulgacao').checked;
             var observacoes = document.getElementById('observacoes').value;
 
+            // Mostra overlay de loading
+            showFlex('loadingOverlay');
 
             fetch(`/Prontuarios/AssinarBotox/@Model.BotoxId?handler=SalvarAssinatura`, {
                 method: 'POST',
@@ -215,13 +219,27 @@
                     Observacoes: observacoes
                 })
             }).then(r => {
+                // Esconde loading
+                hideFlex('loadingOverlay');
+
                 if (r.ok) {
-                    bootstrap.Modal.getInstance(document.getElementById('signatureModal')).hide();
-                    new bootstrap.Toast(document.getElementById('toastMsg')).show();
-                    setTimeout(() => window.location.href = '/Prontuarios/PtBotox', 2000);
+                    // Mostra mensagem de sucesso
+                    showFlex('successMessage');
+
+                    setTimeout(() => {
+                        hideFlex('successMessage');
+                        // Fecha modal e redireciona
+                        bootstrap.Modal.getInstance(document.getElementById('signatureModal')).hide();
+                        window.location.href = '/Prontuarios/PtBotox';
+                    }, 2000);
                 } else {
                     r.text().then(t => console.error("Erro no backend:", t));
+                    alert("Erro ao salvar assinatura.");
                 }
+            }).catch(err => {
+                hideFlex('loadingOverlay');
+                console.error("Falha na requisição:", err);
+                alert("Erro ao salvar assinatura.");
             });
         } else {
             alert("Por favor, faça sua assinatura antes de salvar.");

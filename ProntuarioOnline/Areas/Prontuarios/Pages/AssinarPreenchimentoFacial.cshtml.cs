@@ -53,6 +53,7 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
 
       dados.AssinaturaTermoConsentimento = assinatura.PdfAssinado;
       dados.Observacoes = assinatura.Observacoes;
+      dados.DataAssinatura = DateTime.Now;
 
       await _ptPreenchimentoFacialCadService.UpdateAsync(dados);
 
