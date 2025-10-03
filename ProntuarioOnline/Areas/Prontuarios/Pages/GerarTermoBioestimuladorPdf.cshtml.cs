@@ -247,6 +247,18 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
                   .Bold();
             });
 
+            col.Item().PaddingBottom(10).Column(c =>
+            {
+              c.Item().Text("Data da Assinatura:")
+                  .FontSize(10)
+                  .Bold();
+
+              c.Item().Text(dados.DataAssinatura.HasValue
+                  ? dados.DataAssinatura.Value.ToString("dd/MM/yyyy")
+                  : "Nenhuma")
+                  .FontSize(10);
+            });
+
             AddSection("Assinatura do Cliente", container =>
             {
               if (dados.PdfAssinado != null && dados.PdfAssinado.Length > 0)
