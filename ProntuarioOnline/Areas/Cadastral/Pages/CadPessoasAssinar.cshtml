@@ -180,96 +180,123 @@
     </div>
 </div>
 
-<!-- Toast para feedback -->
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div id="toastMsg" class="toast align-items-center text-bg-success border-0" role="alert">
-        <div class="d-flex">
-            <div class="toast-body">Assinatura salva com sucesso!</div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-    </div>
+<!-- Overlay de Loading -->
+<div id="loadingOverlay" class="justify-content-center align-items-center d-none"
+     style="position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.5); z-index:2000; color:white; font-size:1.5rem;">
+  <div>
+    <div class="spinner-border text-light" role="status"></div>
+    <span class="ms-2">Salvando assinatura...</span>
+  </div>
+</div>
+
+<!-- Mensagem de sucesso centralizada -->
+<div id="successMessage" class="justify-content-center align-items-center d-none"
+     style="position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.5); z-index:2001; color:white; font-size:1.5rem;">
+  <div class="bg-success p-4 rounded shadow">
+    Assinatura salva com sucesso!
+  </div>
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
-    <script>
-        var signaturePad = null;
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+  <script>
+    var signaturePad = null;
 
-        // Abre modal e inicializa assinatura
-        document.getElementById('start').addEventListener('click', function () {
-            var modalEl = document.getElementById('signatureModal');
-            var modal = new bootstrap.Modal(modalEl);
-            modal.show();
+    function showFlex(id) {
+      var el = document.getElementById(id);
+      el.classList.remove('d-none');
+      el.classList.add('d-flex');
+    }
 
-            modalEl.addEventListener('shown.bs.modal', function () {
-                var canvas = document.getElementById('signature-pad');
-                signaturePad = new SignaturePad(canvas);
+    function hideFlex(id) {
+      var el = document.getElementById(id);
+      el.classList.remove('d-flex');
+      el.classList.add('d-none');
+    }
 
-                // Ajusta o canvas para telas de alta densidade
-                var ratio = Math.max(window.devicePixelRatio || 1, 1);
-                canvas.width = canvas.offsetWidth * ratio;
-                canvas.height = canvas.offsetHeight * ratio;
-                canvas.getContext("2d").scale(ratio, ratio);
-                signaturePad.clear();
-            }, { once: true });
-        });
+    document.getElementById('start').addEventListener('click', function () {
+      var modalEl = document.getElementById('signatureModal');
+      var modal = new bootstrap.Modal(modalEl);
+      modal.show();
 
-        // Limpar assinatura
-        document.getElementById('clear').addEventListener('click', function () {
-            if (signaturePad) signaturePad.clear();
-        });
+      modalEl.addEventListener('shown.bs.modal', function () {
+        var canvas = document.getElementById('signature-pad');
+        signaturePad = new SignaturePad(canvas);
 
-        // Converter base64 em array de bytes
-        function base64ToBytes(base64) {
-            const binary = atob(base64);
-            const len = binary.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) {
-                bytes[i] = binary.charCodeAt(i);
-            }
-            return Array.from(bytes);
+        var ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+        signaturePad.clear();
+      }, { once: true });
+    });
+
+    document.getElementById('clear').addEventListener('click', function () {
+      if (signaturePad) signaturePad.clear();
+    });
+
+    function base64ToBytes(base64) {
+      const binary = atob(base64);
+      const len = binary.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return Array.from(bytes);
+    }
+
+    function getCsrfToken() {
+      const el = document.querySelector('input[name="__RequestVerificationToken"]');
+      return el ? el.value : null;
+    }
+
+    document.getElementById('save').addEventListener('click', function () {
+      if (signaturePad && !signaturePad.isEmpty()) {
+        var data = signaturePad.toDataURL('image/png');
+        var base64 = data.replace(/^data:image\/(png|jpeg);base64,/, "");
+
+        const token = getCsrfToken();
+        if (!token) {
+          alert("Erro de segurança: token não encontrado.");
+          return;
         }
 
-                function getCsrfToken() {
-            const el = document.querySelector('input[name="__RequestVerificationToken"]');
-            return el ? el.value : null;
-        }
+        showFlex('loadingOverlay');
 
-        document.getElementById('save').addEventListener('click', function () {
-            if (signaturePad && !signaturePad.isEmpty()) {
-                var data = signaturePad.toDataURL('image/png');
-                var base64 = data.replace(/^data:image\/(png|jpeg);base64,/, "");
-                var byteArray = base64ToBytes(base64);
+        fetch(`/Cadastral/CadPessoasAssinar/@Model.PessoaId?handler=SalvarAssinatura`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'RequestVerificationToken': token
+          },
+          body: JSON.stringify({
+            Id: '@Model.PessoaId',
+            PdfAssinado: base64
+          })
+        }).then(r => {
+          hideFlex('loadingOverlay');
 
-                const token = getCsrfToken();
-                if (!token) {
-                    console.error("Token antiforgery não encontrado na página.");
-                    alert("Erro de segurança: token não encontrado.");
-                    return;
-                }
-
-                fetch(`/Cadastral/CadPessoasAssinar/@Model.PessoaId?handler=SalvarAssinatura`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'RequestVerificationToken': token
-                    },
-                    body: JSON.stringify({
-                        Id: '@Model.PessoaId',
-                        PdfAssinado: base64
-                    })
-                }).then(r => {
-                    if (r.ok) {
-                        bootstrap.Modal.getInstance(document.getElementById('signatureModal')).hide();
-                        new bootstrap.Toast(document.getElementById('toastMsg')).show();
-                        setTimeout(() => window.location.href = '/Cadastral/CadPessoas', 2000);
-                    } else {
-                        r.text().then(t => console.error("Erro no backend:", t));
-                    }
-                });
-            } else {
-                alert("Por favor, faça sua assinatura antes de salvar.");
-            }
+          if (r.ok) {
+            showFlex('successMessage');
+            setTimeout(() => {
+              hideFlex('successMessage');
+              bootstrap.Modal.getInstance(document.getElementById('signatureModal')).hide();
+              window.location.href = '/Cadastral/CadPessoas';
+            }, 2000);
+          } else {
+            r.text().then(t => console.error("Erro no backend:", t));
+            alert("Erro ao salvar assinatura.");
+          }
+        }).catch(err => {
+          hideFlex('loadingOverlay');
+          console.error("Falha na requisição:", err);
+          alert("Erro ao salvar assinatura.");
         });
-    </script>
+      } else {
+        alert("Por favor, faça sua assinatura antes de salvar.");
+      }
+    });
+  </script>
 }
