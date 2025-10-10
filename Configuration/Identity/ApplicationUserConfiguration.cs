@@ -26,7 +26,7 @@ namespace ProntuarioOnline.Data.Configurations
 
       builder.Property(u => u.UsuarioProprietarioId)
              .HasColumnType("varchar(50)")
-             .IsRequired();
+             .IsRequired(false);
     }
   }
 }

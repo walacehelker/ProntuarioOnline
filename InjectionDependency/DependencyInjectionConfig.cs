@@ -22,6 +22,8 @@ namespace InjectionDependency
       services.AddScoped<IPtPreenchimentoFacialRelacaoAplicacaoService, PtPreenchimentoFacialRelacaoAplicacaoService>();
       services.AddScoped<IPtPreenchimentoFacialRelacaoEtiquetaService, PtPreenchimentoFacialRelacaoEtiquetaService>();
 
+      services.AddScoped<IAgendaService, AgendaService>();
+      services.AddScoped<IAgendaCadService, AgendaCadService>();
       return services;
     }
   }

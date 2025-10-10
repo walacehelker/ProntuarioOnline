@@ -1,0 +1,107 @@
+﻿@page "{id?}"
+@model ProntuarioOnline.Areas.Cadastral.Pages.CadAgendasCadModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+  Layout = "_Layout";
+}
+
+<style>
+  .form-label {
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  .form-control,
+  .form-check {
+    margin-bottom: 1rem; /* espaço entre campos */
+  }
+
+  h5 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #0d6efd; /* azul bootstrap */
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 0.3rem;
+  }
+
+  .card-body {
+    padding: 2rem;
+  }
+
+  .form-control {
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+  }
+
+  .form-check {
+    margin-bottom: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+  }
+</style>
+
+<div class="container-fluid mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Agenda</h4>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        <input type="hidden" asp-for="EntityVm.Id" />
+        <!-- Dados pessoais -->
+
+        <div class="mb-3">
+          <label asp-for="EntityVm.Nome" class="form-label"></label>
+          <input asp-for="EntityVm.Nome" class="form-control" />
+          <span asp-validation-for="EntityVm.Nome" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+          <label asp-for="EntityVm.ProcedimentoAgendado" class="form-label"></label>
+          <input asp-for="EntityVm.ProcedimentoAgendado" class="form-control" />
+          <span asp-validation-for="EntityVm.ProcedimentoAgendado" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+          <label asp-for="EntityVm.Data" class="form-label"></label>
+          <input asp-for="EntityVm.Data" class="form-control" type="text" value="@Model.EntityVm.Data.ToString("dd/MM/yyyy")" />
+          <span asp-validation-for="EntityVm.Data" class="text-danger"></span>
+        </div>
+
+        <!-- Contato -->
+        <h5 class="mt-4">Contato</h5>
+        <div class="mb-3">
+          <label asp-for="EntityVm.Telefone" class="form-label"></label>
+          <input asp-for="EntityVm.Telefone" class="form-control" />
+          <span asp-validation-for="EntityVm.Telefone" class="text-danger"></span>
+        </div>
+
+        <!-- Botões -->
+        <button type="submit" class="btn btn-success">
+          <i class="bi bi-save"></i> Salvar
+        </button>
+        <a asp-page="CadPessoas" class="btn btn-secondary">Voltar</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+  <script>
+    // $(document).ready(function(){
+    //     $('#DataNascimento').mask('00/00/0000');
+    // });
+
+    $(function () {
+        $('#EntityVm_Data').mask('00/00/0000');
+        $('#EntityVm_Telefone').mask('(00) 00000-0000');
+    });
+
+  </script>
+}

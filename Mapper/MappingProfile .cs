@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Cadastro;
 using Domain.Prontuarios;
+using Models.Cadastro;
 namespace ProntuarioOnline.Mappings;
 
 public class MappingProfile : Profile
@@ -14,5 +15,7 @@ public class MappingProfile : Profile
     CreateMap<PtPreenchimentoFacial, PtPreenchimentoFacialVm>().ReverseMap();
     CreateMap<PtPreenchimentoFacialRelacaoAplicacao, PtPreenchimentoFacialRelacaoAplicacaoVm>().ReverseMap();
     CreateMap<PtPreenchimentoFacialRelacaoEtiqueta, PtPreenchimentoFacialRelacaoEtiquetaVm>().ReverseMap();
+
+    CreateMap<CadAgenda, CadAgendaVm>().ReverseMap();
   }
 }

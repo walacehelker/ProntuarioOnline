@@ -120,7 +120,8 @@ async Task SeedUserAsync(WebApplication app)
       UserName = email,
       Email = email,
       EmailConfirmed = true,
-      TipoUsuario = TipoUsuario.Admin
+      TipoUsuario = TipoUsuario.Admin,
+      NomeCompleto = "Walace Helker Braga"
     };
     var result = await userManager.CreateAsync(user, password);
     if (result.Succeeded)
