@@ -11,7 +11,7 @@
     <h4>@(Model.Usuario.Id == null ? "Novo Usuário" : "Editar Usuário")</h4>
     <hr />
 
-    <form method="post">
+    <form method="post" autocomplete="off">
         <input type="hidden" asp-for="Usuario.Id" />
         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 

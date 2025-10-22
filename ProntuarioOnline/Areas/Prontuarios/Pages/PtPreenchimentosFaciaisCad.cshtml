@@ -10,7 +10,7 @@
   <h4>Cadastro do Procedimento de Preenchimento Facial</h4>
   <hr />
 
-  <form method="post">
+  <form method="post" autocomplete="off">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="EntityVm.Id" />
     <input type="hidden" asp-for="EntityVm.AplicacoesJson" id="AplicacoesJson" />
