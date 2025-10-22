@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.dataTables_filter input {
+  width: 300px !important; /* aumenta largura */
+  display: inline-block;
+}
