@@ -39,8 +39,9 @@ namespace ProntuarioOnline.Areas.Cadastral.Pages
               col.Item().Text("Especialista em Harmonização Facial e Intercorrências");
               col.Item().Text("Tel: (27) 99743-2716");
             });
-            row.ConstantColumn(80).Height(80).Background(Colors.Grey.Lighten3)
-               .AlignCenter().AlignMiddle().Text("LOGO");
+            row.ConstantColumn(80).Height(80)
+             .AlignCenter().AlignMiddle()
+             .Image("wwwroot/img/logo.png");
           });
 
           // 🔹 Conteúdo

@@ -25,3 +25,15 @@ body {
   width: 300px !important; /* aumenta largura */
   display: inline-block;
 }
+
+.logo-navbar {
+  height: 100%; /* ocupa toda a altura da navbar */
+  max-height: 80px; /* limite opcional para não estourar */
+  width: auto; /* mantém proporção */
+  margin-right: 40px;
+}
+
+.navbar-brand {
+  padding-top: 0;
+  padding-bottom: 0; /* remove espaçamento extra */
+}

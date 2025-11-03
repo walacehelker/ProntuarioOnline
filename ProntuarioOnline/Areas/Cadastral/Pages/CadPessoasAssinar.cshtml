@@ -4,180 +4,218 @@
 @Html.AntiForgeryToken()
 
 @{
-    Layout = "_Layout";
+  Layout = "_Layout";
 }
 
 <div class="container-fluid mt-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">Dados do Cadastro</h4>
-        </div>
-        <div class="card-body" style="max-height:80vh; overflow-y:auto;">
-
-
-            <!-- DADOS PESSOAIS -->
-            <div class="mb-3">
-                <label class="form-label">Nome</label>
-                <input class="form-control" value="@Model.Pessoa.Nome" readonly />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Nome Social</label>
-                <input class="form-control" value="@Model.Pessoa.NomeSocial" readonly />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Data de Nascimento</label>
-                <input class="form-control" value="@Model.Pessoa.DataNascimento?.ToString("dd/MM/yyyy")" readonly />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">CPF</label>
-                <input class="form-control" value="@Model.Pessoa.Cpf" readonly />
-            </div>
-
-            <!-- ENDEREÇO -->
-            <h5 class="mt-4">Endereço</h5>
-            <input class="form-control mb-2" value="@Model.Pessoa.Rua" readonly />
-            <input class="form-control mb-2" value="@Model.Pessoa.Numero" readonly />
-            <input class="form-control mb-2" value="@Model.Pessoa.Bairro" readonly />
-            <input class="form-control mb-2" value="@Model.Pessoa.Cidade" readonly />
-            <input class="form-control mb-2" value="@Model.Pessoa.Estado" readonly />
-            <input class="form-control mb-2" value="@Model.Pessoa.Cep" readonly />
-
-            <!-- CONTATO -->
-            <h5 class="mt-4">Contato</h5>
-            <input class="form-control mb-2" value="@Model.Pessoa.Telefone" readonly />
-            <input class="form-control mb-2" value="@Model.Pessoa.Email" readonly />
-
-            <!-- HISTÓRICO -->
-            <h5 class="mt-4">Histórico</h5>
-            <textarea class="form-control mb-2" readonly>@Model.Pessoa.Queixa</textarea>
-            <textarea class="form-control mb-2" readonly>@Model.Pessoa.DiagnosticoClinico</textarea>
-            <textarea class="form-control mb-2" readonly>@Model.Pessoa.AntecedentesPatologicos</textarea>
-            <textarea class="form-control mb-2" readonly>@Model.Pessoa.AntecedentesFamiliares</textarea>
-
-            <!-- TRATAMENTOS ESTÉTICOS -->
-            <h5 class="mt-4">Tratamentos Estéticos</h5>
-            <p>@(Model.Pessoa.PossuiTratamentoEsteticoAnterior ? "Sim" : "Não")</p>
-            @if (Model.Pessoa.PossuiTratamentoEsteticoAnterior)
-            {
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.ToxinixaBotulinica ? "checked" : "") />
-                    <label class="form-check-label">Toxina Botulínica</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Preenchedores ? "checked" : "") />
-                    <label class="form-check-label">Preenchedores</label>
-                </div>
-                <textarea class="form-control mb-2" readonly>@Model.Pessoa.TratamentoEsteticoAnterior</textarea>
-                <textarea class="form-control mb-2" readonly>@Model.Pessoa.InformacoesSobreAplicacao</textarea>
-                <textarea class="form-control mb-2" readonly>@Model.Pessoa.InformacoesPosAplicacao</textarea>
-            }
-
-            <!-- MEDICAMENTOS -->
-            <h5 class="mt-4">Medicamentos</h5>
-            <p>@(Model.Pessoa.Medicamentos ? "Sim" : "Não")</p>
-            @if (Model.Pessoa.Medicamentos)
-            {
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.AntiInfamatorio ? "checked" : "") />
-                    <label class="form-check-label">Anti-inflamatório</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Analgesico ? "checked" : "") />
-                    <label class="form-check-label">Analgésico</label>
-                </div>
-                <!-- ... repita para os demais medicamentos ... -->
-                <textarea class="form-control mb-2" readonly>@Model.Pessoa.OutrosMedicamentos</textarea>
-            }
-
-            <!-- HÁBITOS E CONDIÇÕES -->
-            <h5 class="mt-4">Hábitos e Condições</h5>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.TomaSol ? "checked" : "") />
-                <label class="form-check-label">Toma Sol</label>
-            </div>
-
-            <!-- PRÁTICA DE ESPORTES -->
-            <h5 class="mt-4">Prática de Esportes</h5>
-            <p>@(Model.Pessoa.PraticaEsporte ? "Sim" : "Não")</p>
-            @if (Model.Pessoa.PraticaEsporte)
-            {
-                <textarea class="form-control mb-2" readonly>@Model.Pessoa.Esportes</textarea>
-            }
-
-            <!-- ANTECEDENTES ALÉRGICOS -->
-            <h5 class="mt-4">Antecedentes Alérgicos</h5>
-            <p>@(Model.Pessoa.AntecedentesAlergicos ? "Sim" : "Não")</p>
-            @if (Model.Pessoa.AntecedentesAlergicos)
-            {
-                <textarea class="form-control mb-2" readonly>@Model.Pessoa.Alergias</textarea>
-            }
-
-            <!-- DISTÚRBIOS EMOCIONAIS -->
-            <h5 class="mt-4">Distúrbios Emocionais</h5>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Stresse ? "checked" : "") />
-                <label class="form-check-label">Estresse</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Ansiedade ? "checked" : "") />
-                <label class="form-check-label">Ansiedade</label>
-            </div>
-            <textarea class="form-control mb-2" readonly>@Model.Pessoa.OutrosDisturbiosEmocionais</textarea>
-
-            <!-- GERAL -->
-            <h5 class="mt-4">Geral</h5>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.IntoleranciaLactose ? "checked" : "") />
-                <label class="form-check-label">Intolerância à Lactose</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Diabetes ? "checked" : "") />
-                <label class="form-check-label">Diabetes</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.AlergiaOvo ? "checked" : "") />
-                <label class="form-check-label">Alergia a Ovo</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Fumante ? "checked" : "") />
-                <label class="form-check-label">É fumante</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.GestanteOuAmamentando ? "checked" : "") />
-                <label class="form-check-label">Gestante ou Amamentando</label>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Informações Complementares</label>
-                <textarea class="form-control" readonly>@Model.Pessoa.InformacoesComplementares</textarea>
-            </div>
-
-            <!-- Botão para abrir modal de assinatura -->
-            <div class="mt-4 text-center">
-                <button type="button" class="btn btn-primary" id="start">Assinar Documento</button>
-            </div>
-
-        </div>
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Dados do Cadastro</h4>
     </div>
+    <div class="card-body" style="max-height:80vh; overflow-y:auto;">
+
+
+      <!-- DADOS PESSOAIS -->
+      <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input class="form-control" value="@Model.Pessoa.Nome" readonly />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Nome Social</label>
+        <input class="form-control" value="@Model.Pessoa.NomeSocial" readonly />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Data de Nascimento</label>
+        <input class="form-control" value="@Model.Pessoa.DataNascimento?.ToString("dd/MM/yyyy")" readonly />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">CPF</label>
+        <input class="form-control" value="@Model.Pessoa.Cpf" readonly />
+      </div>
+
+      <!-- ENDEREÇO -->
+      <h5 class="mt-4">Endereço</h5>
+      <input class="form-control mb-2" value="@Model.Pessoa.Rua" readonly />
+      <input class="form-control mb-2" value="@Model.Pessoa.Numero" readonly />
+      <input class="form-control mb-2" value="@Model.Pessoa.Bairro" readonly />
+      <input class="form-control mb-2" value="@Model.Pessoa.Cidade" readonly />
+      <input class="form-control mb-2" value="@Model.Pessoa.Estado" readonly />
+      <input class="form-control mb-2" value="@Model.Pessoa.Cep" readonly />
+
+      <!-- CONTATO -->
+      <h5 class="mt-4">Contato</h5>
+      <input class="form-control mb-2" value="@Model.Pessoa.Telefone" readonly />
+      <input class="form-control mb-2" value="@Model.Pessoa.Email" readonly />
+
+      <!-- HISTÓRICO -->
+      <h5 class="mt-4">Histórico</h5>
+      <div class="form-control mb-2">@Model.Pessoa.Queixa</div>
+      <div class="form-control mb-2">@Model.Pessoa.DiagnosticoClinico</div>
+      <div class="form-control mb-2">@Model.Pessoa.AntecedentesPatologicos</div>
+      <div class="form-control mb-2">@Model.Pessoa.AntecedentesFamiliares</div>
+
+      <!-- TRATAMENTOS ESTÉTICOS -->
+      <h5 class="mt-4">Tratamentos Estéticos</h5>
+      <p>@(Model.Pessoa.PossuiTratamentoEsteticoAnterior ? "Sim" : "Não")</p>
+      @if (Model.Pessoa.PossuiTratamentoEsteticoAnterior)
+      {
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.ToxinixaBotulinica ? "checked" : "") />
+          <label class="form-check-label">Toxina Botulínica</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Preenchedores ? "checked" : "") />
+          <label class="form-check-label">Preenchedores</label>
+        </div>
+        <div class="form-control mb-2">@Model.Pessoa.TratamentoEsteticoAnterior</div>
+        <div class="form-control mb-2">@Model.Pessoa.InformacoesSobreAplicacao</div>
+        <div class="form-control mb-2">@Model.Pessoa.InformacoesPosAplicacao</div>
+      }
+
+      <!-- MEDICAMENTOS -->
+      <h5 class="mt-4">Medicamentos</h5>
+      <p>@(Model.Pessoa.Medicamentos ? "Sim" : "Não")</p>
+      @if (Model.Pessoa.Medicamentos)
+      {
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.AntiInfamatorio ? "checked" : "") />
+          <label class="form-check-label">Anti-inflamatório</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Analgesico ? "checked" : "") />
+          <label class="form-check-label">Analgésico</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.RelaxanteMuscular ? "checked" : "") />
+          <label class="form-check-label">Relaxante muscular</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Antibiotico ? "checked" : "") />
+          <label class="form-check-label">Antibiótico</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Aminoglicosideos ? "checked" : "") />
+          <label class="form-check-label">Aminoglicosídeos</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Penicilaminas ? "checked" : "") />
+          <label class="form-check-label">Penicilaminas</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Quinolonas ? "checked" : "") />
+          <label class="form-check-label">Quinolonas</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.RepositoresHormonais ? "checked" : "") />
+          <label class="form-check-label">Repositores hormonais</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Succinilcolina ? "checked" : "") />
+          <label class="form-check-label">Succinilcolina</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.BloqueadorCanalCalcio ? "checked" : "") />
+          <label class="form-check-label">Bloqueadores de canais de cálcio</label>
+        </div>
+        <div class="form-control mb-2">@Model.Pessoa.OutrosMedicamentos</div>
+      }
+
+      <!-- HÁBITOS E CONDIÇÕES -->
+      <h5 class="mt-4">Hábitos e Condições</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.TomaSol ? "checked" : "") />
+        <label class="form-check-label">Toma Sol</label>
+      </div>
+
+      <!-- PRÁTICA DE ESPORTES -->
+      <h5 class="mt-4">Prática de Esportes</h5>
+      <p>@(Model.Pessoa.PraticaEsporte ? "Sim" : "Não")</p>
+      @if (Model.Pessoa.PraticaEsporte)
+      {
+        <div class="form-control mb-2">@Model.Pessoa.Esportes</div>
+      }
+
+      <!-- ANTECEDENTES ALÉRGICOS -->
+      <h5 class="mt-4">Antecedentes Alérgicos</h5>
+      <p>@(Model.Pessoa.AntecedentesAlergicos ? "Sim" : "Não")</p>
+      @if (Model.Pessoa.AntecedentesAlergicos)
+      {
+        <div class="form-control mb-2">@Model.Pessoa.Alergias</div>
+      }
+
+      <!-- DISTÚRBIOS EMOCIONAIS -->
+      <h5 class="mt-4">Distúrbios Emocionais</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Stresse ? "checked" : "") />
+        <label class="form-check-label">Estresse</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Ansiedade ? "checked" : "") />
+        <label class="form-check-label">Ansiedade</label>
+      </div>
+      <div class="form-control mb-2">@Model.Pessoa.OutrosDisturbiosEmocionais</div>
+
+      <!-- GERAL -->
+      <h5 class="mt-4">Geral</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.IntoleranciaLactose ? "checked" : "") />
+        <label class="form-check-label">Intolerância à Lactose</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Diabetes ? "checked" : "") />
+        <label class="form-check-label">Diabetes</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.AlergiaOvo ? "checked" : "") />
+        <label class="form-check-label">Alergia a Ovo</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.Fumante ? "checked" : "") />
+        <label class="form-check-label">É fumante</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" disabled @(Model.Pessoa.GestanteOuAmamentando ? "checked" : "") />
+        <label class="form-check-label">Gestante ou Amamentando</label>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Informações Complementares</label>
+        <div class="form-control mb-2">@Model.Pessoa.InformacoesComplementares</div>
+      </div>
+
+      <!-- Botão para abrir modal de assinatura -->
+      <div class="mt-4 text-center">
+        <button type="button" class="btn btn-primary" id="start">Assinar Documento</button>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <!-- Modal fullscreen para assinatura -->
 <div class="modal fade" id="signatureModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Assine o documento</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body text-center">
-                <canvas id="signature-pad" class="border w-100" style="height:400px;"></canvas>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="clear">Limpar</button>
-                <button type="button" class="btn btn-success" id="save">Salvar Assinatura</button>
-            </div>
-        </div>
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Assine o documento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <canvas id="signature-pad" class="border w-100" style="height:400px;"></canvas>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="clear">Limpar</button>
+        <button type="button" class="btn btn-success" id="save">Salvar Assinatura</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Overlay de Loading -->

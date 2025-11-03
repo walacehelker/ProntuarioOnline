@@ -45,9 +45,9 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
                 col.Item().Text("Tel: (27) 99743-2716").FontSize(11);
               });
 
-              row.ConstantColumn(60).Height(60)
-                 .Background(Colors.Grey.Lighten3)
-                 .AlignCenter().AlignMiddle().Text("LOGO").FontSize(9);
+              row.ConstantColumn(80).Height(80)
+               .AlignCenter().AlignMiddle()
+               .Image("wwwroot/img/logo.png");
             });
 
             headerCol.Item().PaddingTop(5).Text("Termo de Consentimento")
