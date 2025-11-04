@@ -25,12 +25,17 @@ namespace ProntuarioOnline.Areas.Prontuarios.Pages
     public SelectList PessoasSelectList { get; set; }
 
     public override async Task<IActionResult> OnGetAsync(Guid? id)
-    {  
+    {
+      var resultadoBase = await base.OnGetAsync(id);
+
+      EntityVm.PdfAssinado = null;
+      EntityVm.DataAssinatura = null;
+
       var pessoas = await _pessoaService.GetAllAsync();
       PessoasSelectList = new SelectList(pessoas, "Id", "Nome");
 
       
-      return await base.OnGetAsync(id);
+      return resultadoBase;
     }
 
   }

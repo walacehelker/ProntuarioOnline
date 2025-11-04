@@ -102,16 +102,23 @@ namespace Implementations.Prontuarios
 
     private async Task<bool> MapAplicacoes(PtPreenchimentoFacialCadVm cadVm, Guid preenchimentoId)
     {
-      // Remove todos os registros antigos
       await _ptPreenchimentoFacialRelacaoAplicacaoService
           .DeleteByPredicateAsync(c => c.PreenchimentoFacialId == preenchimentoId);
 
-      if (string.IsNullOrWhiteSpace(cadVm?.AplicacoesJson))
-        return true; // nada a salvar, mas operação concluída
+      List<PtPreenchimentoFacialRelacaoAplicacaoVm> aplicacoes = new();
 
-      // Desserializa o JSON em lista tipada
-      var aplicacoes = JsonConvert.DeserializeObject<List<PtPreenchimentoFacialRelacaoAplicacaoVm>>(cadVm.AplicacoesJson)
-                       ?? new List<PtPreenchimentoFacialRelacaoAplicacaoVm>();
+      if (!string.IsNullOrWhiteSpace(cadVm?.AplicacoesJson))
+      {
+        aplicacoes = JsonConvert.DeserializeObject<List<PtPreenchimentoFacialRelacaoAplicacaoVm>>(cadVm.AplicacoesJson)
+                     ?? new List<PtPreenchimentoFacialRelacaoAplicacaoVm>();
+      }
+      else if (cadVm?.Aplicacoes != null && cadVm.Aplicacoes.Any())
+      {
+        aplicacoes = cadVm.Aplicacoes;
+      }
+
+      if (!aplicacoes.Any())
+        return true;
 
       foreach (var app in aplicacoes)
       {
@@ -125,16 +132,23 @@ namespace Implementations.Prontuarios
 
     private async Task<bool> MapEtiquetas(PtPreenchimentoFacialCadVm cadVm, Guid preenchimentoId)
     {
-      // Remove todos os registros antigos
       await _ptPreenchimentoFacialRelacaoEtiquetaService
           .DeleteByPredicateAsync(c => c.PreenchimentoFacialId == preenchimentoId);
 
-      if (string.IsNullOrWhiteSpace(cadVm?.EtiquetasJson))
-        return true; // nada a salvar, mas operação concluída
+      List<PtPreenchimentoFacialRelacaoEtiquetaVm> etiquetas = new();
 
-      // Desserializa o JSON em lista tipada
-      var etiquetas = JsonConvert.DeserializeObject<List<PtPreenchimentoFacialRelacaoEtiquetaVm>>(cadVm.EtiquetasJson)
-                      ?? new List<PtPreenchimentoFacialRelacaoEtiquetaVm>();
+      if (!string.IsNullOrWhiteSpace(cadVm?.EtiquetasJson))
+      {
+        etiquetas = JsonConvert.DeserializeObject<List<PtPreenchimentoFacialRelacaoEtiquetaVm>>(cadVm.EtiquetasJson)
+                    ?? new List<PtPreenchimentoFacialRelacaoEtiquetaVm>();
+      }
+      else if (cadVm?.Etiquetas != null && cadVm.Etiquetas.Any())
+      {
+        etiquetas = cadVm.Etiquetas;
+      }
+
+      if (!etiquetas.Any())
+        return true;
 
       foreach (var etq in etiquetas)
       {

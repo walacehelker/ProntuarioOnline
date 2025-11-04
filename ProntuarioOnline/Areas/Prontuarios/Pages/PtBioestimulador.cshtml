@@ -32,8 +32,8 @@
           <tr>
             <td>@item.PessoaNome</td>
             <td>@item.DataProcedimento?.ToString("dd/MM/yyyy")</td>
-            <td>@item.TratamentoFace</td>
-            <td>@item.TratamentoCorpo</td>
+            <td>@(item.TratamentoFace ? "Sim" : "Não")</td>
+            <td>@(item.TratamentoCorpo ? "Sim" : "Não")</td>
             <td>
               <a asp-page="PtBioestimuladorCad" asp-route-id="@item.Id"
                  class="btn btn-sm btn-outline-warning me-1">

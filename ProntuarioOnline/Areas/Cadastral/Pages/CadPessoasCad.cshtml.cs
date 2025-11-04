@@ -34,6 +34,7 @@ namespace ProntuarioOnline.Areas.Cadastral.Pages.CadPessoas
 
       if (EntityVm.Id != Guid.Empty)
       {
+        EntityVm.PdfAssinado = null;
         await _dataService.UpdatePessoaComHistoricoAsync(EntityVm.Id, EntityVm);
       }
       else
